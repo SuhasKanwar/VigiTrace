@@ -1,0 +1,45 @@
+{
+  "name": "vigitrace-server",
+  "version": "1.0.0",
+  "description": "A unified multi-vendor DVR/NVR forensic platform for standardized evidence acquisition, recovery, analysis, and validation. It parses proprietary formats, recovers deleted footage, normalizes timestamps, verifies integrity using hashes, correlates events, and generates forensic reports with AI-based video analytics.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SuhasKanwar/VigiTrace.git"
+  },
+  "author": "NullPointers",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SuhasKanwar/VigiTrace/issues"
+  },
+  "homepage": "https://github.com/SuhasKanwar/VigiTrace#readme",
+  "devDependencies": {
+    "@types/axios": "^0.9.36",
+    "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^26.2.0",
+    "@types/pg": "^8.21.0",
+    "prisma": "^7.9.1",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.9.1",
+    "@prisma/client": "^7.9.1",
+    "axios": "^1.19.0",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "node-cache": "^5.1.2",
+    "pg": "^8.23.0"
+  }
+}
