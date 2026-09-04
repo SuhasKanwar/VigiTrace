@@ -222,6 +222,7 @@ export function normalizeDevice(input: unknown): Device {
     return {
         id: text(pick(raw, "id", "device_id", "deviceId")) ?? "",
         name: text(pick(raw, "name", "label", "device_name", "deviceName")) ?? "Unnamed device",
+        username: text(pick(raw, "username")),
         state: oneOf(pick(raw, "state", "status"), DEVICE_STATES, "REGISTERED"),
         identity: normalizeIdentity(raw, identitySource),
         network: normalizeNetwork(raw, networkSource),

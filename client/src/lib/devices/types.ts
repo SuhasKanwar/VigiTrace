@@ -137,6 +137,8 @@ export type CustodyEvent = {
 export type Device = {
     id: string;
     name: string;
+    /** Login used against the recorder. The password is never returned. */
+    username: string | null;
     state: DeviceState;
     identity: DeviceIdentity;
     network: DeviceNetwork;

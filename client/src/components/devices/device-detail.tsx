@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, BrainCircuit, Fingerprint, FileSearch, ListChecks, RotateCcw, ScanSearch, ShieldCheck, Trash2, TriangleAlert } from "lucide-react";
+import { ArrowLeft, BrainCircuit, Fingerprint, FileSearch, ListChecks, KeyRound, RotateCcw, ScanSearch, ShieldCheck, Trash2, TriangleAlert } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
@@ -8,7 +8,7 @@ import { CapabilityChip, ConfidenceBadge, ConfidenceNote, STATE_NOTE, SeverityBa
 import CustodyTimeline from "@/components/devices/custody-timeline";
 import RecordingsPanel from "@/components/devices/recordings-panel";
 import { ActionButton, BUTTON, EYEBROW_MUTED, ErrorPanel, Field, FieldGrid, LoadingPanel, PageHeader, PageShell, Panel, TABLE_CELL, TABLE_HEAD, TableScroll } from "@/components/devices/ui";
-import { deleteDevice, detectDevice, enumerateDevice, getDevice, identifyDevice, listAcquisitions, runAnalysis, verifyDevice } from "@/lib/devices/api";
+import { deleteDevice, detectDevice, enumerateDevice, getDevice, identifyDevice, listAcquisitions, runAnalysis, updateDevice, verifyDevice } from "@/lib/devices/api";
 import { EMPTY_VALUE, formatBoolean, formatBytes, formatDrift, formatDuration, formatEndpoint, formatRelative, formatTimestamp, formatValue, isDriftOutOfTolerance } from "@/lib/devices/format";
 import useResource from "@/lib/devices/use-resource";
 import { CLOCK_DRIFT_LIMIT_SECONDS, KNOWN_CAPABILITIES, type Acquisition, type AnalysisReport, type DetectionResult, type DeviceStorageVolume, type VerificationResult } from "@/lib/devices/types";
@@ -33,8 +33,10 @@ export default function DeviceDetail({ deviceId }: { deviceId: string }) {
     const [enumerating, setEnumerating] = useState(false);
     const [verifying, setVerifying] = useState(false);
     const [acquisitions, setAcquisitions] = useState<Acquisition[] | null>(null);
+    const [editing, setEditing] = useState(false);
+    const [saving, setSaving] = useState(false);
     const [verification, setVerification] = useState<VerificationResult | null>(null);
-    const busy = detecting || identifying || analysing || removing || enumerating || verifying;
+    const busy = detecting || identifying || analysing || removing || enumerating || verifying || saving;
 
     async function detect() {
         setDetecting(true);
@@ -91,6 +93,35 @@ export default function DeviceDetail({ deviceId }: { deviceId: string }) {
             }
         } finally {
             setVerifying(false);
+        }
+    }
+
+    async function saveDetails(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        const form = new FormData(event.currentTarget);
+        const name = String(form.get("name") ?? "").trim();
+        const username = String(form.get("username") ?? "").trim();
+        const password = String(form.get("password") ?? "");
+
+        // Credentials are write-only: the API never returns the stored password,
+        // so an untouched field means "leave it alone" rather than "clear it".
+        const patch: Record<string, string> = {};
+        if (name) patch.name = name;
+        if (username) patch.username = username;
+        if (password) patch.password = password;
+        if (Object.keys(patch).length === 0) {
+            setEditing(false);
+            return;
+        }
+
+        setSaving(true);
+        try {
+            setData(await updateDevice(deviceId, patch));
+            setEditing(false);
+        } catch {
+            // Already surfaced by the response interceptor.
+        } finally {
+            setSaving(false);
         }
     }
 
@@ -389,7 +420,28 @@ export default function DeviceDetail({ deviceId }: { deviceId: string }) {
                     </Panel>
                 </div>
 
-                <Panel description="Every action taken against this recorder, in the order it was recorded." eyebrow="Section 10" title="Chain of custody">
+                <Panel action={editing ? null : <ActionButton Icon={KeyRound} disabled={busy} onClick={() => setEditing(true)} title="Rename this record or rotate the credentials used to reach the recorder">Edit record</ActionButton>} description="Rename this workspace record, or rotate the credentials used to authenticate against the recorder. Credentials are stored encrypted and are never returned by the API." eyebrow="Section 10" title="Device record">
+                    {editing ? (
+                        <form className="grid gap-5 p-6 sm:grid-cols-2" onSubmit={(event) => void saveDetails(event)}>
+                            <label className="block text-sm font-semibold sm:col-span-2">Record name<input className="mt-2 w-full border border-(--border-color) bg-(--primary-bg-color) px-4 py-3 text-sm font-normal outline-none transition-colors focus:border-(--primary-color)" defaultValue={device.name} name="name" required type="text" /></label>
+                            <label className="block text-sm font-semibold">Recorder username<input autoComplete="off" className="mt-2 w-full border border-(--border-color) bg-(--primary-bg-color) px-4 py-3 text-sm font-normal outline-none transition-colors focus:border-(--primary-color)" defaultValue={device.username ?? ""} name="username" placeholder="Leave blank to keep the current username" type="text" /></label>
+                            <label className="block text-sm font-semibold">Recorder password<input autoComplete="new-password" className="mt-2 w-full border border-(--border-color) bg-(--primary-bg-color) px-4 py-3 text-sm font-normal outline-none transition-colors focus:border-(--primary-color)" name="password" placeholder="Leave blank to keep the current password" type="password" />
+                                <span className="mt-2 block font-mono text-[11px] font-normal text-(--muted-text-color)">Write-only. The stored password is never sent back to this page, so an empty field leaves it unchanged.</span>
+                            </label>
+                            <div className="flex flex-wrap gap-3 sm:col-span-2">
+                                <button className={BUTTON.primary} disabled={saving} type="submit">{saving ? "Saving" : "Save changes"}</button>
+                                <button className={BUTTON.secondary} disabled={saving} onClick={() => setEditing(false)} type="button">Cancel</button>
+                            </div>
+                        </form>
+                    ) : (
+                        <dl className="grid gap-6 p-6 sm:grid-cols-2">
+                            <div><dt className={EYEBROW_MUTED}>Record name</dt><dd className="mt-2 text-sm font-semibold">{formatValue(device.name)}</dd></div>
+                            <div><dt className={EYEBROW_MUTED}>Recorder username</dt><dd className="mt-2 text-sm font-semibold">{formatValue(device.username)}</dd></div>
+                        </dl>
+                    )}
+                </Panel>
+
+                <Panel description="Every action taken against this recorder, in the order it was recorded." eyebrow="Section 11" title="Chain of custody">
                     <CustodyTimeline events={device.custody} />
                 </Panel>
 
