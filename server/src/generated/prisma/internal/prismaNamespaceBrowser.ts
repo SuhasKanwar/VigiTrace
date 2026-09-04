@@ -113,6 +113,11 @@ export const DeviceScalarFieldEnum = {
   macAddress: 'macAddress',
   driftSeconds: 'driftSeconds',
   timezone: 'timezone',
+  clockDeviceTime: 'clockDeviceTime',
+  clockDeviceTimeRaw: 'clockDeviceTimeRaw',
+  clockProbedAt: 'clockProbedAt',
+  ntpEnabled: 'ntpEnabled',
+  ntpServers: 'ntpServers',
   lastProbedAt: 'lastProbedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

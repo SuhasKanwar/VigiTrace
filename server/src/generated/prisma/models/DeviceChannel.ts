@@ -453,10 +453,6 @@ export type DeviceChannelUncheckedUpdateManyWithoutDeviceNestedInput = {
   deleteMany?: Prisma.DeviceChannelScalarWhereInput | Prisma.DeviceChannelScalarWhereInput[]
 }
 
-export type NullableBoolFieldUpdateOperationsInput = {
-  set?: boolean | null
-}
-
 export type DeviceChannelCreateWithoutDeviceInput = {
   id?: string
   channelId: string

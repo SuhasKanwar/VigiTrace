@@ -104,6 +104,16 @@ model Device {
   macAddress      String?
   driftSeconds    Float?
   timezone        String?
+
+  // Clock state as the recorder reported it. Persisted because every later
+  // timeline claim is argued from the offset measured at probe time, so the
+  // reading has to survive the probe rather than being recomputed from a
+  // clock that has since moved.
+  clockDeviceTime    DateTime?
+  clockDeviceTimeRaw String?
+  clockProbedAt      DateTime?
+  ntpEnabled         Boolean?
+  ntpServers         String[]
   lastProbedAt    DateTime?
 
   createdAt DateTime @default(now())

@@ -121,6 +121,16 @@ async function markFailed(
  * and custody tail live inside the device object rather than beside it, so a
  * consumer models a single thing instead of reassembling five.
  */
+
+/** Parse a service timestamp, tolerating null and unparsable values. */
+function toDate(value: string | null | undefined): Date | null {
+    if (!value) {
+        return null;
+    }
+    const parsed = new Date(value);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
 async function loadDeviceResource(userId: string, deviceId: string) {
     const device = await prisma.device.findFirst({
         where: { id: deviceId, userId },
@@ -144,6 +154,18 @@ async function loadDeviceResource(userId: string, deviceId: string) {
         ...sanitizeDevice(rest),
         channels,
         storage,
+        // Clock state is grouped rather than left flat: the reading is only
+        // meaningful as a set (a device time without the probe time it was
+        // compared against says nothing), and consumers render it as one block.
+        clock: {
+            deviceTime: device.clockDeviceTime,
+            deviceTimeRaw: device.clockDeviceTimeRaw,
+            timezone: device.timezone,
+            ntpEnabled: device.ntpEnabled,
+            ntpServers: device.ntpServers,
+            probedAt: device.clockProbedAt,
+            driftSeconds: device.driftSeconds,
+        },
         latestProbe: probes[0] ?? null,
         custody: [...custodyEvents].reverse(),
         channelCount: channels.length,
@@ -194,6 +216,11 @@ async function persistStandardizedDevice(
                 ...identityFields,
                 driftSeconds: standardized.clock?.drift_seconds ?? null,
                 timezone: standardized.clock?.timezone ?? null,
+                clockDeviceTime: toDate(standardized.clock?.device_time),
+                clockDeviceTimeRaw: standardized.clock?.device_time_raw ?? null,
+                clockProbedAt: toDate(standardized.clock?.probed_at),
+                ntpEnabled: standardized.clock?.ntp_enabled ?? null,
+                ntpServers: standardized.clock?.ntp_servers ?? [],
                 lastProbedAt: options.finishedAt,
             },
         });

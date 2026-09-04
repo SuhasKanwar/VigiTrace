@@ -58,6 +58,10 @@ export type DeviceMinAggregateOutputType = {
   macAddress: string | null
   driftSeconds: number | null
   timezone: string | null
+  clockDeviceTime: Date | null
+  clockDeviceTimeRaw: string | null
+  clockProbedAt: Date | null
+  ntpEnabled: boolean | null
   lastProbedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -85,6 +89,10 @@ export type DeviceMaxAggregateOutputType = {
   macAddress: string | null
   driftSeconds: number | null
   timezone: string | null
+  clockDeviceTime: Date | null
+  clockDeviceTimeRaw: string | null
+  clockProbedAt: Date | null
+  ntpEnabled: boolean | null
   lastProbedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -112,6 +120,11 @@ export type DeviceCountAggregateOutputType = {
   macAddress: number
   driftSeconds: number
   timezone: number
+  clockDeviceTime: number
+  clockDeviceTimeRaw: number
+  clockProbedAt: number
+  ntpEnabled: number
+  ntpServers: number
   lastProbedAt: number
   createdAt: number
   updatedAt: number
@@ -151,6 +164,10 @@ export type DeviceMinAggregateInputType = {
   macAddress?: true
   driftSeconds?: true
   timezone?: true
+  clockDeviceTime?: true
+  clockDeviceTimeRaw?: true
+  clockProbedAt?: true
+  ntpEnabled?: true
   lastProbedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -178,6 +195,10 @@ export type DeviceMaxAggregateInputType = {
   macAddress?: true
   driftSeconds?: true
   timezone?: true
+  clockDeviceTime?: true
+  clockDeviceTimeRaw?: true
+  clockProbedAt?: true
+  ntpEnabled?: true
   lastProbedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -205,6 +226,11 @@ export type DeviceCountAggregateInputType = {
   macAddress?: true
   driftSeconds?: true
   timezone?: true
+  clockDeviceTime?: true
+  clockDeviceTimeRaw?: true
+  clockProbedAt?: true
+  ntpEnabled?: true
+  ntpServers?: true
   lastProbedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -319,6 +345,11 @@ export type DeviceGroupByOutputType = {
   macAddress: string | null
   driftSeconds: number | null
   timezone: string | null
+  clockDeviceTime: Date | null
+  clockDeviceTimeRaw: string | null
+  clockProbedAt: Date | null
+  ntpEnabled: boolean | null
+  ntpServers: string[]
   lastProbedAt: Date | null
   createdAt: Date
   updatedAt: Date
@@ -369,6 +400,11 @@ export type DeviceWhereInput = {
   macAddress?: Prisma.StringNullableFilter<"Device"> | string | null
   driftSeconds?: Prisma.FloatNullableFilter<"Device"> | number | null
   timezone?: Prisma.StringNullableFilter<"Device"> | string | null
+  clockDeviceTime?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
+  clockDeviceTimeRaw?: Prisma.StringNullableFilter<"Device"> | string | null
+  clockProbedAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
+  ntpEnabled?: Prisma.BoolNullableFilter<"Device"> | boolean | null
+  ntpServers?: Prisma.StringNullableListFilter<"Device">
   lastProbedAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Device"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Device"> | Date | string
@@ -403,6 +439,11 @@ export type DeviceOrderByWithRelationInput = {
   macAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   driftSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
   timezone?: Prisma.SortOrderInput | Prisma.SortOrder
+  clockDeviceTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  clockDeviceTimeRaw?: Prisma.SortOrderInput | Prisma.SortOrder
+  clockProbedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  ntpEnabled?: Prisma.SortOrderInput | Prisma.SortOrder
+  ntpServers?: Prisma.SortOrder
   lastProbedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -441,6 +482,11 @@ export type DeviceWhereUniqueInput = Prisma.AtLeast<{
   macAddress?: Prisma.StringNullableFilter<"Device"> | string | null
   driftSeconds?: Prisma.FloatNullableFilter<"Device"> | number | null
   timezone?: Prisma.StringNullableFilter<"Device"> | string | null
+  clockDeviceTime?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
+  clockDeviceTimeRaw?: Prisma.StringNullableFilter<"Device"> | string | null
+  clockProbedAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
+  ntpEnabled?: Prisma.BoolNullableFilter<"Device"> | boolean | null
+  ntpServers?: Prisma.StringNullableListFilter<"Device">
   lastProbedAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Device"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Device"> | Date | string
@@ -475,6 +521,11 @@ export type DeviceOrderByWithAggregationInput = {
   macAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   driftSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
   timezone?: Prisma.SortOrderInput | Prisma.SortOrder
+  clockDeviceTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  clockDeviceTimeRaw?: Prisma.SortOrderInput | Prisma.SortOrder
+  clockProbedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  ntpEnabled?: Prisma.SortOrderInput | Prisma.SortOrder
+  ntpServers?: Prisma.SortOrder
   lastProbedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -510,6 +561,11 @@ export type DeviceScalarWhereWithAggregatesInput = {
   macAddress?: Prisma.StringNullableWithAggregatesFilter<"Device"> | string | null
   driftSeconds?: Prisma.FloatNullableWithAggregatesFilter<"Device"> | number | null
   timezone?: Prisma.StringNullableWithAggregatesFilter<"Device"> | string | null
+  clockDeviceTime?: Prisma.DateTimeNullableWithAggregatesFilter<"Device"> | Date | string | null
+  clockDeviceTimeRaw?: Prisma.StringNullableWithAggregatesFilter<"Device"> | string | null
+  clockProbedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Device"> | Date | string | null
+  ntpEnabled?: Prisma.BoolNullableWithAggregatesFilter<"Device"> | boolean | null
+  ntpServers?: Prisma.StringNullableListFilter<"Device">
   lastProbedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Device"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Device"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Device"> | Date | string
@@ -536,6 +592,11 @@ export type DeviceCreateInput = {
   macAddress?: string | null
   driftSeconds?: number | null
   timezone?: string | null
+  clockDeviceTime?: Date | string | null
+  clockDeviceTimeRaw?: string | null
+  clockProbedAt?: Date | string | null
+  ntpEnabled?: boolean | null
+  ntpServers?: Prisma.DeviceCreatentpServersInput | string[]
   lastProbedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -570,6 +631,11 @@ export type DeviceUncheckedCreateInput = {
   macAddress?: string | null
   driftSeconds?: number | null
   timezone?: string | null
+  clockDeviceTime?: Date | string | null
+  clockDeviceTimeRaw?: string | null
+  clockProbedAt?: Date | string | null
+  ntpEnabled?: boolean | null
+  ntpServers?: Prisma.DeviceCreatentpServersInput | string[]
   lastProbedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -602,6 +668,11 @@ export type DeviceUpdateInput = {
   macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   driftSeconds?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockDeviceTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockDeviceTimeRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ntpEnabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  ntpServers?: Prisma.DeviceUpdatentpServersInput | string[]
   lastProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -636,6 +707,11 @@ export type DeviceUncheckedUpdateInput = {
   macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   driftSeconds?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockDeviceTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockDeviceTimeRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ntpEnabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  ntpServers?: Prisma.DeviceUpdatentpServersInput | string[]
   lastProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -669,6 +745,11 @@ export type DeviceCreateManyInput = {
   macAddress?: string | null
   driftSeconds?: number | null
   timezone?: string | null
+  clockDeviceTime?: Date | string | null
+  clockDeviceTimeRaw?: string | null
+  clockProbedAt?: Date | string | null
+  ntpEnabled?: boolean | null
+  ntpServers?: Prisma.DeviceCreatentpServersInput | string[]
   lastProbedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -695,6 +776,11 @@ export type DeviceUpdateManyMutationInput = {
   macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   driftSeconds?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockDeviceTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockDeviceTimeRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ntpEnabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  ntpServers?: Prisma.DeviceUpdatentpServersInput | string[]
   lastProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -722,6 +808,11 @@ export type DeviceUncheckedUpdateManyInput = {
   macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   driftSeconds?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockDeviceTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockDeviceTimeRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ntpEnabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  ntpServers?: Prisma.DeviceUpdatentpServersInput | string[]
   lastProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -735,6 +826,14 @@ export type DeviceListRelationFilter = {
 
 export type DeviceOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type DeviceUserIdHostHttpPortCompoundUniqueInput = {
@@ -765,6 +864,11 @@ export type DeviceCountOrderByAggregateInput = {
   macAddress?: Prisma.SortOrder
   driftSeconds?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
+  clockDeviceTime?: Prisma.SortOrder
+  clockDeviceTimeRaw?: Prisma.SortOrder
+  clockProbedAt?: Prisma.SortOrder
+  ntpEnabled?: Prisma.SortOrder
+  ntpServers?: Prisma.SortOrder
   lastProbedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -797,6 +901,10 @@ export type DeviceMaxOrderByAggregateInput = {
   macAddress?: Prisma.SortOrder
   driftSeconds?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
+  clockDeviceTime?: Prisma.SortOrder
+  clockDeviceTimeRaw?: Prisma.SortOrder
+  clockProbedAt?: Prisma.SortOrder
+  ntpEnabled?: Prisma.SortOrder
   lastProbedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -824,6 +932,10 @@ export type DeviceMinOrderByAggregateInput = {
   macAddress?: Prisma.SortOrder
   driftSeconds?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
+  clockDeviceTime?: Prisma.SortOrder
+  clockDeviceTimeRaw?: Prisma.SortOrder
+  clockProbedAt?: Prisma.SortOrder
+  ntpEnabled?: Prisma.SortOrder
   lastProbedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -881,6 +993,10 @@ export type DeviceUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.DeviceScalarWhereInput | Prisma.DeviceScalarWhereInput[]
 }
 
+export type DeviceCreatentpServersInput = {
+  set: string[]
+}
+
 export type IntFieldUpdateOperationsInput = {
   set?: number
   increment?: number
@@ -927,6 +1043,15 @@ export type NullableFloatFieldUpdateOperationsInput = {
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
+}
+
+export type NullableBoolFieldUpdateOperationsInput = {
+  set?: boolean | null
+}
+
+export type DeviceUpdatentpServersInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type DeviceCreateNestedOneWithoutProbesInput = {
@@ -1034,6 +1159,11 @@ export type DeviceCreateWithoutUserInput = {
   macAddress?: string | null
   driftSeconds?: number | null
   timezone?: string | null
+  clockDeviceTime?: Date | string | null
+  clockDeviceTimeRaw?: string | null
+  clockProbedAt?: Date | string | null
+  ntpEnabled?: boolean | null
+  ntpServers?: Prisma.DeviceCreatentpServersInput | string[]
   lastProbedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1066,6 +1196,11 @@ export type DeviceUncheckedCreateWithoutUserInput = {
   macAddress?: string | null
   driftSeconds?: number | null
   timezone?: string | null
+  clockDeviceTime?: Date | string | null
+  clockDeviceTimeRaw?: string | null
+  clockProbedAt?: Date | string | null
+  ntpEnabled?: boolean | null
+  ntpServers?: Prisma.DeviceCreatentpServersInput | string[]
   lastProbedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1128,6 +1263,11 @@ export type DeviceScalarWhereInput = {
   macAddress?: Prisma.StringNullableFilter<"Device"> | string | null
   driftSeconds?: Prisma.FloatNullableFilter<"Device"> | number | null
   timezone?: Prisma.StringNullableFilter<"Device"> | string | null
+  clockDeviceTime?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
+  clockDeviceTimeRaw?: Prisma.StringNullableFilter<"Device"> | string | null
+  clockProbedAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
+  ntpEnabled?: Prisma.BoolNullableFilter<"Device"> | boolean | null
+  ntpServers?: Prisma.StringNullableListFilter<"Device">
   lastProbedAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Device"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Device"> | Date | string
@@ -1154,6 +1294,11 @@ export type DeviceCreateWithoutProbesInput = {
   macAddress?: string | null
   driftSeconds?: number | null
   timezone?: string | null
+  clockDeviceTime?: Date | string | null
+  clockDeviceTimeRaw?: string | null
+  clockProbedAt?: Date | string | null
+  ntpEnabled?: boolean | null
+  ntpServers?: Prisma.DeviceCreatentpServersInput | string[]
   lastProbedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1187,6 +1332,11 @@ export type DeviceUncheckedCreateWithoutProbesInput = {
   macAddress?: string | null
   driftSeconds?: number | null
   timezone?: string | null
+  clockDeviceTime?: Date | string | null
+  clockDeviceTimeRaw?: string | null
+  clockProbedAt?: Date | string | null
+  ntpEnabled?: boolean | null
+  ntpServers?: Prisma.DeviceCreatentpServersInput | string[]
   lastProbedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1234,6 +1384,11 @@ export type DeviceUpdateWithoutProbesInput = {
   macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   driftSeconds?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockDeviceTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockDeviceTimeRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ntpEnabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  ntpServers?: Prisma.DeviceUpdatentpServersInput | string[]
   lastProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1267,6 +1422,11 @@ export type DeviceUncheckedUpdateWithoutProbesInput = {
   macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   driftSeconds?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockDeviceTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockDeviceTimeRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ntpEnabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  ntpServers?: Prisma.DeviceUpdatentpServersInput | string[]
   lastProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1298,6 +1458,11 @@ export type DeviceCreateWithoutChannelsInput = {
   macAddress?: string | null
   driftSeconds?: number | null
   timezone?: string | null
+  clockDeviceTime?: Date | string | null
+  clockDeviceTimeRaw?: string | null
+  clockProbedAt?: Date | string | null
+  ntpEnabled?: boolean | null
+  ntpServers?: Prisma.DeviceCreatentpServersInput | string[]
   lastProbedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1331,6 +1496,11 @@ export type DeviceUncheckedCreateWithoutChannelsInput = {
   macAddress?: string | null
   driftSeconds?: number | null
   timezone?: string | null
+  clockDeviceTime?: Date | string | null
+  clockDeviceTimeRaw?: string | null
+  clockProbedAt?: Date | string | null
+  ntpEnabled?: boolean | null
+  ntpServers?: Prisma.DeviceCreatentpServersInput | string[]
   lastProbedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1378,6 +1548,11 @@ export type DeviceUpdateWithoutChannelsInput = {
   macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   driftSeconds?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockDeviceTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockDeviceTimeRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ntpEnabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  ntpServers?: Prisma.DeviceUpdatentpServersInput | string[]
   lastProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1411,6 +1586,11 @@ export type DeviceUncheckedUpdateWithoutChannelsInput = {
   macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   driftSeconds?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockDeviceTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockDeviceTimeRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ntpEnabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  ntpServers?: Prisma.DeviceUpdatentpServersInput | string[]
   lastProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1442,6 +1622,11 @@ export type DeviceCreateWithoutStorageInput = {
   macAddress?: string | null
   driftSeconds?: number | null
   timezone?: string | null
+  clockDeviceTime?: Date | string | null
+  clockDeviceTimeRaw?: string | null
+  clockProbedAt?: Date | string | null
+  ntpEnabled?: boolean | null
+  ntpServers?: Prisma.DeviceCreatentpServersInput | string[]
   lastProbedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1475,6 +1660,11 @@ export type DeviceUncheckedCreateWithoutStorageInput = {
   macAddress?: string | null
   driftSeconds?: number | null
   timezone?: string | null
+  clockDeviceTime?: Date | string | null
+  clockDeviceTimeRaw?: string | null
+  clockProbedAt?: Date | string | null
+  ntpEnabled?: boolean | null
+  ntpServers?: Prisma.DeviceCreatentpServersInput | string[]
   lastProbedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1522,6 +1712,11 @@ export type DeviceUpdateWithoutStorageInput = {
   macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   driftSeconds?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockDeviceTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockDeviceTimeRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ntpEnabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  ntpServers?: Prisma.DeviceUpdatentpServersInput | string[]
   lastProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1555,6 +1750,11 @@ export type DeviceUncheckedUpdateWithoutStorageInput = {
   macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   driftSeconds?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockDeviceTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockDeviceTimeRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ntpEnabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  ntpServers?: Prisma.DeviceUpdatentpServersInput | string[]
   lastProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1586,6 +1786,11 @@ export type DeviceCreateWithoutRecordingsInput = {
   macAddress?: string | null
   driftSeconds?: number | null
   timezone?: string | null
+  clockDeviceTime?: Date | string | null
+  clockDeviceTimeRaw?: string | null
+  clockProbedAt?: Date | string | null
+  ntpEnabled?: boolean | null
+  ntpServers?: Prisma.DeviceCreatentpServersInput | string[]
   lastProbedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1619,6 +1824,11 @@ export type DeviceUncheckedCreateWithoutRecordingsInput = {
   macAddress?: string | null
   driftSeconds?: number | null
   timezone?: string | null
+  clockDeviceTime?: Date | string | null
+  clockDeviceTimeRaw?: string | null
+  clockProbedAt?: Date | string | null
+  ntpEnabled?: boolean | null
+  ntpServers?: Prisma.DeviceCreatentpServersInput | string[]
   lastProbedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1666,6 +1876,11 @@ export type DeviceUpdateWithoutRecordingsInput = {
   macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   driftSeconds?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockDeviceTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockDeviceTimeRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ntpEnabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  ntpServers?: Prisma.DeviceUpdatentpServersInput | string[]
   lastProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1699,6 +1914,11 @@ export type DeviceUncheckedUpdateWithoutRecordingsInput = {
   macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   driftSeconds?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockDeviceTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockDeviceTimeRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ntpEnabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  ntpServers?: Prisma.DeviceUpdatentpServersInput | string[]
   lastProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1730,6 +1950,11 @@ export type DeviceCreateWithoutAcquisitionsInput = {
   macAddress?: string | null
   driftSeconds?: number | null
   timezone?: string | null
+  clockDeviceTime?: Date | string | null
+  clockDeviceTimeRaw?: string | null
+  clockProbedAt?: Date | string | null
+  ntpEnabled?: boolean | null
+  ntpServers?: Prisma.DeviceCreatentpServersInput | string[]
   lastProbedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1763,6 +1988,11 @@ export type DeviceUncheckedCreateWithoutAcquisitionsInput = {
   macAddress?: string | null
   driftSeconds?: number | null
   timezone?: string | null
+  clockDeviceTime?: Date | string | null
+  clockDeviceTimeRaw?: string | null
+  clockProbedAt?: Date | string | null
+  ntpEnabled?: boolean | null
+  ntpServers?: Prisma.DeviceCreatentpServersInput | string[]
   lastProbedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1810,6 +2040,11 @@ export type DeviceUpdateWithoutAcquisitionsInput = {
   macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   driftSeconds?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockDeviceTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockDeviceTimeRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ntpEnabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  ntpServers?: Prisma.DeviceUpdatentpServersInput | string[]
   lastProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1843,6 +2078,11 @@ export type DeviceUncheckedUpdateWithoutAcquisitionsInput = {
   macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   driftSeconds?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockDeviceTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockDeviceTimeRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ntpEnabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  ntpServers?: Prisma.DeviceUpdatentpServersInput | string[]
   lastProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1874,6 +2114,11 @@ export type DeviceCreateWithoutCustodyEventsInput = {
   macAddress?: string | null
   driftSeconds?: number | null
   timezone?: string | null
+  clockDeviceTime?: Date | string | null
+  clockDeviceTimeRaw?: string | null
+  clockProbedAt?: Date | string | null
+  ntpEnabled?: boolean | null
+  ntpServers?: Prisma.DeviceCreatentpServersInput | string[]
   lastProbedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1907,6 +2152,11 @@ export type DeviceUncheckedCreateWithoutCustodyEventsInput = {
   macAddress?: string | null
   driftSeconds?: number | null
   timezone?: string | null
+  clockDeviceTime?: Date | string | null
+  clockDeviceTimeRaw?: string | null
+  clockProbedAt?: Date | string | null
+  ntpEnabled?: boolean | null
+  ntpServers?: Prisma.DeviceCreatentpServersInput | string[]
   lastProbedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1954,6 +2204,11 @@ export type DeviceUpdateWithoutCustodyEventsInput = {
   macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   driftSeconds?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockDeviceTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockDeviceTimeRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ntpEnabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  ntpServers?: Prisma.DeviceUpdatentpServersInput | string[]
   lastProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1987,6 +2242,11 @@ export type DeviceUncheckedUpdateWithoutCustodyEventsInput = {
   macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   driftSeconds?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockDeviceTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockDeviceTimeRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ntpEnabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  ntpServers?: Prisma.DeviceUpdatentpServersInput | string[]
   lastProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2018,6 +2278,11 @@ export type DeviceCreateManyUserInput = {
   macAddress?: string | null
   driftSeconds?: number | null
   timezone?: string | null
+  clockDeviceTime?: Date | string | null
+  clockDeviceTimeRaw?: string | null
+  clockProbedAt?: Date | string | null
+  ntpEnabled?: boolean | null
+  ntpServers?: Prisma.DeviceCreatentpServersInput | string[]
   lastProbedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2044,6 +2309,11 @@ export type DeviceUpdateWithoutUserInput = {
   macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   driftSeconds?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockDeviceTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockDeviceTimeRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ntpEnabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  ntpServers?: Prisma.DeviceUpdatentpServersInput | string[]
   lastProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2076,6 +2346,11 @@ export type DeviceUncheckedUpdateWithoutUserInput = {
   macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   driftSeconds?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockDeviceTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockDeviceTimeRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ntpEnabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  ntpServers?: Prisma.DeviceUpdatentpServersInput | string[]
   lastProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2108,6 +2383,11 @@ export type DeviceUncheckedUpdateManyWithoutUserInput = {
   macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   driftSeconds?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   timezone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockDeviceTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  clockDeviceTimeRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clockProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ntpEnabled?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  ntpServers?: Prisma.DeviceUpdatentpServersInput | string[]
   lastProbedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2211,6 +2491,11 @@ export type DeviceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   macAddress?: boolean
   driftSeconds?: boolean
   timezone?: boolean
+  clockDeviceTime?: boolean
+  clockDeviceTimeRaw?: boolean
+  clockProbedAt?: boolean
+  ntpEnabled?: boolean
+  ntpServers?: boolean
   lastProbedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -2246,6 +2531,11 @@ export type DeviceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   macAddress?: boolean
   driftSeconds?: boolean
   timezone?: boolean
+  clockDeviceTime?: boolean
+  clockDeviceTimeRaw?: boolean
+  clockProbedAt?: boolean
+  ntpEnabled?: boolean
+  ntpServers?: boolean
   lastProbedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -2274,6 +2564,11 @@ export type DeviceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   macAddress?: boolean
   driftSeconds?: boolean
   timezone?: boolean
+  clockDeviceTime?: boolean
+  clockDeviceTimeRaw?: boolean
+  clockProbedAt?: boolean
+  ntpEnabled?: boolean
+  ntpServers?: boolean
   lastProbedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -2302,12 +2597,17 @@ export type DeviceSelectScalar = {
   macAddress?: boolean
   driftSeconds?: boolean
   timezone?: boolean
+  clockDeviceTime?: boolean
+  clockDeviceTimeRaw?: boolean
+  clockProbedAt?: boolean
+  ntpEnabled?: boolean
+  ntpServers?: boolean
   lastProbedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DeviceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "host" | "httpPort" | "useHttps" | "username" | "password" | "vendorHint" | "vendor" | "family" | "state" | "confidence" | "kind" | "modelName" | "serialNumber" | "firmwareVersion" | "hardwareVersion" | "macAddress" | "driftSeconds" | "timezone" | "lastProbedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["device"]>
+export type DeviceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "host" | "httpPort" | "useHttps" | "username" | "password" | "vendorHint" | "vendor" | "family" | "state" | "confidence" | "kind" | "modelName" | "serialNumber" | "firmwareVersion" | "hardwareVersion" | "macAddress" | "driftSeconds" | "timezone" | "clockDeviceTime" | "clockDeviceTimeRaw" | "clockProbedAt" | "ntpEnabled" | "ntpServers" | "lastProbedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["device"]>
 export type DeviceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   probes?: boolean | Prisma.Device$probesArgs<ExtArgs>
@@ -2358,6 +2658,11 @@ export type $DevicePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     macAddress: string | null
     driftSeconds: number | null
     timezone: string | null
+    clockDeviceTime: Date | null
+    clockDeviceTimeRaw: string | null
+    clockProbedAt: Date | null
+    ntpEnabled: boolean | null
+    ntpServers: string[]
     lastProbedAt: Date | null
     createdAt: Date
     updatedAt: Date
@@ -2812,6 +3117,11 @@ export interface DeviceFieldRefs {
   readonly macAddress: Prisma.FieldRef<"Device", 'String'>
   readonly driftSeconds: Prisma.FieldRef<"Device", 'Float'>
   readonly timezone: Prisma.FieldRef<"Device", 'String'>
+  readonly clockDeviceTime: Prisma.FieldRef<"Device", 'DateTime'>
+  readonly clockDeviceTimeRaw: Prisma.FieldRef<"Device", 'String'>
+  readonly clockProbedAt: Prisma.FieldRef<"Device", 'DateTime'>
+  readonly ntpEnabled: Prisma.FieldRef<"Device", 'Boolean'>
+  readonly ntpServers: Prisma.FieldRef<"Device", 'String[]'>
   readonly lastProbedAt: Prisma.FieldRef<"Device", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Device", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Device", 'DateTime'>
