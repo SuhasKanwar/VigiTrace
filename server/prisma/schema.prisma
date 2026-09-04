@@ -23,6 +23,227 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  devices Device[]
+
   @@index([email])
   @@index([createdAt])
+}
+
+enum DeviceState {
+  REGISTERED
+  IDENTIFYING
+  IDENTIFIED
+  ENUMERATING
+  ENUMERATED
+  INDEXING
+  INDEXED
+  ACQUIRING
+  ACQUIRED
+  VERIFYING
+  VERIFIED
+  UNREACHABLE
+  AUTH_FAILED
+  UNSUPPORTED
+  FAILED
+}
+
+enum DeviceVendor {
+  HIKVISION
+  DAHUA
+  CPPLUS
+  GODREJ
+  UNKNOWN
+}
+
+enum DeviceFamily {
+  HIKVISION
+  DAHUA
+  XIONGMAI
+  UNKNOWN
+}
+
+enum IdentificationConfidence {
+  CONFIRMED
+  PROBABLE
+  UNKNOWN
+}
+
+enum DeviceKind {
+  DVR
+  NVR
+  XVR
+  HVR
+  IPC
+  UNKNOWN
+}
+
+model Device {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name       String
+  host       String
+  httpPort   Int     @default(80)
+  useHttps   Boolean @default(false)
+  username   String?
+  // AES-256-GCM ciphertext in iv:authTag:ciphertext hex form. Never plaintext.
+  password   String?
+  vendorHint DeviceVendor?
+
+  vendor     DeviceVendor              @default(UNKNOWN)
+  family     DeviceFamily              @default(UNKNOWN)
+  state      DeviceState               @default(REGISTERED)
+  confidence IdentificationConfidence  @default(UNKNOWN)
+  kind       DeviceKind                @default(UNKNOWN)
+
+  modelName       String?
+  serialNumber    String?
+  firmwareVersion String?
+  hardwareVersion String?
+  macAddress      String?
+  driftSeconds    Float?
+  timezone        String?
+  lastProbedAt    DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  probes        DeviceProbe[]
+  channels      DeviceChannel[]
+  storage       DeviceStorage[]
+  recordings    Recording[]
+  acquisitions  Acquisition[]
+  custodyEvents CustodyEvent[]
+
+  @@unique([userId, host, httpPort])
+  @@index([userId])
+  @@index([state])
+}
+
+model DeviceProbe {
+  id       String @id @default(cuid())
+  deviceId String
+  device   Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+
+  method     String
+  success    Boolean
+  startedAt  DateTime
+  finishedAt DateTime
+  durationMs Int
+
+  evidenceDigest      String?
+  endpointsAttempted  String[]
+  endpointsSucceeded  String[]
+  warnings            String[]
+
+  errorCode    String?
+  errorMessage String?
+  raw          Json?
+
+  createdAt DateTime @default(now())
+
+  @@index([deviceId, createdAt])
+}
+
+model DeviceChannel {
+  id       String @id @default(cuid())
+  deviceId String
+  device   Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+
+  channelId  String
+  name       String?
+  enabled    Boolean?
+  isAnalog   Boolean?
+  codec      String?
+  resolution String?
+  trackId    String?
+
+  @@unique([deviceId, channelId])
+  @@index([deviceId])
+}
+
+model DeviceStorage {
+  id       String @id @default(cuid())
+  deviceId String
+  device   Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+
+  storageId       String
+  name            String?
+  kind            String?
+  status          String?
+  capacityBytes   BigInt?
+  freeBytes       BigInt?
+  storageProperty String?
+
+  @@unique([deviceId, storageId])
+  @@index([deviceId])
+}
+
+model Recording {
+  id       String @id @default(cuid())
+  deviceId String
+  device   Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+
+  recordingId String
+  channelId   String
+  // Vendor track identifier (Hikvision uses 101 for ch1 main). Kept alongside
+  // channelId because acquisition round-trips the vendor's own locator.
+  trackId     String?
+  startTime   DateTime
+  endTime     DateTime
+
+  codec          String?
+  sizeBytes      BigInt?
+  playbackUri    String?
+  filePath       String?
+  eventType      String?
+  recordTrigger  String?
+  overwriteCount Int?
+  // Verbatim standardized recording payload from the service, kept for provenance.
+  raw            Json?
+
+  createdAt DateTime @default(now())
+
+  @@unique([deviceId, recordingId])
+  @@index([deviceId, channelId, startTime])
+}
+
+model Acquisition {
+  id       String @id @default(cuid())
+  deviceId String
+  device   Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+
+  recordingId String
+  channelId   String
+  storedPath  String
+  sizeBytes   BigInt
+  md5         String
+  sha256      String
+  container   String?
+  acquiredAt  DateTime
+  durationMs  Int
+  sourceUri   String?
+  verified    Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@index([deviceId, createdAt])
+}
+
+model CustodyEvent {
+  id       String @id @default(cuid())
+  deviceId String
+  device   Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+
+  userId    String
+  action    String
+  fromState DeviceState?
+  toState   DeviceState?
+  detail    String?
+  digest    String?
+
+  createdAt DateTime @default(now())
+
+  @@index([deviceId, createdAt])
 }

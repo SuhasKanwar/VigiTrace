@@ -46,3 +46,38 @@ export { Prisma }
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model Device
+ * 
+ */
+export type Device = Prisma.DeviceModel
+/**
+ * Model DeviceProbe
+ * 
+ */
+export type DeviceProbe = Prisma.DeviceProbeModel
+/**
+ * Model DeviceChannel
+ * 
+ */
+export type DeviceChannel = Prisma.DeviceChannelModel
+/**
+ * Model DeviceStorage
+ * 
+ */
+export type DeviceStorage = Prisma.DeviceStorageModel
+/**
+ * Model Recording
+ * 
+ */
+export type Recording = Prisma.RecordingModel
+/**
+ * Model Acquisition
+ * 
+ */
+export type Acquisition = Prisma.AcquisitionModel
+/**
+ * Model CustodyEvent
+ * 
+ */
+export type CustodyEvent = Prisma.CustodyEventModel

@@ -51,7 +51,14 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  User: 'User'
+  User: 'User',
+  Device: 'Device',
+  DeviceProbe: 'DeviceProbe',
+  DeviceChannel: 'DeviceChannel',
+  DeviceStorage: 'DeviceStorage',
+  Recording: 'Recording',
+  Acquisition: 'Acquisition',
+  CustodyEvent: 'CustodyEvent'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -84,12 +91,158 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const DeviceScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  host: 'host',
+  httpPort: 'httpPort',
+  useHttps: 'useHttps',
+  username: 'username',
+  password: 'password',
+  vendorHint: 'vendorHint',
+  vendor: 'vendor',
+  family: 'family',
+  state: 'state',
+  confidence: 'confidence',
+  kind: 'kind',
+  modelName: 'modelName',
+  serialNumber: 'serialNumber',
+  firmwareVersion: 'firmwareVersion',
+  hardwareVersion: 'hardwareVersion',
+  macAddress: 'macAddress',
+  driftSeconds: 'driftSeconds',
+  timezone: 'timezone',
+  lastProbedAt: 'lastProbedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DeviceScalarFieldEnum = (typeof DeviceScalarFieldEnum)[keyof typeof DeviceScalarFieldEnum]
+
+
+export const DeviceProbeScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  method: 'method',
+  success: 'success',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt',
+  durationMs: 'durationMs',
+  evidenceDigest: 'evidenceDigest',
+  endpointsAttempted: 'endpointsAttempted',
+  endpointsSucceeded: 'endpointsSucceeded',
+  warnings: 'warnings',
+  errorCode: 'errorCode',
+  errorMessage: 'errorMessage',
+  raw: 'raw',
+  createdAt: 'createdAt'
+} as const
+
+export type DeviceProbeScalarFieldEnum = (typeof DeviceProbeScalarFieldEnum)[keyof typeof DeviceProbeScalarFieldEnum]
+
+
+export const DeviceChannelScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  channelId: 'channelId',
+  name: 'name',
+  enabled: 'enabled',
+  isAnalog: 'isAnalog',
+  codec: 'codec',
+  resolution: 'resolution',
+  trackId: 'trackId'
+} as const
+
+export type DeviceChannelScalarFieldEnum = (typeof DeviceChannelScalarFieldEnum)[keyof typeof DeviceChannelScalarFieldEnum]
+
+
+export const DeviceStorageScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  storageId: 'storageId',
+  name: 'name',
+  kind: 'kind',
+  status: 'status',
+  capacityBytes: 'capacityBytes',
+  freeBytes: 'freeBytes',
+  storageProperty: 'storageProperty'
+} as const
+
+export type DeviceStorageScalarFieldEnum = (typeof DeviceStorageScalarFieldEnum)[keyof typeof DeviceStorageScalarFieldEnum]
+
+
+export const RecordingScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  recordingId: 'recordingId',
+  channelId: 'channelId',
+  trackId: 'trackId',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  codec: 'codec',
+  sizeBytes: 'sizeBytes',
+  playbackUri: 'playbackUri',
+  filePath: 'filePath',
+  eventType: 'eventType',
+  recordTrigger: 'recordTrigger',
+  overwriteCount: 'overwriteCount',
+  raw: 'raw',
+  createdAt: 'createdAt'
+} as const
+
+export type RecordingScalarFieldEnum = (typeof RecordingScalarFieldEnum)[keyof typeof RecordingScalarFieldEnum]
+
+
+export const AcquisitionScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  recordingId: 'recordingId',
+  channelId: 'channelId',
+  storedPath: 'storedPath',
+  sizeBytes: 'sizeBytes',
+  md5: 'md5',
+  sha256: 'sha256',
+  container: 'container',
+  acquiredAt: 'acquiredAt',
+  durationMs: 'durationMs',
+  sourceUri: 'sourceUri',
+  verified: 'verified',
+  createdAt: 'createdAt'
+} as const
+
+export type AcquisitionScalarFieldEnum = (typeof AcquisitionScalarFieldEnum)[keyof typeof AcquisitionScalarFieldEnum]
+
+
+export const CustodyEventScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  userId: 'userId',
+  action: 'action',
+  fromState: 'fromState',
+  toState: 'toState',
+  detail: 'detail',
+  digest: 'digest',
+  createdAt: 'createdAt'
+} as const
+
+export type CustodyEventScalarFieldEnum = (typeof CustodyEventScalarFieldEnum)[keyof typeof CustodyEventScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -106,4 +259,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

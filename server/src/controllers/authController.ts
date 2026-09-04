@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import prisma from "../lib/prisma.js";
-import { buildAuthResponse } from "../utils/auth.js";
+import { buildAuthResponse, setAuthCookie } from "../utils/auth.js";
 import type { ApiResponse } from "../types/response.js";
 import { NODE_ENV } from "../lib/config.js";
 import { AuthProvider } from "../generated/prisma/enums.js";
@@ -41,11 +41,7 @@ export async function signUpHandler(req: Request, res: Response<ApiResponse>) {
             },
         });
         const authResponseData = buildAuthResponse(user);
-        res.cookie("Authorization", authResponseData.token, {
-            secure: NODE_ENV === "production",
-            sameSite: "lax",
-            httpOnly: NODE_ENV === "production",
-        });
+        setAuthCookie(res, authResponseData.token);
         return res.status(201).json({
             success: true,
             message: "User registered successfully.",
@@ -111,10 +107,12 @@ export async function signInHandler(req: Request, res: Response<ApiResponse>) {
                 message: "Invalid password.",
             });
         }
+        const authResponseData = buildAuthResponse(user);
+        setAuthCookie(res, authResponseData.token);
         return res.status(200).json({
             success: true,
             message: "User signed in successfully.",
-            data: buildAuthResponse(user),
+            data: authResponseData,
         });
     } catch (error) {
         return res.status(500).json({
@@ -172,10 +170,12 @@ export async function googleAuthHandler(req: Request, res: Response<ApiResponse>
                 },
             });
 
+            const existingAuthResponseData = buildAuthResponse(updatedUser);
+            setAuthCookie(res, existingAuthResponseData.token);
             return res.status(200).json({
                 success: true,
                 message: "Google account confirmed successfully.",
-                data: buildAuthResponse(updatedUser),
+                data: existingAuthResponseData,
             });
         }
 
@@ -189,10 +189,12 @@ export async function googleAuthHandler(req: Request, res: Response<ApiResponse>
             },
         });
 
+        const authResponseData = buildAuthResponse(user);
+        setAuthCookie(res, authResponseData.token);
         return res.status(201).json({
             success: true,
             message: "Google account created successfully.",
-            data: buildAuthResponse(user),
+            data: authResponseData,
         });
     } catch (error) {
         return res.status(500).json({

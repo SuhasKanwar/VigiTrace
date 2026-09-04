@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../lib/config.js";
+import type { Response } from "express";
+import { JWT_EXPIRES_IN, JWT_SECRET, NODE_ENV } from "../lib/config.js";
 import { AuthProvider } from "../generated/prisma/enums.js";
 
 export function buildAuthResponse(user: {
@@ -11,7 +12,9 @@ export function buildAuthResponse(user: {
     createdAt: Date;
     updatedAt: Date;
 }) {
-    const token = jwt.sign({ userId: user.id }, JWT_SECRET);
+    // Tokens must expire: an unbounded credential cannot be revoked by waiting.
+    const options = { expiresIn: JWT_EXPIRES_IN } as jwt.SignOptions;
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET, options);
 
     return {
         user: {
@@ -25,4 +28,13 @@ export function buildAuthResponse(user: {
         },
         token,
     };
+}
+
+/** Every successful authentication sets the same cookie, whatever the provider. */
+export function setAuthCookie(res: Response, token: string) {
+    res.cookie("Authorization", token, {
+        secure: NODE_ENV === "production",
+        sameSite: "lax",
+        httpOnly: NODE_ENV === "production",
+    });
 }

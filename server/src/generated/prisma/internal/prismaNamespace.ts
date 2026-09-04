@@ -397,7 +397,14 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
-  User: 'User'
+  User: 'User',
+  Device: 'Device',
+  DeviceProbe: 'DeviceProbe',
+  DeviceChannel: 'DeviceChannel',
+  DeviceStorage: 'DeviceStorage',
+  Recording: 'Recording',
+  Acquisition: 'Acquisition',
+  CustodyEvent: 'CustodyEvent'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -413,7 +420,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user"
+    modelProps: "user" | "device" | "deviceProbe" | "deviceChannel" | "deviceStorage" | "recording" | "acquisition" | "custodyEvent"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -491,6 +498,524 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Device: {
+      payload: Prisma.$DevicePayload<ExtArgs>
+      fields: Prisma.DeviceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DeviceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DeviceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload>
+        }
+        findFirst: {
+          args: Prisma.DeviceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DeviceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload>
+        }
+        findMany: {
+          args: Prisma.DeviceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload>[]
+        }
+        create: {
+          args: Prisma.DeviceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload>
+        }
+        createMany: {
+          args: Prisma.DeviceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DeviceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload>[]
+        }
+        delete: {
+          args: Prisma.DeviceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload>
+        }
+        update: {
+          args: Prisma.DeviceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload>
+        }
+        deleteMany: {
+          args: Prisma.DeviceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DeviceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DeviceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload>[]
+        }
+        upsert: {
+          args: Prisma.DeviceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DevicePayload>
+        }
+        aggregate: {
+          args: Prisma.DeviceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDevice>
+        }
+        groupBy: {
+          args: Prisma.DeviceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DeviceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DeviceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DeviceCountAggregateOutputType> | number
+        }
+      }
+    }
+    DeviceProbe: {
+      payload: Prisma.$DeviceProbePayload<ExtArgs>
+      fields: Prisma.DeviceProbeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DeviceProbeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceProbePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DeviceProbeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceProbePayload>
+        }
+        findFirst: {
+          args: Prisma.DeviceProbeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceProbePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DeviceProbeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceProbePayload>
+        }
+        findMany: {
+          args: Prisma.DeviceProbeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceProbePayload>[]
+        }
+        create: {
+          args: Prisma.DeviceProbeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceProbePayload>
+        }
+        createMany: {
+          args: Prisma.DeviceProbeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DeviceProbeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceProbePayload>[]
+        }
+        delete: {
+          args: Prisma.DeviceProbeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceProbePayload>
+        }
+        update: {
+          args: Prisma.DeviceProbeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceProbePayload>
+        }
+        deleteMany: {
+          args: Prisma.DeviceProbeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DeviceProbeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DeviceProbeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceProbePayload>[]
+        }
+        upsert: {
+          args: Prisma.DeviceProbeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceProbePayload>
+        }
+        aggregate: {
+          args: Prisma.DeviceProbeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDeviceProbe>
+        }
+        groupBy: {
+          args: Prisma.DeviceProbeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DeviceProbeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DeviceProbeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DeviceProbeCountAggregateOutputType> | number
+        }
+      }
+    }
+    DeviceChannel: {
+      payload: Prisma.$DeviceChannelPayload<ExtArgs>
+      fields: Prisma.DeviceChannelFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DeviceChannelFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceChannelPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DeviceChannelFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceChannelPayload>
+        }
+        findFirst: {
+          args: Prisma.DeviceChannelFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceChannelPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DeviceChannelFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceChannelPayload>
+        }
+        findMany: {
+          args: Prisma.DeviceChannelFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceChannelPayload>[]
+        }
+        create: {
+          args: Prisma.DeviceChannelCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceChannelPayload>
+        }
+        createMany: {
+          args: Prisma.DeviceChannelCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DeviceChannelCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceChannelPayload>[]
+        }
+        delete: {
+          args: Prisma.DeviceChannelDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceChannelPayload>
+        }
+        update: {
+          args: Prisma.DeviceChannelUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceChannelPayload>
+        }
+        deleteMany: {
+          args: Prisma.DeviceChannelDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DeviceChannelUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DeviceChannelUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceChannelPayload>[]
+        }
+        upsert: {
+          args: Prisma.DeviceChannelUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceChannelPayload>
+        }
+        aggregate: {
+          args: Prisma.DeviceChannelAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDeviceChannel>
+        }
+        groupBy: {
+          args: Prisma.DeviceChannelGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DeviceChannelGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DeviceChannelCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DeviceChannelCountAggregateOutputType> | number
+        }
+      }
+    }
+    DeviceStorage: {
+      payload: Prisma.$DeviceStoragePayload<ExtArgs>
+      fields: Prisma.DeviceStorageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DeviceStorageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceStoragePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DeviceStorageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceStoragePayload>
+        }
+        findFirst: {
+          args: Prisma.DeviceStorageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceStoragePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DeviceStorageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceStoragePayload>
+        }
+        findMany: {
+          args: Prisma.DeviceStorageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceStoragePayload>[]
+        }
+        create: {
+          args: Prisma.DeviceStorageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceStoragePayload>
+        }
+        createMany: {
+          args: Prisma.DeviceStorageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DeviceStorageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceStoragePayload>[]
+        }
+        delete: {
+          args: Prisma.DeviceStorageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceStoragePayload>
+        }
+        update: {
+          args: Prisma.DeviceStorageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceStoragePayload>
+        }
+        deleteMany: {
+          args: Prisma.DeviceStorageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DeviceStorageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DeviceStorageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceStoragePayload>[]
+        }
+        upsert: {
+          args: Prisma.DeviceStorageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceStoragePayload>
+        }
+        aggregate: {
+          args: Prisma.DeviceStorageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDeviceStorage>
+        }
+        groupBy: {
+          args: Prisma.DeviceStorageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DeviceStorageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DeviceStorageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DeviceStorageCountAggregateOutputType> | number
+        }
+      }
+    }
+    Recording: {
+      payload: Prisma.$RecordingPayload<ExtArgs>
+      fields: Prisma.RecordingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RecordingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RecordingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordingPayload>
+        }
+        findFirst: {
+          args: Prisma.RecordingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RecordingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordingPayload>
+        }
+        findMany: {
+          args: Prisma.RecordingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordingPayload>[]
+        }
+        create: {
+          args: Prisma.RecordingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordingPayload>
+        }
+        createMany: {
+          args: Prisma.RecordingCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RecordingCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordingPayload>[]
+        }
+        delete: {
+          args: Prisma.RecordingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordingPayload>
+        }
+        update: {
+          args: Prisma.RecordingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordingPayload>
+        }
+        deleteMany: {
+          args: Prisma.RecordingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RecordingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RecordingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordingPayload>[]
+        }
+        upsert: {
+          args: Prisma.RecordingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecordingPayload>
+        }
+        aggregate: {
+          args: Prisma.RecordingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRecording>
+        }
+        groupBy: {
+          args: Prisma.RecordingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RecordingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RecordingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RecordingCountAggregateOutputType> | number
+        }
+      }
+    }
+    Acquisition: {
+      payload: Prisma.$AcquisitionPayload<ExtArgs>
+      fields: Prisma.AcquisitionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AcquisitionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcquisitionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AcquisitionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcquisitionPayload>
+        }
+        findFirst: {
+          args: Prisma.AcquisitionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcquisitionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AcquisitionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcquisitionPayload>
+        }
+        findMany: {
+          args: Prisma.AcquisitionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcquisitionPayload>[]
+        }
+        create: {
+          args: Prisma.AcquisitionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcquisitionPayload>
+        }
+        createMany: {
+          args: Prisma.AcquisitionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AcquisitionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcquisitionPayload>[]
+        }
+        delete: {
+          args: Prisma.AcquisitionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcquisitionPayload>
+        }
+        update: {
+          args: Prisma.AcquisitionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcquisitionPayload>
+        }
+        deleteMany: {
+          args: Prisma.AcquisitionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AcquisitionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AcquisitionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcquisitionPayload>[]
+        }
+        upsert: {
+          args: Prisma.AcquisitionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcquisitionPayload>
+        }
+        aggregate: {
+          args: Prisma.AcquisitionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAcquisition>
+        }
+        groupBy: {
+          args: Prisma.AcquisitionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AcquisitionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AcquisitionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AcquisitionCountAggregateOutputType> | number
+        }
+      }
+    }
+    CustodyEvent: {
+      payload: Prisma.$CustodyEventPayload<ExtArgs>
+      fields: Prisma.CustodyEventFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CustodyEventFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustodyEventPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CustodyEventFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustodyEventPayload>
+        }
+        findFirst: {
+          args: Prisma.CustodyEventFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustodyEventPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CustodyEventFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustodyEventPayload>
+        }
+        findMany: {
+          args: Prisma.CustodyEventFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustodyEventPayload>[]
+        }
+        create: {
+          args: Prisma.CustodyEventCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustodyEventPayload>
+        }
+        createMany: {
+          args: Prisma.CustodyEventCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CustodyEventCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustodyEventPayload>[]
+        }
+        delete: {
+          args: Prisma.CustodyEventDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustodyEventPayload>
+        }
+        update: {
+          args: Prisma.CustodyEventUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustodyEventPayload>
+        }
+        deleteMany: {
+          args: Prisma.CustodyEventDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CustodyEventUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CustodyEventUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustodyEventPayload>[]
+        }
+        upsert: {
+          args: Prisma.CustodyEventUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustodyEventPayload>
+        }
+        aggregate: {
+          args: Prisma.CustodyEventAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCustodyEvent>
+        }
+        groupBy: {
+          args: Prisma.CustodyEventGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CustodyEventGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CustodyEventCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CustodyEventCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -544,12 +1069,158 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const DeviceScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  host: 'host',
+  httpPort: 'httpPort',
+  useHttps: 'useHttps',
+  username: 'username',
+  password: 'password',
+  vendorHint: 'vendorHint',
+  vendor: 'vendor',
+  family: 'family',
+  state: 'state',
+  confidence: 'confidence',
+  kind: 'kind',
+  modelName: 'modelName',
+  serialNumber: 'serialNumber',
+  firmwareVersion: 'firmwareVersion',
+  hardwareVersion: 'hardwareVersion',
+  macAddress: 'macAddress',
+  driftSeconds: 'driftSeconds',
+  timezone: 'timezone',
+  lastProbedAt: 'lastProbedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DeviceScalarFieldEnum = (typeof DeviceScalarFieldEnum)[keyof typeof DeviceScalarFieldEnum]
+
+
+export const DeviceProbeScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  method: 'method',
+  success: 'success',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt',
+  durationMs: 'durationMs',
+  evidenceDigest: 'evidenceDigest',
+  endpointsAttempted: 'endpointsAttempted',
+  endpointsSucceeded: 'endpointsSucceeded',
+  warnings: 'warnings',
+  errorCode: 'errorCode',
+  errorMessage: 'errorMessage',
+  raw: 'raw',
+  createdAt: 'createdAt'
+} as const
+
+export type DeviceProbeScalarFieldEnum = (typeof DeviceProbeScalarFieldEnum)[keyof typeof DeviceProbeScalarFieldEnum]
+
+
+export const DeviceChannelScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  channelId: 'channelId',
+  name: 'name',
+  enabled: 'enabled',
+  isAnalog: 'isAnalog',
+  codec: 'codec',
+  resolution: 'resolution',
+  trackId: 'trackId'
+} as const
+
+export type DeviceChannelScalarFieldEnum = (typeof DeviceChannelScalarFieldEnum)[keyof typeof DeviceChannelScalarFieldEnum]
+
+
+export const DeviceStorageScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  storageId: 'storageId',
+  name: 'name',
+  kind: 'kind',
+  status: 'status',
+  capacityBytes: 'capacityBytes',
+  freeBytes: 'freeBytes',
+  storageProperty: 'storageProperty'
+} as const
+
+export type DeviceStorageScalarFieldEnum = (typeof DeviceStorageScalarFieldEnum)[keyof typeof DeviceStorageScalarFieldEnum]
+
+
+export const RecordingScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  recordingId: 'recordingId',
+  channelId: 'channelId',
+  trackId: 'trackId',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  codec: 'codec',
+  sizeBytes: 'sizeBytes',
+  playbackUri: 'playbackUri',
+  filePath: 'filePath',
+  eventType: 'eventType',
+  recordTrigger: 'recordTrigger',
+  overwriteCount: 'overwriteCount',
+  raw: 'raw',
+  createdAt: 'createdAt'
+} as const
+
+export type RecordingScalarFieldEnum = (typeof RecordingScalarFieldEnum)[keyof typeof RecordingScalarFieldEnum]
+
+
+export const AcquisitionScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  recordingId: 'recordingId',
+  channelId: 'channelId',
+  storedPath: 'storedPath',
+  sizeBytes: 'sizeBytes',
+  md5: 'md5',
+  sha256: 'sha256',
+  container: 'container',
+  acquiredAt: 'acquiredAt',
+  durationMs: 'durationMs',
+  sourceUri: 'sourceUri',
+  verified: 'verified',
+  createdAt: 'createdAt'
+} as const
+
+export type AcquisitionScalarFieldEnum = (typeof AcquisitionScalarFieldEnum)[keyof typeof AcquisitionScalarFieldEnum]
+
+
+export const CustodyEventScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  userId: 'userId',
+  action: 'action',
+  fromState: 'fromState',
+  toState: 'toState',
+  detail: 'detail',
+  digest: 'digest',
+  createdAt: 'createdAt'
+} as const
+
+export type CustodyEventScalarFieldEnum = (typeof CustodyEventScalarFieldEnum)[keyof typeof CustodyEventScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -566,6 +1237,15 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -627,6 +1307,125 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
+ * Reference to a field of type 'DeviceVendor'
+ */
+export type EnumDeviceVendorFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeviceVendor'>
+    
+
+
+/**
+ * Reference to a field of type 'DeviceVendor[]'
+ */
+export type ListEnumDeviceVendorFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeviceVendor[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DeviceFamily'
+ */
+export type EnumDeviceFamilyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeviceFamily'>
+    
+
+
+/**
+ * Reference to a field of type 'DeviceFamily[]'
+ */
+export type ListEnumDeviceFamilyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeviceFamily[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DeviceState'
+ */
+export type EnumDeviceStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeviceState'>
+    
+
+
+/**
+ * Reference to a field of type 'DeviceState[]'
+ */
+export type ListEnumDeviceStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeviceState[]'>
+    
+
+
+/**
+ * Reference to a field of type 'IdentificationConfidence'
+ */
+export type EnumIdentificationConfidenceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IdentificationConfidence'>
+    
+
+
+/**
+ * Reference to a field of type 'IdentificationConfidence[]'
+ */
+export type ListEnumIdentificationConfidenceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IdentificationConfidence[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DeviceKind'
+ */
+export type EnumDeviceKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeviceKind'>
+    
+
+
+/**
+ * Reference to a field of type 'DeviceKind[]'
+ */
+export type ListEnumDeviceKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeviceKind[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
+ * Reference to a field of type 'BigInt'
+ */
+export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+    
+
+
+/**
+ * Reference to a field of type 'BigInt[]'
+ */
+export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
     
 
 /**
@@ -781,6 +1580,13 @@ export interface PrismaClientOptionsWithAdapter extends PrismaClientBaseOptions 
 export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaClientOptionsWithAdapter
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  device?: Prisma.DeviceOmit
+  deviceProbe?: Prisma.DeviceProbeOmit
+  deviceChannel?: Prisma.DeviceChannelOmit
+  deviceStorage?: Prisma.DeviceStorageOmit
+  recording?: Prisma.RecordingOmit
+  acquisition?: Prisma.AcquisitionOmit
+  custodyEvent?: Prisma.CustodyEventOmit
 }
 
 /* Types for Logging */

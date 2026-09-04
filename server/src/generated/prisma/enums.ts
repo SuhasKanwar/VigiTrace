@@ -15,3 +15,66 @@ export const AuthProvider = {
 } as const
 
 export type AuthProvider = (typeof AuthProvider)[keyof typeof AuthProvider]
+
+
+export const DeviceState = {
+  REGISTERED: 'REGISTERED',
+  IDENTIFYING: 'IDENTIFYING',
+  IDENTIFIED: 'IDENTIFIED',
+  ENUMERATING: 'ENUMERATING',
+  ENUMERATED: 'ENUMERATED',
+  INDEXING: 'INDEXING',
+  INDEXED: 'INDEXED',
+  ACQUIRING: 'ACQUIRING',
+  ACQUIRED: 'ACQUIRED',
+  VERIFYING: 'VERIFYING',
+  VERIFIED: 'VERIFIED',
+  UNREACHABLE: 'UNREACHABLE',
+  AUTH_FAILED: 'AUTH_FAILED',
+  UNSUPPORTED: 'UNSUPPORTED',
+  FAILED: 'FAILED'
+} as const
+
+export type DeviceState = (typeof DeviceState)[keyof typeof DeviceState]
+
+
+export const DeviceVendor = {
+  HIKVISION: 'HIKVISION',
+  DAHUA: 'DAHUA',
+  CPPLUS: 'CPPLUS',
+  GODREJ: 'GODREJ',
+  UNKNOWN: 'UNKNOWN'
+} as const
+
+export type DeviceVendor = (typeof DeviceVendor)[keyof typeof DeviceVendor]
+
+
+export const DeviceFamily = {
+  HIKVISION: 'HIKVISION',
+  DAHUA: 'DAHUA',
+  XIONGMAI: 'XIONGMAI',
+  UNKNOWN: 'UNKNOWN'
+} as const
+
+export type DeviceFamily = (typeof DeviceFamily)[keyof typeof DeviceFamily]
+
+
+export const IdentificationConfidence = {
+  CONFIRMED: 'CONFIRMED',
+  PROBABLE: 'PROBABLE',
+  UNKNOWN: 'UNKNOWN'
+} as const
+
+export type IdentificationConfidence = (typeof IdentificationConfidence)[keyof typeof IdentificationConfidence]
+
+
+export const DeviceKind = {
+  DVR: 'DVR',
+  NVR: 'NVR',
+  XVR: 'XVR',
+  HVR: 'HVR',
+  IPC: 'IPC',
+  UNKNOWN: 'UNKNOWN'
+} as const
+
+export type DeviceKind = (typeof DeviceKind)[keyof typeof DeviceKind]
