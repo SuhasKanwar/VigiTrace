@@ -77,6 +77,20 @@ The adapter therefore declares only four capabilities and never claims better th
 confidence. A Godrej unit from a different hardware generation may not answer DVRIP at all; that is
 reported as `UNSUPPORTED` with the observed fingerprint attached, not silently mis-parsed.
 
+### Optional AI narration
+
+Analysis findings are produced deterministically and are complete without any AI
+credentials. When `NVIDIA_API_KEY` is set, the same findings are additionally narrated
+through NVIDIA NIM (an OpenAI-compatible API) for a case note; when it is not, the
+endpoint reports narration as unconfigured rather than failing or returning less.
+
+Two operational notes, both learned the hard way:
+
+- **NIM entitlements are per-account.** A model can appear in `/v1/models` and still
+  return 404 for a given key, so verify a model before pinning it in `NVIDIA_MODEL`.
+- **The endpoint throttles under bursts**, returning 5xx or hanging. Narration is given
+  a bounded timeout and one retry, and its failure never affects the findings.
+
 ### Why no vendor SDKs
 
 Neither Hikvision's HCNetSDK nor Dahua's NetSDK is used, and neither is a dependency. The HIKVISION
@@ -108,7 +122,8 @@ Implemented in the current prototype:
 - recording-index search with gap detection, and clock-drift-corrected timeline normalization;
 - controlled export with MD5/SHA-256 computed on the stream as it is written;
 - a guarded device state machine with an append-only chain-of-custody record;
-- rule-based analysis findings that work with no AI credentials configured.
+- rule-based analysis findings that work with no AI credentials configured, with
+  optional narration through NVIDIA NIM.
 
 Not yet implemented or validated against physical recorder hardware:
 

@@ -37,7 +37,7 @@ def by_category(body, category):
 def no_ai_credentials(monkeypatch):
     """Pin the AI configuration so the result never depends on the environment."""
     monkeypatch.setattr(agent, "AI_ENABLED", False)
-    monkeypatch.setattr(agent, "GROQ_API_KEY", "")
+    monkeypatch.setattr(agent, "NVIDIA_API_KEY", "")
 
 
 class TestClockFindings:
@@ -259,7 +259,7 @@ class TestNarration:
         narrative = body["data"]["narrative"]
         assert narrative["available"] is False
         assert "No AI credentials configured" in narrative["reason"]
-        assert "GROQ_API_KEY" in narrative["reason"]
+        assert "NVIDIA_API_KEY" in narrative["reason"]
         assert "produced deterministically" in narrative["reason"]
 
     def test_findings_are_unaffected_by_the_absence_of_ai(self, api_client):
@@ -276,10 +276,11 @@ class TestNarration:
     def test_a_failing_llm_call_does_not_fail_the_analysis(self, api_client, monkeypatch):
         """Narration is an enhancement; its failure must degrade, not raise."""
         monkeypatch.setattr(agent, "AI_ENABLED", True)
-        monkeypatch.setattr(agent, "GROQ_API_KEY", "test-key")
+        monkeypatch.setattr(agent, "NVIDIA_API_KEY", "test-key")
 
         def explode(*args, **kwargs):
             raise RuntimeError("connection refused")
+
 
         monkeypatch.setattr(agent.requests, "post", explode)
 
@@ -291,14 +292,19 @@ class TestNarration:
 
     def test_a_successful_llm_call_is_attributed_to_its_model(self, api_client, monkeypatch):
         monkeypatch.setattr(agent, "AI_ENABLED", True)
-        monkeypatch.setattr(agent, "GROQ_API_KEY", "test-key")
+        monkeypatch.setattr(agent, "NVIDIA_API_KEY", "test-key")
 
         class _Response:
+            status_code = 200
+
             def raise_for_status(self):
                 return None
 
             def json(self):
-                return {"choices": [{"message": {"content": "Two findings of note."}}]}
+                return {
+                    "choices": [{"message": {"content": "Two findings of note."}}],
+                    "usage": {"total_tokens": 42},
+                }
 
         captured = {}
 
@@ -313,9 +319,12 @@ class TestNarration:
 
         assert body["data"]["narrative"] == {
             "available": True,
-            "model": agent.GROQ_MODEL,
+            "provider": "NVIDIA NIM",
+            "model": agent.NVIDIA_MODEL,
             "summary": "Two findings of note.",
+            "usage": {"total_tokens": 42},
         }
+        assert captured["url"].endswith("/chat/completions")
         # The prompt must not invite the model to assert tampering.
         assert "Do not invent facts" in captured["prompt"]
         assert "Do not assert that evidence was tampered" in captured["prompt"]

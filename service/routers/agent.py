@@ -1,15 +1,16 @@
 """Investigator-assistance analysis.
 
 The findings here are deterministic and rule-based, so this endpoint is fully
-functional with no AI credentials configured. When GROQ_API_KEY or
-NVIDIA_API_KEY is present the same findings are additionally narrated by a
-language model; when it is absent the endpoint says so plainly instead of
-failing or silently returning less.
+functional with no AI credentials configured. When NVIDIA_API_KEY is present the
+same findings are additionally narrated by a language model through NVIDIA NIM;
+when it is absent the endpoint says so plainly instead of failing or silently
+returning less.
 
 Nothing here replaces source evidence. Findings are review prompts for a human
 analyst, and each carries the observation it was derived from.
 """
 
+import time
 from datetime import datetime, timezone
 from typing import Any
 
@@ -17,7 +18,7 @@ import requests
 from fastapi import APIRouter
 from pydantic import Field
 
-from config import AI_ENABLED, GROQ_API_KEY, GROQ_MODEL
+from config import AI_ENABLED, NVIDIA_API_KEY, NVIDIA_BASE_URL, NVIDIA_MODEL
 from models.device import StandardizedDevice, VigiTraceModel
 from models.recording import RecordingIndex
 from services.normalization import normalize_index, summarize_coverage
@@ -25,7 +26,15 @@ from utils.logger import logger
 
 router = APIRouter(prefix="/api/analysis", tags=["Analysis"])
 
-GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
+#: NIM exposes an OpenAI-compatible chat-completions surface.
+CHAT_COMPLETIONS_PATH = "/chat/completions"
+#: Narration is an enhancement, so it is given a bounded slice of the request
+#: rather than being allowed to hold the findings hostage. NIM has been observed
+#: to hang or return 5xx under throttling, which is precisely when the
+#: deterministic findings still need to come back promptly.
+NARRATION_TIMEOUT_SECONDS = 20
+NARRATION_ATTEMPTS = 2
+NARRATION_BACKOFF_SECONDS = 1.5
 
 #: A recorder more than five minutes off the reference clock materially affects
 #: any cross-camera correlation drawn from its timestamps.
@@ -231,12 +240,12 @@ def _identity_findings(device: StandardizedDevice) -> list[Finding]:
 
 def _narrate(findings: list[Finding], device: StandardizedDevice) -> dict[str, Any]:
     """Optional LLM narration. Never raises into the response path."""
-    if not AI_ENABLED or not GROQ_API_KEY:
+    if not AI_ENABLED or not NVIDIA_API_KEY:
         return {
             "available": False,
             "reason": (
-                "No AI credentials configured. Set GROQ_API_KEY or NVIDIA_API_KEY in the "
-                "service environment to enable narrative summaries. All findings above are "
+                "No AI credentials configured. Set NVIDIA_API_KEY in the service "
+                "environment to enable narrative summaries. All findings above are "
                 "produced deterministically and are unaffected."
             ),
         }
@@ -251,24 +260,94 @@ def _narrate(findings: list[Finding], device: StandardizedDevice) -> dict[str, A
         f"Findings:\n{bullet_list}"
     )
 
+    url = f"{NVIDIA_BASE_URL.rstrip('/')}{CHAT_COMPLETIONS_PATH}"
+    payload = {
+        "model": NVIDIA_MODEL,
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.2,
+        "max_tokens": 700,
+    }
+    headers = {
+        "Authorization": f"Bearer {NVIDIA_API_KEY}",
+        "Content-Type": "application/json",
+    }
+
+    last_transient = "the request did not complete"
+    for attempt in range(1, NARRATION_ATTEMPTS + 1):
+        try:
+            response = requests.post(
+                url, headers=headers, json=payload, timeout=NARRATION_TIMEOUT_SECONDS
+            )
+        except Exception as exc:
+            # Deliberately broad: narration is an enhancement and must degrade,
+            # never raise into the analysis response. Timeouts and connection
+            # resets are the throttling signature; one retry is worth it, an
+            # indefinite wait is not.
+            last_transient = str(exc)
+            logger.warning("NIM narration attempt %s failed: %s", attempt, exc)
+            if attempt < NARRATION_ATTEMPTS:
+                time.sleep(NARRATION_BACKOFF_SECONDS)
+                continue
+            return {
+                "available": False,
+                "reason": (
+                    f"NVIDIA NIM did not respond within {NARRATION_TIMEOUT_SECONDS}s "
+                    f"across {NARRATION_ATTEMPTS} attempt(s). Findings above are "
+                    f"unaffected. Last error: {last_transient}"
+                ),
+            }
+
+        if response.status_code >= 500:
+            last_transient = f"HTTP {response.status_code}"
+            logger.warning("NIM narration attempt %s returned %s", attempt, response.status_code)
+            if attempt < NARRATION_ATTEMPTS:
+                time.sleep(NARRATION_BACKOFF_SECONDS)
+                continue
+            return {
+                "available": False,
+                "reason": (
+                    f"NVIDIA NIM returned {last_transient} on every attempt, which usually "
+                    "means the endpoint is throttling or temporarily unavailable. "
+                    "Findings above are unaffected."
+                ),
+            }
+        break
+
     try:
-        response = requests.post(
-            GROQ_URL,
-            headers={
-                "Authorization": f"Bearer {GROQ_API_KEY}",
-                "Content-Type": "application/json",
-            },
-            json={
-                "model": GROQ_MODEL,
-                "messages": [{"role": "user", "content": prompt}],
-                "temperature": 0.2,
-            },
-            timeout=30,
-        )
+        # NIM entitlements are per-account: a model can be listed by /v1/models
+        # and still 404 for a given key. Say which model was refused, because
+        # "not found" alone sends people looking for a network fault.
+        if response.status_code == 404:
+            return {
+                "available": False,
+                "reason": (
+                    f"The configured model '{NVIDIA_MODEL}' is not available to this "
+                    "NVIDIA API key. Set NVIDIA_MODEL to a model your account is "
+                    "entitled to; listing /v1/models is not proof of access."
+                ),
+            }
+        if response.status_code in (401, 403):
+            return {
+                "available": False,
+                "reason": "NVIDIA rejected the configured API key.",
+            }
         response.raise_for_status()
+
         payload = response.json()
-        text = payload["choices"][0]["message"]["content"]
-        return {"available": True, "model": GROQ_MODEL, "summary": text}
+        choices = payload.get("choices") or []
+        text = (choices[0].get("message", {}).get("content") or "").strip() if choices else ""
+        if not text:
+            return {
+                "available": False,
+                "reason": f"Model '{NVIDIA_MODEL}' returned an empty narration.",
+            }
+        return {
+            "available": True,
+            "provider": "NVIDIA NIM",
+            "model": NVIDIA_MODEL,
+            "summary": text,
+            "usage": payload.get("usage"),
+        }
     except Exception as exc:
         # Narration is an enhancement; its failure must not fail the analysis.
         logger.warning("LLM narration unavailable: %s", exc)
@@ -284,7 +363,8 @@ def analysis_health() -> dict:
         "data": {
             "deterministic_findings": True,
             "ai_narration_configured": AI_ENABLED,
-            "model": GROQ_MODEL if AI_ENABLED else None,
+            "provider": "NVIDIA NIM" if AI_ENABLED else None,
+            "model": NVIDIA_MODEL if AI_ENABLED else None,
         },
     }
 
