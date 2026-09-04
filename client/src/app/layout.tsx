@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { ToastProvider } from "@/components/ui/toast";
 import "./globals.css";
+import { getAuthSession } from "@/lib/session";
+import Provider from "@/context/Provider";
 
 export const metadata: Metadata = {
   title: "VigiTrace",
@@ -29,14 +30,19 @@ export const metadata: Metadata = {
   ]
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const session = await getAuthSession();
   return (
     <html
       lang="en"
       data-scroll-behavior="smooth"
       className={`h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col"><ToastProvider>{children}</ToastProvider></body>
+      <body className="min-h-full flex flex-col"> 
+        <Provider session={session}>
+          {children}
+        </Provider>
+      </body>
     </html>
   );
 }
