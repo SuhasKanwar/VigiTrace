@@ -1,26 +1,125 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+    --primary-color: #ea580c;
+    --secondary-color: #fb923c;
+    --accent-color: #fef3c7;
+    --success-color: #15803d;
+    --warning-color: #b45309;
+    --danger-color: #dc2626;
+    --primary-bg-color: #fffdf9;
+    --surface-color: #ffffff;
+    --surface-muted-color: #fff7ed;
+    --surface-strong-color: #ffedd5;
+    --border-color: #fed7aa;
+    --primary-text-color: #18181b;
+    --secondary-text-color: #52525b;
+    --muted-text-color: #a1a1aa;
+    --glow-color: rgb(234 88 12 / 16%);
+    --shadow-color: rgb(24 24 27 / 12%);
+    --grid-color: rgb(24 24 27 / 5%);
+    --mechanism-color: #18181b;
+    --mechanism-edge: #27272a;
+    --mechanism-line: #a1a1aa;
+    --mechanism-highlight: #fb923c;
+    --blueprint-bg: #fff7ed;
+    --blueprint-grid: rgb(24 24 27 / 5%);
+    --blueprint-line: #fdba74;
+    --blueprint-text: #18181b;
+    --font-display: "Sora", "Avenir Next", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+    --font-body: "DM Sans", "Avenir Next", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+    --font-mono-family: "JetBrains Mono", "Cascadia Code", "SFMono-Regular", Consolas, monospace;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--primary-bg-color);
+  background-image: radial-gradient(circle at top right, var(--accent-color), transparent 31%), linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: auto, 36px 36px, 36px 36px;
+  color: var(--primary-text-color);
+  font-family: var(--font-body);
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
+}
+
+a, button {
+  cursor: pointer;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+h1, h2, h3, .font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono {
+  font-family: var(--font-mono-family);
+}
+
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--accent-color);
+  color: var(--primary-text-color);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes toast-enter {
+  from {
+    transform: translateX(16px) scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-toast-enter {
+  animation: toast-enter 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes screen-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes loading-pulse {
+  50% { opacity: 0.45; }
+}
+
+.animate-screen-enter { animation: screen-enter 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-loading-pulse { animation: loading-pulse 1.5s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
 }
