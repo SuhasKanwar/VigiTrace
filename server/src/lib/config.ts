@@ -15,6 +15,11 @@ export const ALLOWED_ORIGINS: string[] = [FRONTED_URL];
 
 export const MICROSERVICE_TIMEOUT_MS: number = Number(process.env.MICROSERVICE_TIMEOUT_MS) || 30_000;
 export const MICROSERVICE_ACQUIRE_TIMEOUT_MS: number = Number(process.env.MICROSERVICE_ACQUIRE_TIMEOUT_MS) || 300_000;
+// Analysis may wait on an optional LLM narration whose own worst case is ~25s
+// when the upstream is throttling. The default 30s budget cut that off and
+// turned a degraded narration into a 504 that discarded findings the service
+// had already computed, so this stage gets its own, larger allowance.
+export const MICROSERVICE_ANALYSIS_TIMEOUT_MS: number = Number(process.env.MICROSERVICE_ANALYSIS_TIMEOUT_MS) || 60_000;
 export const VENDOR_REGISTRY_CACHE_TTL_SECONDS: number = Number(process.env.VENDOR_REGISTRY_CACHE_TTL_SECONDS) || 3600;
 
 /**

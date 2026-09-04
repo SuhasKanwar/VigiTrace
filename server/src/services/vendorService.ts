@@ -1,6 +1,6 @@
 import axios from "axios";
 import { microserviceApi } from "../lib/api.js";
-import { MICROSERVICE_ACQUIRE_TIMEOUT_MS, MICROSERVICE_TIMEOUT_MS } from "../lib/config.js";
+import { MICROSERVICE_ACQUIRE_TIMEOUT_MS, MICROSERVICE_ANALYSIS_TIMEOUT_MS, MICROSERVICE_TIMEOUT_MS } from "../lib/config.js";
 import { DeviceState } from "../generated/prisma/enums.js";
 import type {
     ServiceAcquisitionRequest,
@@ -233,9 +233,18 @@ export async function acquireRecording(request: ServiceAcquisitionRequest): Prom
     });
 }
 
-/** Produce reviewable findings for an already-identified device. */
+/**
+ * Produce reviewable findings for an already-identified device.
+ *
+ * Given a longer budget than the default because the service may additionally
+ * wait on an optional LLM narration. Cutting that off would return a 504 and
+ * discard findings the service had already computed, which is the opposite of
+ * what a degraded enhancement should cost.
+ */
 export async function analyzeDevice(request: ServiceAnalysisRequest): Promise<VendorCall> {
-    return post("/api/analysis/summary", request, "analyse this device");
+    return post("/api/analysis/summary", request, "analyse this device", {
+        timeout: MICROSERVICE_ANALYSIS_TIMEOUT_MS,
+    });
 }
 
 /**

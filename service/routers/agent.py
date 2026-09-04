@@ -32,9 +32,19 @@ CHAT_COMPLETIONS_PATH = "/chat/completions"
 #: rather than being allowed to hold the findings hostage. NIM has been observed
 #: to hang or return 5xx under throttling, which is precisely when the
 #: deterministic findings still need to come back promptly.
-NARRATION_TIMEOUT_SECONDS = 20
+#:
+#: The worst case here - every attempt timing out, plus the backoff between
+#: them - must stay comfortably below the calling server's own timeout
+#: (MICROSERVICE_ANALYSIS_TIMEOUT_MS), or a throttled upstream turns into a 504
+#: and the caller loses findings that were already computed.
+NARRATION_TIMEOUT_SECONDS = 12
 NARRATION_ATTEMPTS = 2
 NARRATION_BACKOFF_SECONDS = 1.5
+#: 2 x 12s + 1.5s backoff = 25.5s worst case.
+NARRATION_WORST_CASE_SECONDS = (
+    NARRATION_TIMEOUT_SECONDS * NARRATION_ATTEMPTS
+    + NARRATION_BACKOFF_SECONDS * (NARRATION_ATTEMPTS - 1)
+)
 
 #: A recorder more than five minutes off the reference clock materially affects
 #: any cross-camera correlation drawn from its timestamps.
