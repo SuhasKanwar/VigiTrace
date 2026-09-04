@@ -1,0 +1,33 @@
+# Environment
+.env
+.env.local
+*.env.local
+
+# Dependencies
+node_modules/
+.venv/
+venv/
+
+# Build output
+dist/
+build/
+.next/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Runtime artifacts
+logs/
+evidence/
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+
+# Local tooling
+.claude/
+CLAUDE.md
+AGENTS.md
