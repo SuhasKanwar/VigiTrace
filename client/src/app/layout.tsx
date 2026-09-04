@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import "./globals.css";
 import { getAuthSession } from "@/lib/session";
 import Provider from "@/context/Provider";
+import Navbar from "@/components/layout/navbar";
 
 export const metadata: Metadata = {
   title: "VigiTrace",
@@ -30,7 +32,7 @@ export const metadata: Metadata = {
   ]
 };
 
-export default async function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
   const session = await getAuthSession();
   return (
     <html
@@ -40,6 +42,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col"> 
         <Provider session={session}>
+          <Navbar />
           {children}
         </Provider>
       </body>
