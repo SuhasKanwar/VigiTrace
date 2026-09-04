@@ -23,6 +23,7 @@ export default function CustodyTimeline({ events, emptyMessage = "No custody eve
                             <p className={EYEBROW_MUTED} title={formatTimestamp(event.recordedAt)}>{formatRelative(event.recordedAt)}</p>
                         </div>
                         <p className="mt-2 font-mono text-[11px] text-(--muted-text-color)">{formatTimestamp(event.recordedAt)}</p>
+                        {event.toState ? <p className="mt-2 font-mono text-[11px] font-semibold text-(--secondary-text-color)"><span className="text-(--muted-text-color)">{event.fromState ?? "—"}</span> <span aria-hidden="true">&rarr;</span><span className="sr-only">to</span> <span className="text-(--primary-text-color)">{event.toState}</span></p> : null}
                         {event.detail ? <p className="mt-2 text-sm leading-6 text-(--secondary-text-color)">{event.detail}</p> : null}
                         <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-xs text-(--secondary-text-color)">
                             {event.actor ? <span>Actor · <span className="font-semibold text-(--primary-text-color)">{event.actor}</span></span> : null}

@@ -4,6 +4,7 @@ import {
     FINDING_SEVERITIES,
     type Acquisition,
     type AnalysisFinding,
+    type AnalysisNarrative,
     type AnalysisReport,
     type CustodyEvent,
     type Device,
@@ -207,9 +208,16 @@ export function normalizeCustodyEvent(input: unknown, index: number): CustodyEve
         action: text(pick(raw, "action", "event", "event_type", "eventType", "type")) ?? "EVENT",
         actor: text(pick(raw, "actor", "actor_name", "actorName", "user", "operator")),
         detail: text(pick(raw, "detail", "details", "description", "note", "message")),
+        fromState: upperOrNull(pick(raw, "from_state", "fromState")),
+        toState: upperOrNull(pick(raw, "to_state", "toState")),
         recordedAt: timestamp(pick(raw, "recorded_at", "recordedAt", "occurred_at", "occurredAt", "created_at", "createdAt", "at", "timestamp")),
         hash: text(pick(raw, "hash", "sha256", "digest")),
     };
+}
+
+function upperOrNull(value: unknown): string | null {
+    const parsed = text(value);
+    return parsed ? parsed.toUpperCase() : null;
 }
 
 export function normalizeDevice(input: unknown): Device {
@@ -302,7 +310,16 @@ export function normalizeAnalysis(input: unknown): AnalysisReport {
         counts[severity] = reported ?? findings.filter((finding) => finding.severity === severity).length;
     }
 
-    return { findings, counts };
+    const rawNarrative = asRecord(pick(raw, "narrative"));
+    const narrative: AnalysisNarrative = {
+        available: flag(pick(rawNarrative, "available")) === true,
+        provider: text(pick(rawNarrative, "provider")),
+        model: text(pick(rawNarrative, "model")),
+        summary: text(pick(rawNarrative, "summary")),
+        reason: text(pick(rawNarrative, "reason")),
+    };
+
+    return { findings, counts, narrative };
 }
 
 /** One stored acquisition, as returned by GET /api/devices/:id/acquisitions. */

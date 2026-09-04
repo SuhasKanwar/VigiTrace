@@ -130,6 +130,9 @@ export type CustodyEvent = {
     action: string;
     actor: string | null;
     detail: string | null;
+    /** The transition this entry recorded. Null on entries that are not transitions. */
+    fromState: string | null;
+    toState: string | null;
     recordedAt: string | null;
     hash: string | null;
 };
@@ -196,6 +199,23 @@ export type AnalysisFinding = {
 export type AnalysisReport = {
     findings: AnalysisFinding[];
     counts: Record<string, number>;
+    narrative: AnalysisNarrative;
+};
+
+/**
+ * Optional LLM narration of the findings.
+ *
+ * `available: false` is a normal outcome, not an error: narration is an
+ * enhancement over findings that are always produced deterministically. The
+ * reason is surfaced so an absent summary reads as "not configured" or
+ * "upstream unavailable" rather than as something silently missing.
+ */
+export type AnalysisNarrative = {
+    available: boolean;
+    provider: string | null;
+    model: string | null;
+    summary: string | null;
+    reason: string | null;
 };
 
 export type CreateDeviceInput = {

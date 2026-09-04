@@ -163,6 +163,7 @@ export default function RecordingsPanel({ deviceId, channels }: { deviceId: stri
                                 <th className={TABLE_HEAD} scope="col">Start (UTC)</th>
                                 <th className={TABLE_HEAD} scope="col">End (UTC)</th>
                                 <th className={TABLE_HEAD} scope="col">Duration</th>
+                                <th className={TABLE_HEAD} scope="col">Codec</th>
                                 <th className={TABLE_HEAD} scope="col">Size</th>
                                 <th className={TABLE_HEAD} scope="col">Trigger</th>
                                 <th className={TABLE_HEAD} scope="col"><span className="sr-only">Acquire</span></th>
@@ -176,6 +177,7 @@ export default function RecordingsPanel({ deviceId, channels }: { deviceId: stri
                                     <td className={`${TABLE_CELL} font-mono text-xs whitespace-nowrap`}>{formatTimestamp(recording.start)}</td>
                                     <td className={`${TABLE_CELL} font-mono text-xs whitespace-nowrap`}>{formatTimestamp(recording.end)}</td>
                                     <td className={`${TABLE_CELL} font-mono text-xs tabular-nums`}>{spanDuration(recording.start, recording.end)}</td>
+                                    <td className={`${TABLE_CELL} font-mono text-xs`}>{recording.codec ?? EMPTY_VALUE}</td>
                                     <td className={`${TABLE_CELL} font-mono text-xs tabular-nums`}>{formatBytes(recording.sizeBytes)}</td>
                                     <td className={`${TABLE_CELL} text-xs`}>{recording.recordTrigger ?? EMPTY_VALUE}{typeof recording.overwriteCount === "number" ? <p className="mt-1 text-xs text-(--warning-color)">Overwritten ×{recording.overwriteCount}</p> : null}</td>
                                     <td className={`${TABLE_CELL} text-right`}><ActionButton Icon={Download} disabled={!recording.start || !recording.end} onClick={() => void acquire(recording)} pending={acquiring === recording.recordingId} title="Queue a controlled export of this segment">Acquire</ActionButton></td>
