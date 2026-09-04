@@ -5,7 +5,7 @@ import WorkflowStory from "@/components/home/workflow-story";
 
 export default function Home() {
   return (
-    <main className="overflow-hidden">
+    <main className="overflow-x-clip">
       <header className="border-b border-(--border-color) bg-(--surface-color)">
         <nav aria-label="Main navigation" className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
           <Link className="flex items-center gap-2 text-base font-bold tracking-tight" href="/">
@@ -37,7 +37,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="reveal-on-scroll border border-(--border-color) bg-(--primary-bg-color) p-5 sm:p-7">
+          <div className="reveal-on-scroll self-center border border-(--border-color) bg-(--primary-bg-color) p-5 sm:p-7">
             <div className="flex items-center justify-between border-b border-(--border-color) pb-4">
               <div><p className="font-mono text-[11px] font-semibold uppercase tracking-[.16em] text-(--muted-text-color)">Active evidence set</p><p className="mt-1 text-sm font-semibold">Riverside precinct · 04</p></div>
               <span className="flex items-center gap-2 text-xs font-semibold text-(--success-color)"><span className="size-2 rounded-full bg-(--success-color)" />Verified</span>
