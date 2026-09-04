@@ -123,27 +123,6 @@ html {
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes globe-turn {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes globe-route {
-  to { stroke-dashoffset: -48; }
-}
-
-@keyframes globe-pulse {
-  50% { opacity: 0.25; transform: scale(1.05); }
-}
-
-@keyframes globe-node {
-  50% { opacity: 0.35; transform: scale(1.7); }
-}
-
-.animate-globe-turn { animation: globe-turn 32s linear infinite; transform-box: fill-box; transform-origin: center; }
-.animate-globe-route { animation: globe-route 2.5s linear infinite; }
-.animate-globe-pulse { animation: globe-pulse 2.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
-.animate-globe-node { animation: globe-node 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
-.animate-globe-node:nth-of-type(3n) { animation-delay: -0.8s; }
 
 @supports (animation-timeline: view()) {
   .reveal-on-scroll {

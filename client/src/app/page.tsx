@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { ArrowRight, BrainCircuit, Check, ChevronRight, CircleCheck, Clock3, FileSearch, Fingerprint, HardDriveDownload, LockKeyhole, Play, ScanSearch, ShieldCheck, Sparkles, Video } from "lucide-react";
-import AnimatedGlobe from "@/components/ui/animated-globe";
+import { ArrowRight, BrainCircuit, Check, CircleCheck, Clock3, FileSearch, Fingerprint, HardDriveDownload, LockKeyhole, Play, ShieldCheck, Sparkles } from "lucide-react";
+import ForensicGlobe from "@/components/ui/forensic-globe";
+import WorkflowStory from "@/components/home/workflow-story";
 
 export default function Home() {
   return (
@@ -60,18 +61,11 @@ export default function Home() {
       <section className="overflow-hidden border-b border-(--border-color) bg-(--surface-color)">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-20 lg:grid-cols-[.85fr_1.15fr] lg:px-8">
           <div className="reveal-on-scroll"><p className="font-mono text-xs font-semibold uppercase tracking-[.18em] text-(--primary-color)">Designed for distributed evidence</p><h2 className="mt-4 text-4xl font-bold tracking-[-.04em] sm:text-5xl">One case view, across every location.</h2><p className="mt-6 max-w-lg leading-8 text-(--secondary-text-color)">Bring cameras, recorders, exported media, and investigator notes into a single review context—without losing the device-level detail behind them.</p><div className="mt-8 space-y-3 text-sm font-medium"><p className="flex items-center gap-3"><Check aria-hidden="true" className="size-4 text-(--success-color)" />Multi-site acquisition tracking</p><p className="flex items-center gap-3"><Check aria-hidden="true" className="size-4 text-(--success-color)" />Cross-camera event correlation</p></div></div>
-          <div className="reveal-on-scroll relative grid min-h-80 place-items-center border border-(--border-color) bg-(--primary-bg-color) p-8"><AnimatedGlobe className="w-full max-w-md" /><div className="absolute bottom-6 left-6 border border-(--border-color) bg-(--surface-color) px-4 py-3 text-sm"><p className="font-mono text-[10px] uppercase tracking-[.14em] text-(--muted-text-color)">Network status</p><p className="mt-1 flex items-center gap-2 font-semibold"><span className="size-2 rounded-full bg-(--success-color)" />8 sites connected</p></div></div>
+          <div className="reveal-on-scroll relative min-h-100 overflow-hidden border border-(--mechanism-line) bg-(--mechanism-color)"><ForensicGlobe /><div className="absolute bottom-6 left-6 border border-(--border-color) bg-(--surface-color) px-4 py-3 text-sm"><p className="font-mono text-[10px] uppercase tracking-[.14em] text-(--muted-text-color)">Network status</p><p className="mt-1 flex items-center gap-2 font-semibold"><span className="size-2 rounded-full bg-(--success-color)" />8 sites connected</p></div></div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-24 lg:px-8" id="workflow">
-        <div className="reveal-on-scroll max-w-2xl"><p className="font-mono text-xs font-semibold uppercase tracking-[.18em] text-(--primary-color)">One defensible workflow</p><h2 className="mt-4 text-4xl font-bold tracking-[-.04em] sm:text-5xl">From device to finding, without switching tools.</h2></div>
-        <div className="mt-14 grid border-l border-t border-(--border-color) md:grid-cols-3">
-          <article className="reveal-on-scroll border-b border-r border-(--border-color) bg-(--surface-color) p-7"><span className="font-mono text-sm text-(--primary-color)">01</span><HardDriveDownload aria-hidden="true" className="mt-10 size-7" /><h3 className="mt-6 text-xl font-semibold">Acquire</h3><p className="mt-3 leading-7 text-(--secondary-text-color)">Identify devices and collect a consistent forensic image with source and operator records.</p><a className="mt-7 inline-flex items-center gap-1 text-sm font-semibold text-(--primary-color)" href="#integrity">Learn more <ChevronRight aria-hidden="true" className="size-4" /></a></article>
-          <article className="reveal-on-scroll border-b border-r border-(--border-color) bg-(--surface-color) p-7"><span className="font-mono text-sm text-(--primary-color)">02</span><ScanSearch aria-hidden="true" className="mt-10 size-7" /><h3 className="mt-6 text-xl font-semibold">Recover</h3><p className="mt-3 leading-7 text-(--secondary-text-color)">Parse proprietary storage, locate fragmented recordings, and preserve what standard playback misses.</p><a className="mt-7 inline-flex items-center gap-1 text-sm font-semibold text-(--primary-color)" href="#analysis">Learn more <ChevronRight aria-hidden="true" className="size-4" /></a></article>
-          <article className="reveal-on-scroll border-b border-r border-(--border-color) bg-(--surface-color) p-7"><span className="font-mono text-sm text-(--primary-color)">03</span><Video aria-hidden="true" className="mt-10 size-7" /><h3 className="mt-6 text-xl font-semibold">Analyze</h3><p className="mt-3 leading-7 text-(--secondary-text-color)">Correlate events across cameras and turn hours of footage into a precise review queue.</p><a className="mt-7 inline-flex items-center gap-1 text-sm font-semibold text-(--primary-color)" href="#analysis">Learn more <ChevronRight aria-hidden="true" className="size-4" /></a></article>
-        </div>
-      </section>
+      <WorkflowStory />
 
       <section className="border-y border-(--border-color) bg-(--mechanism-color) text-(--surface-color)" id="analysis">
         <div className="mx-auto grid max-w-7xl gap-14 px-5 py-24 lg:grid-cols-2 lg:px-8">
