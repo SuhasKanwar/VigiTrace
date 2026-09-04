@@ -79,8 +79,12 @@ class MockRecorderServer(ThreadingHTTPServer):
         handler_class: type[BaseHTTPRequestHandler],
         username: str = "admin",
         password: str = "Vigi#Trace1",
+        port: int = 0,
     ):
-        super().__init__(("127.0.0.1", 0), handler_class)
+        # Port 0 for tests, which want an ephemeral port and no collisions. A
+        # fixed port is for running this as a standalone recorder that other
+        # processes - the end-to-end suite, a manual probe - can point at.
+        super().__init__(("127.0.0.1", port), handler_class)
         self.username = username
         self.password = password
         #: Nonces this server actually issued. A response quoting any other

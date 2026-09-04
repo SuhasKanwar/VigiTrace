@@ -101,8 +101,8 @@ class HikvisionServer(MockRecorderServer):
 
     realm = REALM_MAC
 
-    def __init__(self, device_type: str = "DVR") -> None:
-        super().__init__(HikvisionHandler)
+    def __init__(self, device_type: str = "DVR", **server_options: object) -> None:
+        super().__init__(HikvisionHandler, **server_options)
         self.device_type = device_type
         #: When set, the recorder's clock is reported as the probing host's
         #: clock plus this offset, which makes drift assertions exact.
