@@ -58,7 +58,7 @@ export default function AuthForm({ mode }: { mode: "signin" | "signup" }) {
                     <h2 className="mt-3 text-3xl font-bold tracking-[-.04em]">{signup ? "Create your workspace" : "Welcome back"}</h2>
                     <p className="mt-3 text-sm leading-6 text-(--secondary-text-color)">{signup ? "Set up your account to begin a defensible evidence workflow." : "Sign in to continue to your evidence workspace."}</p>
 
-                    <button className="mt-8 flex w-full items-center justify-center gap-3 border border-(--border-color) px-4 py-3 text-sm font-semibold transition-colors hover:bg-(--surface-muted-color) disabled:cursor-not-allowed disabled:opacity-60" disabled={pending} onClick={() => signIn("google", { callbackUrl: AUTH_CALLBACK_URL })} type="button"><span className="grid size-5 place-items-center rounded-full border border-(--border-color) font-mono text-[10px] text-(--primary-color)">G</span>Continue with Google</button>
+                    <button className="mt-8 flex w-full items-center justify-center gap-3 border border-(--border-color) px-4 py-3 text-sm font-semibold transition-colors hover:bg-(--surface-muted-color) disabled:cursor-not-allowed disabled:opacity-60" disabled={pending} onClick={() => signIn("google", { callbackUrl: AUTH_CALLBACK_URL })} type="button">Continue with Google</button>
                     <div className="my-7 flex items-center gap-4 text-[10px] uppercase tracking-[.16em] text-(--muted-text-color)"><span className="h-px flex-1 bg-(--border-color)" />or use email<span className="h-px flex-1 bg-(--border-color)" /></div>
 
                     <form className="space-y-5" onSubmit={submit}>
