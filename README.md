@@ -123,7 +123,12 @@ Implemented in the current prototype:
 - controlled export with MD5/SHA-256 computed on the stream as it is written;
 - a guarded device state machine with an append-only chain-of-custody record;
 - rule-based analysis findings that work with no AI credentials configured, with
-  optional narration through NVIDIA NIM.
+  optional narration through NVIDIA NIM;
+- a device workspace covering registration, detection, identification,
+  enumeration, recording search, acquisition, integrity verification, analysis
+  and the chain-of-custody timeline;
+- a headless-Chrome end-to-end suite driving the real stack, and 364 service
+  unit tests run against protocol-accurate mock recorders.
 
 Not yet implemented or validated against physical recorder hardware:
 
@@ -263,6 +268,23 @@ cd client && npm run build && npm run lint
 cd server && npm run build
 cd service && .venv/bin/python -m pytest
 ```
+
+### End-to-end tests
+
+The browser suite drives the real stack in headless Chrome rather than mocking
+the boundaries, so it fails when the layers disagree — the class of bug unit
+tests cannot see. It needs all four processes running, plus a mock recorder:
+
+```bash
+cd service && .venv/bin/python -m tests.mock_dvr --vendor hikvision --port 8081 \
+    --username admin --password Admin12345
+cd client && npm run e2e
+```
+
+The mock is the same Hikvision ISAPI server the service's unit tests use, served
+on a fixed port, so the browser tests and the adapter tests exercise identical
+protocol behaviour. It implements real RFC 2617 digest authentication, so wrong
+credentials genuinely fail. See `client/e2e/README.md` for the details.
 
 ## Authentication API
 

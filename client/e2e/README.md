@@ -41,6 +41,12 @@ npm run e2e                                   # every spec
 npm run e2e:one -- e2e/specs/auth.spec.mjs    # one file
 ```
 
+Both run with `--test-concurrency=1`. Node's runner executes spec *files* in
+parallel by default, which puts several Chrome instances and several sign-up
+flows against one shared backend at once; that produced timeouts that looked
+like application faults and were not. The suite is I/O-bound on a real stack, so
+serialising costs little and removes a whole class of false failure.
+
 Override endpoints with `CLIENT_URL`, `SERVER_URL`, `SERVICE_URL`,
 `MOCK_DVR_PORT`, `MOCK_DVR_USER`, `MOCK_DVR_PASS`, and the per-step wait budget
 with `E2E_TIMEOUT` (default 45s — device actions hit a real recorder).
