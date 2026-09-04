@@ -13,6 +13,7 @@ export default function WorkflowStory() {
     const [activeStep, setActiveStep] = useState(0);
     const cardRefs = useRef<(HTMLElement | null)[]>([]);
     const step = STEPS[activeStep];
+    const ActiveIcon = step.Icon;
 
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
@@ -28,18 +29,20 @@ export default function WorkflowStory() {
     return (
         <section className="border-y border-(--border-color)" id="workflow">
             <div className="mx-auto max-w-7xl px-5 lg:px-8">
-                <div className="grid lg:grid-cols-2">
-                    <div className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:items-center" style={{ backgroundColor: step.background }}>
-                        <div className="w-full border-x border-(--border-color) p-8 transition-colors duration-500 sm:p-12 lg:p-16">
+                <div className="grid gap-10 lg:grid-cols-2 lg:gap-0">
+                    <div className="space-y-[18vh] py-20 lg:pr-12">
+                        {STEPS.map((item, index) => <article aria-current={index === activeStep ? "step" : undefined} className={`flex min-h-[62vh] items-center border border-(--border-color) p-8 transition-[opacity,transform] duration-500 sm:p-12 ${index === activeStep ? "scale-100 opacity-100" : "scale-[.97] opacity-50"}`} data-step={index} key={item.title} ref={(element) => { cardRefs.current[index] = element; }} style={{ backgroundColor: item.background }}><div className="max-w-md"><p className="font-mono text-xs font-semibold uppercase tracking-[.18em] text-(--primary-color)">{item.eyebrow}</p><item.Icon aria-hidden="true" className="mt-10 size-9" /><h3 className="mt-6 text-3xl font-bold tracking-[-.04em] sm:text-4xl">{item.title} without gaps.</h3><p className="mt-5 leading-8 text-(--secondary-text-color)">{item.description}</p><p className="mt-8 border-l-2 border-(--primary-color) pl-4 text-sm font-semibold">{item.detail}</p></div></article>)}
+                    </div>
+                    <aside className="self-start border-x border-(--border-color) bg-(--surface-color) lg:sticky lg:top-0 lg:flex lg:h-screen lg:items-center">
+                        <div className="w-full p-8 sm:p-12 lg:p-16">
                             <p className="font-mono text-xs font-semibold uppercase tracking-[.18em] text-(--primary-color)">One defensible workflow</p>
                             <div className="mt-10 flex gap-5">
                                 <div className="relative w-px bg-(--border-color)"><div className="absolute left-0 top-0 w-px bg-(--primary-color) transition-all duration-500" style={{ height: `${((activeStep + 1) / STEPS.length) * 100}%` }} /></div>
-                                <div className="space-y-6">{STEPS.map((item, index) => <div className={index === activeStep ? "text-(--primary-text-color)" : "text-(--muted-text-color)"} key={item.title}><p className="font-mono text-xs">{item.eyebrow}</p><p className="mt-1 text-sm font-semibold">{item.title}</p></div>)}</div>
+                                <div className="space-y-6">{STEPS.map((item, index) => <div className={`transition-colors duration-300 ${index === activeStep ? "text-(--primary-text-color)" : "text-(--muted-text-color)"}`} key={item.title}><p className="font-mono text-xs">{item.eyebrow}</p><p className="mt-1 text-sm font-semibold">{item.title}</p></div>)}</div>
                             </div>
-                            <div className="mt-14"><step.Icon aria-hidden="true" className="size-8 text-(--primary-color)" /><h2 className="mt-6 text-4xl font-bold tracking-[-.04em] sm:text-5xl">{step.title}, with the record intact.</h2><p className="mt-5 max-w-md leading-8 text-(--secondary-text-color)">{step.detail}</p></div>
+                            <div className="mt-14" key={step.title}><ActiveIcon aria-hidden="true" className="animate-screen-enter size-8 text-(--primary-color)" /><h2 className="animate-screen-enter mt-6 text-4xl font-bold tracking-[-.04em] sm:text-5xl">{step.title}, with the record intact.</h2><p className="animate-screen-enter mt-5 max-w-md leading-8 text-(--secondary-text-color)">{step.detail}</p></div>
                         </div>
-                    </div>
-                    <div className="border-r border-(--border-color)">{STEPS.map((item, index) => <article className="flex min-h-[70svh] items-center border-b border-(--border-color) p-8 sm:p-12 lg:min-h-screen lg:p-16" data-step={index} key={item.title} ref={(element) => { cardRefs.current[index] = element; }}><div className="max-w-md"><p className="font-mono text-xs font-semibold uppercase tracking-[.18em] text-(--primary-color)">{item.eyebrow}</p><item.Icon aria-hidden="true" className="mt-10 size-9" /><h3 className="mt-6 text-3xl font-bold tracking-[-.04em]">{item.title} without gaps.</h3><p className="mt-5 leading-8 text-(--secondary-text-color)">{item.description}</p><p className="mt-8 border-l-2 border-(--primary-color) pl-4 text-sm font-semibold">{item.detail}</p></div></article>)}</div>
+                    </aside>
                 </div>
             </div>
         </section>

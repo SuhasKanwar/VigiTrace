@@ -2,7 +2,7 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef, useSyncExternalStore } from "react";
-import type { Group } from "three";
+import { BackSide, type Group } from "three";
 
 type Palette = Record<"mechanism" | "edge" | "line" | "primary" | "secondary", string>;
 
@@ -24,22 +24,27 @@ function getPalette() {
 
 function GlobeScene({ palette }: { palette: Palette }) {
     const globeRef = useRef<Group>(null);
+    const reduceMotion = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     useFrame((state, delta) => {
-        if (!globeRef.current) return;
+        if (!globeRef.current || reduceMotion) return;
         globeRef.current.rotation.y += delta * 0.12;
         globeRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.35) * 0.08;
     });
 
     return (
         <group ref={globeRef}>
+            <mesh scale={1.12}>
+                <sphereGeometry args={[1.75, 48, 48]} />
+                <meshBasicMaterial color={palette.primary} opacity={0.12} side={BackSide} transparent />
+            </mesh>
             <mesh>
-                <sphereGeometry args={[1.65, 48, 48]} />
+                <sphereGeometry args={[1.75, 64, 64]} />
                 <meshStandardMaterial color={palette.mechanism} emissive={palette.edge} emissiveIntensity={0.22} metalness={0.15} roughness={0.72} />
             </mesh>
             <mesh scale={1.004}>
-                <sphereGeometry args={[1.65, 24, 24]} />
-                <meshBasicMaterial color={palette.line} transparent opacity={0.42} wireframe />
+                <sphereGeometry args={[1.75, 28, 28]} />
+                <meshBasicMaterial color={palette.line} transparent opacity={0.3} wireframe />
             </mesh>
             <mesh rotation={[Math.PI / 2, 0, 0]}>
                 <torusGeometry args={[1.83, 0.012, 8, 64]} />
@@ -59,5 +64,5 @@ export default function ForensicGlobe() {
 
     if (!palette) return <div aria-hidden="true" className="h-full w-full animate-loading-pulse bg-(--mechanism-edge)" />;
 
-    return <Canvas camera={{ fov: 42, position: [0, 0, 5.5] }} dpr={[1, 1.5]}><ambientLight intensity={1.4} /><pointLight color={palette.primary} intensity={18} position={[3, 2, 4]} /><pointLight color={palette.secondary} intensity={10} position={[-3, -2, 2]} /><GlobeScene palette={palette} /></Canvas>;
+    return <Canvas aria-label="Animated global evidence network" camera={{ fov: 40, position: [0, 0, 5.6] }} dpr={[1, 1.5]} role="img"><ambientLight intensity={1.3} /><pointLight color={palette.primary} intensity={20} position={[3, 2, 4]} /><pointLight color={palette.secondary} intensity={12} position={[-3, -2, 2]} /><GlobeScene palette={palette} /></Canvas>;
 }
