@@ -3,7 +3,7 @@ import AuthNavButton from "@/components/auth/auth-nav-button";
 
 export default function Navbar() {
     return (
-        <header className="sticky top-0 z-50 border-b border-(--border-color) bg-(--surface-color) shadow-[0_8px_24px_var(--shadow-color)]">
+        <header className="sticky top-0 z-50 border-b border-(--border-color) bg-(--surface-color)">
             <nav aria-label="Main navigation" className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 py-3 lg:px-8">
                 <Logo />
                 <div className="hidden items-center border border-(--border-color) bg-(--primary-bg-color) p-1 text-sm font-medium text-(--secondary-text-color) md:flex">
