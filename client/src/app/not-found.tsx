@@ -1,6 +1,9 @@
 import StatusScreen from "@/components/ui/status-screen";
 import Link from "next/link";
 import { MapPinOff } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Page not found · VigiTrace" };
 
 export default function NotFoundPage() {
     return (
