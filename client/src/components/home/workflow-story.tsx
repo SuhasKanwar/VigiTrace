@@ -1,12 +1,14 @@
 "use client";
 
-import { BrainCircuit, FileSearch, HardDriveDownload } from "lucide-react";
+import { BrainCircuit, FileCheck2, FileSearch, HardDriveDownload, ScanSearch } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const STEPS = [
-    { title: "Acquire", eyebrow: "01 · Intake", description: "Identify the recorder, capture a defensible image, and record every operator action from the first connection.", detail: "Device profile and source media preserved.", background: "var(--surface-muted-color)", Icon: HardDriveDownload },
-    { title: "Recover", eyebrow: "02 · Reconstruction", description: "Parse proprietary storage, locate fragmented recordings, and rebuild the footage that ordinary playback cannot show.", detail: "Recovered segments remain linked to their source.", background: "var(--accent-color)", Icon: FileSearch },
-    { title: "Analyze", eyebrow: "03 · Review", description: "Normalize time, correlate cameras, and surface the events worth an investigator’s attention.", detail: "Every finding leads back to the original frame.", background: "var(--surface-strong-color)", Icon: BrainCircuit },
+    { title: "Identify", eyebrow: "01 · Device profile", description: "Recognize the recorder family, storage layout, channels, and clock state before touching the source media.", detail: "Hardware and firmware context captured first.", background: "var(--surface-muted-color)", Icon: ScanSearch },
+    { title: "Acquire", eyebrow: "02 · Forensic intake", description: "Capture a defensible image and record every operator action from the first connection.", detail: "Source media preserved with cryptographic hashes.", background: "var(--surface-strong-color)", Icon: HardDriveDownload },
+    { title: "Recover", eyebrow: "03 · Reconstruction", description: "Parse proprietary storage, locate fragmented recordings, and rebuild footage ordinary playback cannot show.", detail: "Recovered segments remain linked to their source.", background: "var(--accent-color)", Icon: FileSearch },
+    { title: "Analyze", eyebrow: "04 · Correlation", description: "Normalize time, correlate cameras, and surface the events worth an investigator’s attention.", detail: "Every finding leads back to the original frame.", background: "var(--surface-muted-color)", Icon: BrainCircuit },
+    { title: "Report", eyebrow: "05 · Case output", description: "Package findings, verification records, timelines, and custody history into one consistent case report.", detail: "Review decisions remain reproducible and explainable.", background: "var(--surface-strong-color)", Icon: FileCheck2 },
 ];
 
 export default function WorkflowStory() {
@@ -30,7 +32,7 @@ export default function WorkflowStory() {
         <section className="border-y border-(--border-color)" id="workflow">
             <div className="mx-auto max-w-7xl px-5 lg:px-8">
                 <div className="grid gap-10 lg:grid-cols-2 lg:gap-0">
-                    <div className="space-y-[18vh] py-20 lg:pr-12">
+                    <div className="space-y-[14vh] py-20 lg:pr-12">
                         {STEPS.map((item, index) => <article aria-current={index === activeStep ? "step" : undefined} className={`flex min-h-[62vh] items-center border border-(--border-color) p-8 transition-[opacity,transform] duration-500 sm:p-12 ${index === activeStep ? "scale-100 opacity-100" : "scale-[.98] opacity-70"}`} data-step={index} key={item.title} ref={(element) => { cardRefs.current[index] = element; }} style={{ backgroundColor: item.background }}><div className="max-w-md"><p className="font-mono text-xs font-semibold uppercase tracking-[.18em] text-(--primary-color)">{item.eyebrow}</p><item.Icon aria-hidden="true" className="mt-10 size-9" /><h3 className="mt-6 text-3xl font-bold tracking-[-.04em] sm:text-4xl">{item.title} without gaps.</h3><p className="mt-5 leading-8 text-(--secondary-text-color)">{item.description}</p><p className="mt-8 border-l-2 border-(--primary-color) pl-4 text-sm font-semibold">{item.detail}</p></div></article>)}
                     </div>
                     <aside className="self-start border-x border-(--border-color) bg-(--surface-color) lg:sticky lg:top-0 lg:flex lg:h-screen lg:items-center">
