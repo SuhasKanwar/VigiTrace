@@ -1,69 +1,83 @@
-import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, BrainCircuit, Check, ChevronRight, CircleCheck, Clock3, FileSearch, Fingerprint, HardDriveDownload, LockKeyhole, Play, ScanSearch, ShieldCheck, Sparkles, Video } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="overflow-hidden">
+      <header className="border-b border-(--border-color) bg-(--surface-color)">
+        <nav aria-label="Main navigation" className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
+          <Link className="flex items-center gap-2 text-base font-bold tracking-tight" href="/">
+            <span className="grid size-8 place-items-center bg-(--primary-color) text-(--surface-color)"><ShieldCheck aria-hidden="true" className="size-4" /></span>
+            VigiTrace
+          </Link>
+          <div className="hidden items-center gap-7 text-sm font-medium text-(--secondary-text-color) md:flex">
+            <a className="transition-colors hover:text-(--primary-text-color)" href="#workflow">Workflow</a>
+            <a className="transition-colors hover:text-(--primary-text-color)" href="#analysis">Analysis</a>
+            <a className="transition-colors hover:text-(--primary-text-color)" href="#integrity">Integrity</a>
+          </div>
+          <a className="inline-flex items-center gap-2 bg-(--primary-color) px-4 py-2 text-sm font-semibold text-(--surface-color) transition-colors hover:bg-(--secondary-color)" href="#workflow">Explore platform <ArrowRight aria-hidden="true" className="size-4" /></a>
+        </nav>
+      </header>
+
+      <section className="border-b border-(--border-color) bg-(--surface-color)">
+        <div className="mx-auto grid max-w-7xl gap-14 px-5 py-20 lg:grid-cols-[1.05fr_.95fr] lg:px-8 lg:py-28">
+          <div className="flex max-w-2xl flex-col justify-center">
+            <p className="font-mono text-xs font-semibold uppercase tracking-[.18em] text-(--primary-color)">Video evidence, made verifiable</p>
+            <h1 className="mt-5 text-5xl font-semibold tracking-[-.055em] sm:text-6xl lg:text-7xl">Trace every frame. Defend every finding.</h1>
+            <p className="mt-7 max-w-xl text-lg leading-8 text-(--secondary-text-color)">A single forensic workspace for acquiring, recovering, analyzing, and reporting surveillance evidence across DVR and NVR vendors.</p>
+            <div className="mt-9 flex flex-wrap gap-3">
+              <a className="inline-flex items-center gap-2 bg-(--primary-color) px-5 py-3 text-sm font-semibold text-(--surface-color) transition-colors hover:bg-(--secondary-color)" href="#workflow">See the workflow <ArrowRight aria-hidden="true" className="size-4" /></a>
+              <a className="inline-flex items-center gap-2 border border-(--border-color) px-5 py-3 text-sm font-semibold transition-colors hover:bg-(--surface-muted-color)" href="#analysis"><Play aria-hidden="true" className="size-4" /> Watch overview</a>
+            </div>
+            <div className="mt-12 flex flex-wrap gap-x-8 gap-y-4 border-t border-(--border-color) pt-6 text-sm text-(--secondary-text-color)">
+              <span className="flex items-center gap-2"><Check aria-hidden="true" className="size-4 text-(--success-color)" />Vendor-agnostic intake</span>
+              <span className="flex items-center gap-2"><Check aria-hidden="true" className="size-4 text-(--success-color)" />Hash-backed evidence trail</span>
+            </div>
+          </div>
+
+          <div className="reveal-on-scroll border border-(--border-color) bg-(--primary-bg-color) p-5 sm:p-7">
+            <div className="flex items-center justify-between border-b border-(--border-color) pb-4">
+              <div><p className="font-mono text-[11px] font-semibold uppercase tracking-[.16em] text-(--muted-text-color)">Active evidence set</p><p className="mt-1 text-sm font-semibold">Riverside precinct · 04</p></div>
+              <span className="flex items-center gap-2 text-xs font-semibold text-(--success-color)"><span className="size-2 rounded-full bg-(--success-color)" />Verified</span>
+            </div>
+            <div className="mt-6 grid grid-cols-[auto_1fr] gap-x-4 gap-y-5">
+              <div className="grid size-10 place-items-center bg-(--surface-strong-color) text-(--primary-color)"><HardDriveDownload aria-hidden="true" className="size-5" /></div><div><p className="text-sm font-semibold">Acquisition complete</p><p className="mt-1 text-xs text-(--secondary-text-color)">Dahua NVR · 12 channels · 1.84 TB</p></div>
+              <div className="grid size-10 place-items-center bg-(--surface-strong-color) text-(--primary-color)"><FileSearch aria-hidden="true" className="size-5" /></div><div><p className="text-sm font-semibold">1,248 recordings indexed</p><p className="mt-1 text-xs text-(--secondary-text-color)">Timeline normalized to UTC+05:30</p></div>
+              <div className="grid size-10 place-items-center bg-(--surface-strong-color) text-(--primary-color)"><BrainCircuit aria-hidden="true" className="size-5" /></div><div><p className="text-sm font-semibold">14 events need review</p><p className="mt-1 text-xs text-(--secondary-text-color)">Motion, person, and vehicle detections</p></div>
+            </div>
+            <div className="mt-7 border-t border-(--border-color) pt-5"><div className="flex items-center justify-between text-xs"><span className="font-mono text-(--secondary-text-color)">SHA-256</span><span className="font-mono text-(--success-color)">MATCHED</span></div><div className="mt-3 h-2 bg-(--surface-strong-color)"><div className="h-full w-4/5 bg-(--primary-color)" /></div></div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      <section className="border-b border-(--border-color) bg-(--surface-muted-color)">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-(--border-color) px-5 sm:grid-cols-4 lg:px-8">
+          {[['08', 'major OEM families'], ['24/7', 'evidence continuity'], ['SHA-256', 'integrity checks'], ['UTC', 'normalized timeline']].map(([value, label]) => <div className="py-8 text-center sm:py-10" key={label}><p className="text-2xl font-semibold tracking-tight">{value}</p><p className="mt-1 text-xs text-(--secondary-text-color)">{label}</p></div>)}
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-5 py-24 lg:px-8" id="workflow">
+        <div className="reveal-on-scroll max-w-2xl"><p className="font-mono text-xs font-semibold uppercase tracking-[.18em] text-(--primary-color)">One defensible workflow</p><h2 className="mt-4 text-4xl font-semibold tracking-[-.04em] sm:text-5xl">From device to finding, without switching tools.</h2></div>
+        <div className="mt-14 grid border-l border-t border-(--border-color) md:grid-cols-3">
+          <article className="reveal-on-scroll border-b border-r border-(--border-color) bg-(--surface-color) p-7"><span className="font-mono text-sm text-(--primary-color)">01</span><HardDriveDownload aria-hidden="true" className="mt-10 size-7" /><h3 className="mt-6 text-xl font-semibold">Acquire</h3><p className="mt-3 leading-7 text-(--secondary-text-color)">Identify devices and collect a consistent forensic image with source and operator records.</p><a className="mt-7 inline-flex items-center gap-1 text-sm font-semibold text-(--primary-color)" href="#integrity">Learn more <ChevronRight aria-hidden="true" className="size-4" /></a></article>
+          <article className="reveal-on-scroll border-b border-r border-(--border-color) bg-(--surface-color) p-7"><span className="font-mono text-sm text-(--primary-color)">02</span><ScanSearch aria-hidden="true" className="mt-10 size-7" /><h3 className="mt-6 text-xl font-semibold">Recover</h3><p className="mt-3 leading-7 text-(--secondary-text-color)">Parse proprietary storage, locate fragmented recordings, and preserve what standard playback misses.</p><a className="mt-7 inline-flex items-center gap-1 text-sm font-semibold text-(--primary-color)" href="#analysis">Learn more <ChevronRight aria-hidden="true" className="size-4" /></a></article>
+          <article className="reveal-on-scroll border-b border-r border-(--border-color) bg-(--surface-color) p-7"><span className="font-mono text-sm text-(--primary-color)">03</span><Video aria-hidden="true" className="mt-10 size-7" /><h3 className="mt-6 text-xl font-semibold">Analyze</h3><p className="mt-3 leading-7 text-(--secondary-text-color)">Correlate events across cameras and turn hours of footage into a precise review queue.</p><a className="mt-7 inline-flex items-center gap-1 text-sm font-semibold text-(--primary-color)" href="#analysis">Learn more <ChevronRight aria-hidden="true" className="size-4" /></a></article>
+        </div>
+      </section>
+
+      <section className="border-y border-(--border-color) bg-(--mechanism-color) text-(--surface-color)" id="analysis">
+        <div className="mx-auto grid max-w-7xl gap-14 px-5 py-24 lg:grid-cols-2 lg:px-8">
+          <div className="reveal-on-scroll"><p className="font-mono text-xs font-semibold uppercase tracking-[.18em] text-(--secondary-color)">Intelligence at review time</p><h2 className="mt-4 text-4xl font-semibold tracking-[-.04em] sm:text-5xl">Find the moment that matters.</h2><p className="mt-6 max-w-lg leading-8 text-(--muted-text-color)">Use machine-assisted person, object, and motion detections as a review aid—then retain the source footage and audit trail behind every conclusion.</p><a className="mt-9 inline-flex items-center gap-2 border border-(--mechanism-line) px-5 py-3 text-sm font-semibold transition-colors hover:bg-(--mechanism-edge)" href="#integrity">Explore analysis <ArrowRight aria-hidden="true" className="size-4" /></a></div>
+          <div className="reveal-on-scroll border border-(--mechanism-line) p-5 sm:p-7"><div className="flex items-center justify-between border-b border-(--mechanism-line) pb-4"><span className="font-mono text-xs uppercase tracking-[.14em] text-(--muted-text-color)">Camera 07 · 22:14:08</span><Sparkles aria-hidden="true" className="size-4 text-(--secondary-color)" /></div><div className="relative mt-6 aspect-video border border-(--mechanism-line) bg-(--mechanism-edge)"><div className="absolute left-[26%] top-[18%] h-[58%] w-[24%] border-2 border-(--secondary-color)" /><span className="absolute left-[26%] top-[7%] bg-(--secondary-color) px-2 py-1 font-mono text-[10px] font-bold text-(--mechanism-color)">PERSON · 98%</span><div className="absolute inset-x-4 bottom-4 h-1 bg-(--mechanism-line)"><div className="h-full w-2/3 bg-(--secondary-color)" /></div></div><div className="mt-5 grid grid-cols-3 gap-3 text-center"><div><p className="text-lg font-semibold">14</p><p className="mt-1 text-[11px] uppercase tracking-wide text-(--muted-text-color)">Events</p></div><div className="border-x border-(--mechanism-line)"><p className="text-lg font-semibold">03:12</p><p className="mt-1 text-[11px] uppercase tracking-wide text-(--muted-text-color)">Duration</p></div><div><p className="text-lg font-semibold">4</p><p className="mt-1 text-[11px] uppercase tracking-wide text-(--muted-text-color)">Cameras</p></div></div></div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-5 py-24 lg:px-8" id="integrity">
+        <div className="grid gap-14 lg:grid-cols-[.9fr_1.1fr]"><div className="reveal-on-scroll"><p className="font-mono text-xs font-semibold uppercase tracking-[.18em] text-(--primary-color)">Integrity is built in</p><h2 className="mt-4 text-4xl font-semibold tracking-[-.04em] sm:text-5xl">Evidence you can account for.</h2><p className="mt-6 max-w-md leading-8 text-(--secondary-text-color)">Every acquisition is paired with the records needed to reproduce, verify, and explain it.</p></div><div className="reveal-on-scroll divide-y divide-(--border-color) border-y border-(--border-color)"><div className="flex gap-5 py-6"><Fingerprint aria-hidden="true" className="mt-1 size-5 shrink-0 text-(--primary-color)" /><div><h3 className="font-semibold">Cryptographic verification</h3><p className="mt-2 leading-7 text-(--secondary-text-color)">MD5 and SHA-256 hashes document image and export integrity.</p></div></div><div className="flex gap-5 py-6"><Clock3 aria-hidden="true" className="mt-1 size-5 shrink-0 text-(--primary-color)" /><div><h3 className="font-semibold">Normalized chronology</h3><p className="mt-2 leading-7 text-(--secondary-text-color)">Recorded timestamps are reconciled into one investigation timeline.</p></div></div><div className="flex gap-5 py-6"><LockKeyhole aria-hidden="true" className="mt-1 size-5 shrink-0 text-(--primary-color)" /><div><h3 className="font-semibold">Chain of custody</h3><p className="mt-2 leading-7 text-(--secondary-text-color)">Operator actions and evidence handoffs stay linked to the case record.</p></div></div></div></div>
+      </section>
+
+      <section className="border-t border-(--border-color) bg-(--surface-muted-color)"><div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 px-5 py-16 lg:flex-row lg:items-end lg:px-8"><div><p className="font-mono text-xs font-semibold uppercase tracking-[.18em] text-(--primary-color)">Build a stronger evidence process</p><h2 className="mt-4 max-w-2xl text-4xl font-semibold tracking-[-.04em] sm:text-5xl">One platform for the footage you need to trust.</h2></div><a className="inline-flex items-center gap-2 bg-(--primary-color) px-5 py-3 text-sm font-semibold text-(--surface-color) transition-colors hover:bg-(--secondary-color)" href="#workflow">Start with acquisition <ArrowRight aria-hidden="true" className="size-4" /></a></div></section>
+      <footer className="bg-(--surface-color)"><div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-7 text-sm text-(--secondary-text-color) sm:flex-row sm:items-center sm:justify-between lg:px-8"><span className="font-semibold text-(--primary-text-color)">VigiTrace</span><span>Forensic video evidence, without vendor lock-in.</span><span className="flex items-center gap-2"><CircleCheck aria-hidden="true" className="size-4 text-(--success-color)" />Evidence-first workflow</span></div></footer>
+    </main>
   );
 }
