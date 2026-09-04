@@ -51,7 +51,7 @@ function ToastCard({ toast }: { toast: ToastItem }) {
     const iconTone = toast.variant === "success" ? "text-(--success-color)" : toast.variant === "error" ? "text-(--danger-color)" : "text-(--primary-color)";
 
     return (
-        <div className={`pointer-events-auto animate-toast-enter rounded-2xl border p-4 shadow-[0_16px_40px_var(--shadow-color)] ${tone}`}>
+        <div className={`pointer-events-auto animate-toast-enter border border-l-4 p-4 shadow-[0_12px_30px_var(--shadow-color)] ${tone}`}>
             <div className="flex items-start gap-3">
                 <Icon aria-hidden="true" className={`mt-0.5 size-5 shrink-0 ${iconTone}`} />
                 <div className="min-w-0 flex-1">

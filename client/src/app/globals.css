@@ -33,8 +33,6 @@
 
 body {
   background-color: var(--primary-bg-color);
-  background-image: radial-gradient(circle at top right, var(--accent-color), transparent 31%), linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-  background-size: auto, 36px 36px, 36px 36px;
   color: var(--primary-text-color);
   font-family: var(--font-body);
   font-optical-sizing: auto;

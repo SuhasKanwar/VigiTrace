@@ -20,9 +20,9 @@ export default function StatusScreen({
 } : StatusScreenProps) {
     return (
         <main className="flex min-h-screen flex-1 items-center justify-center px-5 py-10">
-            <section className="animate-screen-enter w-full max-w-xl rounded-3xl border border-(--border-color) bg-(--surface-color)/90 p-8 shadow-[0_24px_70px_var(--shadow-color)] backdrop-blur sm:p-10">
+            <section className="animate-screen-enter w-full max-w-xl border border-(--border-color) border-l-4 border-l-(--primary-color) bg-(--surface-color) p-8 sm:p-10">
                 <div className="flex items-center gap-3 text-sm font-semibold tracking-tight">
-                    <span className="grid size-10 place-items-center rounded-xl bg-(--primary-color) text-white shadow-[0_8px_24px_var(--glow-color)]">{icon ?? <ShieldCheck aria-hidden="true" className="size-5" />}</span>
+                    <span className="grid size-10 place-items-center bg-(--primary-color) text-(--surface-color)">{icon ?? <ShieldCheck aria-hidden="true" className="size-5" />}</span>
                     <span>VigiTrace</span>
                 </div>
                 <div className="mt-12">
