@@ -30,9 +30,17 @@ export function useToast(): ToastContextValue {
     }), []);
 }
 
+/**
+ * Anchored to the bottom rather than the top: the dashboard's sticky header
+ * carries the device actions, and a stacked toast sat directly over them.
+ * Because the card itself is pointer-events-auto, a click on "Verify integrity"
+ * or "Enumerate" landed on the toast instead and did nothing at all - no
+ * request, no error, no feedback. Column-reverse keeps the newest toast nearest
+ * the bottom edge as the stack grows upward.
+ */
 function ToastViewport({ toasts }: { toasts: ToastItem[] }) {
     return (
-        <div aria-label="Notifications" className="pointer-events-none fixed right-4 top-4 z-100 flex w-[calc(100vw-2rem)] max-w-sm flex-col gap-3 sm:right-6 sm:top-6">
+        <div aria-label="Notifications" className="pointer-events-none fixed bottom-4 right-4 z-100 flex w-[calc(100vw-2rem)] max-w-sm flex-col-reverse gap-3 sm:bottom-6 sm:right-6">
             {toasts.map((toast) => (
                 <ToastCard key={toast.id} toast={toast} />
             ))}
