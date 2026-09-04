@@ -63,7 +63,7 @@ function ToastCard({ toast }: { toast: ToastItem }) {
                     </p>
                 </div>
                 <button aria-label="Dismiss toast" className="rounded-full p-1 text-(--secondary-text-color) transition-colors hover:text-(--primary-text-color)" onClick={() => dismissToast(toast.id)} type="button">
-                    <X className="h-4 w-4" />
+                    <X aria-hidden="true" className="h-4 w-4" />
                 </button>
             </div>
         </div>
