@@ -71,10 +71,24 @@ if (!interceptorsInstalled) {
             return response;
         },
         (error) => {
-            const message =
+            const base =
                 error?.response?.data?.message ??
                 error?.message ??
                 "Request failed.";
+
+            // The API reports why a probe failed in error.remediation / error.detail
+            // ("Connection refused", "Verify the username and password"), but only
+            // the generic summary was ever shown. For a tool whose whole job is
+            // reaching awkward hardware, "identification failed" without the reason
+            // sends the investigator hunting blind.
+            const detail = error?.response?.data?.error;
+            const because =
+                typeof detail?.remediation === "string" && detail.remediation.trim()
+                    ? detail.remediation.trim()
+                    : typeof detail?.detail === "string" && detail.detail.trim()
+                      ? detail.detail.trim()
+                      : null;
+            const message = because ? `${base} ${because}` : base;
 
             if (!error?.config?.silentToast && typeof message === "string" && message.trim()) {
                 pushToast({ message, variant: "error" });
