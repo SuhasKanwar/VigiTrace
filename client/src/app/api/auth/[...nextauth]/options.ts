@@ -57,11 +57,11 @@ export const authOptions: NextAuthOptions = {
                               name,
                               email,
                               password,
-                          })
+                          }, { skipAuth: true })
                         : await api.post("/api/auth/signin", {
                               email,
                               password,
-                          });
+                          }, { skipAuth: true });
 
                     const authData = response.data?.data;
 
@@ -112,7 +112,7 @@ export const authOptions: NextAuthOptions = {
                     email: googleProfile.email,
                     imageUrl: googleProfile.picture ?? null,
                     providerId: googleProfile.sub,
-                });
+                }, { skipAuth: true });
 
                 const authData = response.data?.data;
 

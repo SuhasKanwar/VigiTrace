@@ -1,6 +1,6 @@
 "use client";
 
-import { Activity, FileCheck2, FolderOpen, LayoutDashboard, Settings2, Upload } from "lucide-react";
+import { Activity, FileCheck2, FolderOpen, HardDrive, LayoutDashboard, Settings2, Upload } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -9,6 +9,7 @@ type SidebarLink = { label: string; href: string; Icon: LucideIcon };
 
 export const SIDEBAR_LINKS: SidebarLink[] = [
     { label: "Overview", href: "/dashboard", Icon: LayoutDashboard },
+    { label: "Devices", href: "/dashboard/devices", Icon: HardDrive },
     { label: "Cases", href: "/dashboard/cases", Icon: FolderOpen },
     { label: "Acquisition", href: "/dashboard/acquisition", Icon: Upload },
     { label: "Analysis", href: "/dashboard/analysis", Icon: Activity },
@@ -25,7 +26,7 @@ export default function Sidebar() {
                 <p className="px-3 font-mono text-[10px] font-semibold uppercase tracking-[.18em] text-(--muted-text-color)">Workspace</p>
                 <nav aria-label="Dashboard navigation" className="mt-3 grid grid-cols-2 gap-1 sm:grid-cols-3 lg:block lg:space-y-1">
                     {SIDEBAR_LINKS.map(({ label, href, Icon }) => {
-                        const active = pathname === href;
+                        const active = pathname === href || (href !== "/dashboard" && pathname.startsWith(`${href}/`));
                         return <Link aria-current={active ? "page" : undefined} className={`flex items-center gap-3 px-3 py-2.5 text-sm font-semibold transition-colors ${active ? "bg-(--surface-strong-color) text-(--primary-text-color)" : "text-(--secondary-text-color) hover:bg-(--surface-muted-color) hover:text-(--primary-text-color)"}`} href={href} key={href}><Icon aria-hidden="true" className={`size-4 ${active ? "text-(--primary-color)" : "text-(--muted-text-color)"}`} />{label}</Link>;
                     })}
                 </nav>
