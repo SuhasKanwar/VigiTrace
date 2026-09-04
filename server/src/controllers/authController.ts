@@ -6,6 +6,30 @@ import type { ApiResponse } from "../types/response.js";
 import { NODE_ENV } from "../lib/config.js";
 import { AuthProvider } from "../generated/prisma/enums.js";
 
+
+/** Minimum accepted password length. */
+export const MIN_PASSWORD_LENGTH = 8;
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+/**
+ * Describe why a password is unacceptable, or null when it is fine.
+ *
+ * Previously any non-empty string was accepted, so "a" - or a string of
+ * spaces - created a usable account. This gates access to evidence records and
+ * chain-of-custody data, so the floor is checked server-side rather than being
+ * left to the browser.
+ */
+export function describePasswordProblem(password: string): string | null {
+    if (password.trim().length === 0) {
+        return "Password cannot be only whitespace.";
+    }
+    if (password.length < MIN_PASSWORD_LENGTH) {
+        return `Password must be at least ${MIN_PASSWORD_LENGTH} characters.`;
+    }
+    return null;
+}
+
 export async function signUpHandler(req: Request, res: Response<ApiResponse>) {
     try {
         const name = typeof req.body?.name === "string" ? req.body.name.trim() : "";
@@ -17,6 +41,18 @@ export async function signUpHandler(req: Request, res: Response<ApiResponse>) {
                 success: false,
                 message: "Name, email, and password are required.",
             });
+        }
+
+        if (!EMAIL_PATTERN.test(email)) {
+            return res.status(400).json({
+                success: false,
+                message: "Enter a valid email address.",
+            });
+        }
+
+        const passwordProblem = describePasswordProblem(password);
+        if (passwordProblem) {
+            return res.status(400).json({ success: false, message: passwordProblem });
         }
 
         const existingUser = await prisma.user.findFirst({

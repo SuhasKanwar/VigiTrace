@@ -8,6 +8,9 @@ import { type FormEvent, useState } from "react";
 import { AUTH_CALLBACK_URL } from "@/lib/config";
 import Logo from "@/components/ui/logo";
 
+/** Mirrors the server's floor in server/src/controllers/authController.ts. */
+const MIN_PASSWORD_LENGTH = 8;
+
 export default function AuthForm({ mode }: { mode: "signin" | "signup" }) {
     const signup = mode === "signup";
     const router = useRouter();
@@ -64,7 +67,7 @@ export default function AuthForm({ mode }: { mode: "signin" | "signup" }) {
                     <form className="space-y-5" onSubmit={submit}>
                         {signup ? <label className="block text-sm font-semibold">Full name<input autoComplete="name" className="mt-2 w-full border border-(--border-color) bg-(--primary-bg-color) px-4 py-3 font-normal outline-none transition-colors focus:border-(--primary-color)" name="name" placeholder="Investigator name" required type="text" /></label> : null}
                         <label className="block text-sm font-semibold">Email address<input autoComplete="email" className="mt-2 w-full border border-(--border-color) bg-(--primary-bg-color) px-4 py-3 font-normal outline-none transition-colors focus:border-(--primary-color)" name="email" placeholder="name@agency.gov" required type="email" /></label>
-                        <label className="block text-sm font-semibold">Password<input autoComplete={signup ? "new-password" : "current-password"} className="mt-2 w-full border border-(--border-color) bg-(--primary-bg-color) px-4 py-3 font-normal outline-none transition-colors focus:border-(--primary-color)" name="password" placeholder="Enter your password" required type="password" /></label>
+                        <label className="block text-sm font-semibold">Password<input autoComplete={signup ? "new-password" : "current-password"} className="mt-2 w-full border border-(--border-color) bg-(--primary-bg-color) px-4 py-3 font-normal outline-none transition-colors focus:border-(--primary-color)" minLength={signup ? MIN_PASSWORD_LENGTH : undefined} name="password" placeholder={signup ? `At least ${MIN_PASSWORD_LENGTH} characters` : "Enter your password"} required type="password" />{signup ? <p className="mt-2 font-mono text-[11px] font-normal text-(--muted-text-color)">Minimum {MIN_PASSWORD_LENGTH} characters. Enforced by the server as well as here.</p> : null}</label>
                         {error ? <p aria-live="polite" className="border-l-2 border-(--danger-color) bg-(--surface-muted-color) px-4 py-3 text-sm text-(--danger-color)">{error}</p> : null}
                         <button className="flex w-full items-center justify-center gap-2 bg-(--primary-color) px-5 py-3 text-sm font-semibold text-(--surface-color) transition-colors hover:bg-(--secondary-color) disabled:cursor-not-allowed disabled:opacity-60" disabled={pending} type="submit">{pending ? <LoaderCircle aria-hidden="true" className="size-4 animate-spin" /> : <ArrowRight aria-hidden="true" className="size-4" />}{pending ? "Please wait" : signup ? "Create account" : "Sign in"}</button>
                     </form>
