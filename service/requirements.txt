@@ -1,15 +1,40 @@
+# VigiTrace service runtime.
+#
+# Vendor SDKs are deliberately absent: the Hikvision Materials License
+# Agreement forbids redistributing or incorporating HCNetSDK, and Dahua's
+# licence forbids decomposing or embedding NetSDK. Every vendor adapter is a
+# clean-room implementation over the published network protocols instead.
+#
+# The GPL-2.0 `amcrest` package covers similar Dahua ground but its copyleft
+# would be viral here, so the CGI surface is implemented directly.
+# Do not add `dahua` from PyPI: that name belongs to an unrelated package.
+
 annotated-doc==0.0.5
 annotated-types==0.8.0
 anyio==4.15.0
+certifi==2026.7.22
+charset-normalizer==3.5.1
 click==8.5.0
 fastapi==0.141.1
 h11==0.16.0
 idna==3.19
+packaging==26.3
 pydantic==2.13.5
 pydantic_core==2.46.5
+python-dotenv==1.2.3
+requests==2.34.2
 setuptools==84.0.0
 starlette==1.6.0
 typing-inspection==0.4.4
 typing_extensions==4.16.0
+urllib3==2.7.0
 uvicorn==0.52.4
 wheel==0.48.0
+xmltodict==1.0.4
+
+# Test-only.
+httpcore==1.0.9
+httpx==0.28.1
+iniconfig==2.3.0
+pluggy==1.6.0
+pytest==9.1.1
