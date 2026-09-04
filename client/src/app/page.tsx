@@ -1,23 +1,20 @@
-import Link from "next/link";
-import { ArrowRight, BrainCircuit, Check, CircleCheck, Clock3, FileSearch, Fingerprint, HardDriveDownload, LockKeyhole, Play, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, BrainCircuit, Check, CircleCheck, Clock3, FileSearch, Fingerprint, HardDriveDownload, LockKeyhole, Play, Sparkles } from "lucide-react";
 import ForensicGlobe from "@/components/ui/forensic-globe";
 import WorkflowStory from "@/components/home/workflow-story";
+import Logo from "@/components/ui/logo";
 
 export default function Home() {
   return (
     <main className="overflow-x-clip">
-      <header className="border-b border-(--border-color) bg-(--surface-color)">
+      <header className="sticky top-0 z-50 border-b border-(--border-color) bg-(--surface-color)">
         <nav aria-label="Main navigation" className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
-          <Link className="flex items-center gap-2 text-base font-bold tracking-tight" href="/">
-            <span className="grid size-8 place-items-center bg-(--primary-color) text-(--surface-color)"><ShieldCheck aria-hidden="true" className="size-4" /></span>
-            VigiTrace
-          </Link>
+          <Logo />
           <div className="hidden items-center gap-7 text-sm font-medium text-(--secondary-text-color) md:flex">
             <a className="transition-colors hover:text-(--primary-text-color)" href="#workflow">Workflow</a>
             <a className="transition-colors hover:text-(--primary-text-color)" href="#analysis">Analysis</a>
             <a className="transition-colors hover:text-(--primary-text-color)" href="#integrity">Integrity</a>
           </div>
-          <a className="inline-flex items-center gap-2 bg-(--primary-color) px-4 py-2 text-sm font-semibold text-(--surface-color) transition-colors hover:bg-(--secondary-color)" href="#workflow">Explore platform <ArrowRight aria-hidden="true" className="size-4" /></a>
+          <a className="inline-flex items-center gap-2 bg-(--primary-color) px-4 py-2 text-sm font-semibold text-(--surface-color) transition-colors hover:bg-(--secondary-color)" href="#workflow"><span className="hidden sm:inline">Explore platform</span><span className="sm:hidden">Explore</span><ArrowRight aria-hidden="true" className="size-4" /></a>
         </nav>
       </header>
 
@@ -79,7 +76,17 @@ export default function Home() {
       </section>
 
       <section className="border-t border-(--border-color) bg-(--surface-muted-color)"><div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 px-5 py-16 lg:flex-row lg:items-end lg:px-8"><div><p className="font-mono text-xs font-semibold uppercase tracking-[.18em] text-(--primary-color)">Build a stronger evidence process</p><h2 className="mt-4 max-w-2xl text-4xl font-bold tracking-[-.04em] sm:text-5xl">One platform for the footage you need to trust.</h2></div><a className="inline-flex items-center gap-2 bg-(--primary-color) px-5 py-3 text-sm font-semibold text-(--surface-color) transition-colors hover:bg-(--secondary-color)" href="#workflow">Start with acquisition <ArrowRight aria-hidden="true" className="size-4" /></a></div></section>
-      <footer className="bg-(--surface-color)"><div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-7 text-sm text-(--secondary-text-color) sm:flex-row sm:items-center sm:justify-between lg:px-8"><span className="font-semibold text-(--primary-text-color)">VigiTrace</span><span>Forensic video evidence, without vendor lock-in.</span><span className="flex items-center gap-2"><CircleCheck aria-hidden="true" className="size-4 text-(--success-color)" />Evidence-first workflow</span></div></footer>
+      <footer className="overflow-hidden border-t border-(--mechanism-line) bg-(--mechanism-color) text-(--surface-color)">
+        <div className="mx-auto max-w-7xl px-5 pb-8 pt-14 lg:px-8">
+          <div className="grid gap-10 border-b border-(--mechanism-line) pb-12 md:grid-cols-[1fr_auto_auto] md:gap-20">
+            <div><p className="max-w-md text-lg font-semibold">Forensic video evidence, without vendor lock-in.</p><p className="mt-3 max-w-md text-sm leading-7 text-(--muted-text-color)">A unified workspace for defensible acquisition, recovery, analysis, and reporting across DVR and NVR systems.</p></div>
+            <div><p className="font-mono text-[10px] uppercase tracking-[.18em] text-(--secondary-color)">Platform</p><div className="mt-4 flex flex-col gap-3 text-sm"><a className="transition-colors hover:text-(--secondary-color)" href="#workflow">Workflow</a><a className="transition-colors hover:text-(--secondary-color)" href="#analysis">Analysis</a><a className="transition-colors hover:text-(--secondary-color)" href="#integrity">Integrity</a></div></div>
+            <div><p className="font-mono text-[10px] uppercase tracking-[.18em] text-(--secondary-color)">Evidence</p><div className="mt-4 flex flex-col gap-3 text-sm"><a className="transition-colors hover:text-(--secondary-color)" href="#network">Connected sites</a><a className="transition-colors hover:text-(--secondary-color)" href="#workflow">Chain of custody</a><a className="transition-colors hover:text-(--secondary-color)" href="#integrity">Verification</a></div></div>
+          </div>
+          <Logo className="my-10 whitespace-nowrap" display inverse />
+          <div className="flex flex-col gap-3 border-t border-(--mechanism-line) pt-6 text-xs text-(--muted-text-color) sm:flex-row sm:items-center sm:justify-between"><span>© {new Date().getFullYear()} VigiTrace</span><span className="flex items-center gap-2"><CircleCheck aria-hidden="true" className="size-4 text-(--success-color)" />Evidence-first workflow</span></div>
+        </div>
+      </footer>
     </main>
   );
 }
