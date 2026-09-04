@@ -2,6 +2,7 @@ import { ArrowRight, BrainCircuit, Check, CircleCheck, Clock3, FileSearch, Finge
 import ForensicGlobe from "@/components/ui/forensic-globe";
 import WorkflowStory from "@/components/home/workflow-story";
 import Logo from "@/components/ui/logo";
+import AuthNavButton from "@/components/auth/auth-nav-button";
 
 export default function Home() {
   return (
@@ -14,7 +15,7 @@ export default function Home() {
             <a className="transition-colors hover:text-(--primary-text-color)" href="#analysis">Analysis</a>
             <a className="transition-colors hover:text-(--primary-text-color)" href="#integrity">Integrity</a>
           </div>
-          <a className="inline-flex items-center gap-2 bg-(--primary-color) px-4 py-2 text-sm font-semibold text-(--surface-color) transition-colors hover:bg-(--secondary-color)" href="#workflow"><span className="hidden sm:inline">Explore platform</span><span className="sm:hidden">Explore</span><ArrowRight aria-hidden="true" className="size-4" /></a>
+          <AuthNavButton />
         </nav>
       </header>
 
