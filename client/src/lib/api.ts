@@ -13,10 +13,6 @@ const api = axios.create({
     withCredentials: true,
 });
 
-export function authenticatedRequest(accessToken: string, options: { silentToast?: boolean } = {}) {
-    return { headers: { Authorization: `Bearer ${accessToken}` }, ...options };
-}
-
 let interceptorsInstalled = false;
 
 if (!interceptorsInstalled) {
@@ -33,11 +29,6 @@ if (!interceptorsInstalled) {
             return response;
         },
         (error) => {
-            const isProtectedRequest = typeof error?.config?.url === "string"
-                && (error.config.url.startsWith("/api/aws") || error.config.url.startsWith("/api/sketches"));
-            if (error?.response?.status === 401 && isProtectedRequest && typeof window !== "undefined" && window.location.pathname !== "/auth/signin") {
-                window.location.assign("/auth/signin");
-            }
             const message =
                 error?.response?.data?.message ??
                 error?.message ??
