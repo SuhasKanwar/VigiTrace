@@ -2,14 +2,17 @@ import type { AxiosResponse } from "axios";
 import api from "@/lib/api";
 import {
     asRecord,
+    normalizeAcquisition,
     normalizeAnalysis,
     normalizeCustodyEvent,
     normalizeDetection,
     normalizeDevice,
     normalizeRecordingIndex,
     normalizeVendorAdapter,
+    normalizeVerification,
 } from "./normalize";
 import type {
+    Acquisition,
     AcquisitionInput,
     AnalysisReport,
     CreateDeviceInput,
@@ -19,6 +22,7 @@ import type {
     RecordingIndex,
     RecordingSearchInput,
     VendorAdapter,
+    VerificationResult,
 } from "./types";
 
 /** Every server response is `{ success, message, data?, error? }`; the payload is under `data`. */
@@ -77,6 +81,31 @@ export async function detectDevice(id: string): Promise<DetectionResult> {
 export async function identifyDevice(id: string): Promise<Device> {
     const response = await api.post(`/api/devices/${encodeURIComponent(id)}/identify`);
     return normalizeDevice(payloadOf(response).device);
+}
+
+/** Refresh channels, storage and clock on an already-identified recorder. */
+export async function enumerateDevice(id: string): Promise<Device> {
+    const response = await api.post(`/api/devices/${encodeURIComponent(id)}/enumerate`);
+    return normalizeDevice(payloadOf(response).device);
+}
+
+/**
+ * Re-hash every stored artifact for this device against the digest recorded at
+ * acquisition time. Returns the per-artifact outcome; the caller must not treat
+ * a non-throwing call as proof that everything matched.
+ */
+export async function verifyDevice(id: string): Promise<{ device: Device; verification: VerificationResult }> {
+    const response = await api.post(`/api/devices/${encodeURIComponent(id)}/verify`);
+    const payload = payloadOf(response);
+    return {
+        device: normalizeDevice(payload.device),
+        verification: normalizeVerification(payload.verification),
+    };
+}
+
+export async function listAcquisitions(id: string): Promise<Acquisition[]> {
+    const response = await api.get(`/api/devices/${encodeURIComponent(id)}/acquisitions`, { silentToast: true });
+    return listOf(payloadOf(response), "acquisitions").map(normalizeAcquisition);
 }
 
 export async function searchRecordings(id: string, input: RecordingSearchInput): Promise<RecordingIndex> {

@@ -221,3 +221,37 @@ export type AcquisitionInput = {
     playbackUri?: string;
     filePath?: string;
 };
+
+/** A completed controlled export, with the integrity material recorded at acquisition time. */
+export type Acquisition = {
+    id: string;
+    recordingId: string;
+    channelId: string | null;
+    storedPath: string | null;
+    sizeBytes: number | null;
+    md5: string | null;
+    sha256: string | null;
+    container: string | null;
+    acquiredAt: string | null;
+    durationMs: number | null;
+    sourceUri: string | null;
+    /** Null until an integrity check has been run against this artifact. */
+    verified: boolean | null;
+};
+
+export type VerificationOutcome = {
+    recordingId: string | null;
+    verified: boolean;
+    path: string | null;
+    expectedSha256: string | null;
+    actualSha256: string | null;
+    sizeBytes: number | null;
+    /** Present only on failure, explaining what went wrong. */
+    reason: string | null;
+};
+
+export type VerificationResult = {
+    verified: number;
+    failed: number;
+    results: VerificationOutcome[];
+};

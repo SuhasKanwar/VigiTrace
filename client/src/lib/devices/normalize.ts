@@ -2,6 +2,7 @@ import {
     CONFIDENCE_LEVELS,
     DEVICE_STATES,
     FINDING_SEVERITIES,
+    type Acquisition,
     type AnalysisFinding,
     type AnalysisReport,
     type CustodyEvent,
@@ -17,6 +18,7 @@ import {
     type Recording,
     type RecordingIndex,
     type VendorAdapter,
+    type VerificationResult,
 } from "./types";
 
 /**
@@ -161,7 +163,10 @@ export function normalizeStorage(input: unknown, index: number): DeviceStorageVo
         capacityBytes,
         freeBytes,
         usedBytes: usedBytes ?? (capacityBytes !== null && freeBytes !== null ? Math.max(capacityBytes - freeBytes, 0) : null),
-        deviceProperty: text(pick(raw, "device_property", "deviceProperty")),
+        // The API persists this as storageProperty; the service calls it
+        // device_property. Accept both so a rename on either side cannot blank
+        // the column silently.
+        deviceProperty: text(pick(raw, "device_property", "deviceProperty", "storageProperty", "storage_property")),
     };
 }
 
@@ -297,4 +302,46 @@ export function normalizeAnalysis(input: unknown): AnalysisReport {
     }
 
     return { findings, counts };
+}
+
+/** One stored acquisition, as returned by GET /api/devices/:id/acquisitions. */
+export function normalizeAcquisition(input: unknown): Acquisition {
+    const raw = asRecord(input);
+    return {
+        id: text(pick(raw, "id")) ?? "",
+        recordingId: text(pick(raw, "recording_id", "recordingId")) ?? "",
+        channelId: text(pick(raw, "channel_id", "channelId")),
+        storedPath: text(pick(raw, "stored_path", "storedPath")),
+        sizeBytes: integer(pick(raw, "size_bytes", "sizeBytes")),
+        md5: text(pick(raw, "md5")),
+        sha256: text(pick(raw, "sha256")),
+        container: text(pick(raw, "container")),
+        acquiredAt: timestamp(pick(raw, "acquired_at", "acquiredAt")),
+        durationMs: integer(pick(raw, "duration_ms", "durationMs")),
+        sourceUri: text(pick(raw, "source_uri", "sourceUri")),
+        // Deliberately tri-state: false means an integrity check FAILED, while
+        // null means none has been run. Collapsing them would let unverified
+        // evidence read as verified-negative, or worse, the reverse.
+        verified: flag(pick(raw, "verified")),
+    };
+}
+
+export function normalizeVerification(input: unknown): VerificationResult {
+    const raw = asRecord(input);
+    return {
+        verified: integer(pick(raw, "verified")) ?? 0,
+        failed: integer(pick(raw, "failed")) ?? 0,
+        results: asArray(pick(raw, "results")).map((entry) => {
+            const row = asRecord(entry);
+            return {
+                recordingId: text(pick(row, "recording_id", "recordingId")),
+                verified: flag(pick(row, "verified")) === true,
+                path: text(pick(row, "path", "stored_path", "storedPath")),
+                expectedSha256: text(pick(row, "expected_sha256", "expectedSha256")),
+                actualSha256: text(pick(row, "actual_sha256", "actualSha256")),
+                sizeBytes: integer(pick(row, "size_bytes", "sizeBytes")),
+                reason: text(pick(row, "reason")),
+            };
+        }),
+    };
 }

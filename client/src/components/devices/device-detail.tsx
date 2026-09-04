@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, BrainCircuit, Fingerprint, FileSearch, RotateCcw, ScanSearch, Trash2, TriangleAlert } from "lucide-react";
+import { ArrowLeft, BrainCircuit, Fingerprint, FileSearch, ListChecks, RotateCcw, ScanSearch, ShieldCheck, Trash2, TriangleAlert } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
@@ -8,10 +8,10 @@ import { CapabilityChip, ConfidenceBadge, ConfidenceNote, STATE_NOTE, SeverityBa
 import CustodyTimeline from "@/components/devices/custody-timeline";
 import RecordingsPanel from "@/components/devices/recordings-panel";
 import { ActionButton, BUTTON, EYEBROW_MUTED, ErrorPanel, Field, FieldGrid, LoadingPanel, PageHeader, PageShell, Panel, TABLE_CELL, TABLE_HEAD, TableScroll } from "@/components/devices/ui";
-import { deleteDevice, detectDevice, getDevice, identifyDevice, runAnalysis } from "@/lib/devices/api";
+import { deleteDevice, detectDevice, enumerateDevice, getDevice, identifyDevice, listAcquisitions, runAnalysis, verifyDevice } from "@/lib/devices/api";
 import { EMPTY_VALUE, formatBoolean, formatBytes, formatDrift, formatDuration, formatEndpoint, formatRelative, formatTimestamp, formatValue, isDriftOutOfTolerance } from "@/lib/devices/format";
 import useResource from "@/lib/devices/use-resource";
-import { CLOCK_DRIFT_LIMIT_SECONDS, KNOWN_CAPABILITIES, type AnalysisReport, type DetectionResult, type DeviceStorageVolume } from "@/lib/devices/types";
+import { CLOCK_DRIFT_LIMIT_SECONDS, KNOWN_CAPABILITIES, type Acquisition, type AnalysisReport, type DetectionResult, type DeviceStorageVolume, type VerificationResult } from "@/lib/devices/types";
 
 function usedRatio(volume: DeviceStorageVolume): number | null {
     if (volume.capacityBytes === null || volume.capacityBytes <= 0 || volume.usedBytes === null) return null;
@@ -30,7 +30,11 @@ export default function DeviceDetail({ deviceId }: { deviceId: string }) {
     const [analysing, setAnalysing] = useState(false);
     const [removing, setRemoving] = useState(false);
     const [confirmRemoval, setConfirmRemoval] = useState(false);
-    const busy = detecting || identifying || analysing || removing;
+    const [enumerating, setEnumerating] = useState(false);
+    const [verifying, setVerifying] = useState(false);
+    const [acquisitions, setAcquisitions] = useState<Acquisition[] | null>(null);
+    const [verification, setVerification] = useState<VerificationResult | null>(null);
+    const busy = detecting || identifying || analysing || removing || enumerating || verifying;
 
     async function detect() {
         setDetecting(true);
@@ -52,6 +56,49 @@ export default function DeviceDetail({ deviceId }: { deviceId: string }) {
             // Already surfaced by the response interceptor.
         } finally {
             setIdentifying(false);
+        }
+    }
+
+    async function enumerateChannels() {
+        setEnumerating(true);
+        try {
+            setData(await enumerateDevice(deviceId));
+        } catch {
+            // Already surfaced by the response interceptor.
+        } finally {
+            setEnumerating(false);
+        }
+    }
+
+    async function verifyEvidence() {
+        setVerifying(true);
+        try {
+            const result = await verifyDevice(deviceId);
+            setData(result.device);
+            setVerification(result.verification);
+            // Re-read the stored artifacts so their verified flags reflect the
+            // check that just ran, rather than the state from before it.
+            setAcquisitions(await listAcquisitions(deviceId));
+            document.getElementById("acquisitions")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        } catch {
+            // A failed verification is an answer, not a crash: the interceptor
+            // has already surfaced the message and the device state now says FAILED.
+            try {
+                setAcquisitions(await listAcquisitions(deviceId));
+                await reload();
+            } catch {
+                // Nothing further to recover here.
+            }
+        } finally {
+            setVerifying(false);
+        }
+    }
+
+    async function loadAcquisitions() {
+        try {
+            setAcquisitions(await listAcquisitions(deviceId));
+        } catch {
+            // Already surfaced by the response interceptor.
         }
     }
 
@@ -98,7 +145,7 @@ export default function DeviceDetail({ deviceId }: { deviceId: string }) {
     return (
         <PageShell>
             <PageHeader
-                actions={<><ActionButton Icon={ScanSearch} disabled={busy} onClick={() => void detect()} pending={detecting} title="Fingerprint the recorder without authenticating">Detect</ActionButton><ActionButton Icon={Fingerprint} disabled={busy} onClick={() => void identify()} pending={identifying} title="Authenticate and read identity, channels, storage, and clock">Identify</ActionButton><a className={BUTTON.secondary} href="#recordings"><FileSearch aria-hidden="true" className="size-4" />Search recordings</a><ActionButton Icon={BrainCircuit} disabled={busy} onClick={() => void analyse()} pending={analysing} variant="primary">Run analysis</ActionButton></>}
+                actions={<><ActionButton Icon={ScanSearch} disabled={busy} onClick={() => void detect()} pending={detecting} title="Fingerprint the recorder without authenticating">Detect</ActionButton><ActionButton Icon={Fingerprint} disabled={busy} onClick={() => void identify()} pending={identifying} title="Authenticate and read identity, channels, storage, and clock">Identify</ActionButton><ActionButton Icon={ListChecks} disabled={busy} onClick={() => void enumerateChannels()} pending={enumerating} title="Re-read channels, storage and clock without repeating a full identification">Enumerate</ActionButton><a className={BUTTON.secondary} href="#recordings"><FileSearch aria-hidden="true" className="size-4" />Search recordings</a><ActionButton Icon={ShieldCheck} disabled={busy} onClick={() => void verifyEvidence()} pending={verifying} title="Re-hash every stored artifact against the digest recorded at acquisition time">Verify integrity</ActionButton><ActionButton Icon={BrainCircuit} disabled={busy} onClick={() => void analyse()} pending={analysing} variant="primary">Run analysis</ActionButton></>}
                 description={STATE_NOTE[device.state]}
                 eyebrow="Device record"
                 title={device.name}
@@ -312,7 +359,37 @@ export default function DeviceDetail({ deviceId }: { deviceId: string }) {
                     </Panel>
                 </div>
 
-                <Panel description="Every action taken against this recorder, in the order it was recorded." eyebrow="Section 09" title="Chain of custody">
+                <div className="scroll-mt-24" id="acquisitions">
+                    <Panel action={<><ActionButton Icon={ListChecks} disabled={busy} onClick={() => void loadAcquisitions()} title="List the artifacts exported from this recorder">Stored artifacts</ActionButton><ActionButton Icon={ShieldCheck} disabled={busy} onClick={() => void verifyEvidence()} pending={verifying} title="Re-hash every stored artifact against the digest recorded at acquisition time">Verify integrity</ActionButton></>} description="Media exported from this recorder, with the hashes recorded as the bytes were written. Verification re-reads each file and compares it against that digest." eyebrow="Section 09" title="Acquired evidence">
+                        {verification ? <div className={`border-l-4 px-6 py-4 text-sm ${verification.failed > 0 ? "border-l-(--danger-color) bg-(--surface-muted-color) text-(--danger-color)" : "border-l-(--success-color) bg-(--surface-muted-color)"}`} role="status">{verification.failed > 0 ? `${verification.failed} of ${verification.verified + verification.failed} artifact(s) FAILED integrity verification. This evidence must not be relied on.` : `All ${verification.verified} artifact(s) still match the digests recorded at acquisition time.`}</div> : null}
+                        {acquisitions === null ? (
+                            <p className="p-6 text-sm text-(--secondary-text-color)">Select &ldquo;Stored artifacts&rdquo; to list what has been exported from this recorder.</p>
+                        ) : acquisitions.length === 0 ? (
+                            <p className="p-6 text-sm text-(--secondary-text-color)">Nothing has been exported from this recorder yet. Search its recording index and acquire a segment first.</p>
+                        ) : (
+                            <div className="overflow-x-auto">
+                                <table className="w-full min-w-[52rem] border-collapse text-sm">
+                                    <caption className="sr-only">Artifacts exported from this recorder, with integrity hashes</caption>
+                                    <thead><tr className="bg-(--surface-muted-color) text-left font-mono text-[11px] uppercase tracking-[.14em] text-(--muted-text-color)"><th className={TABLE_CELL} scope="col">Recording</th><th className={TABLE_CELL} scope="col">Channel</th><th className={TABLE_CELL} scope="col">Size</th><th className={TABLE_CELL} scope="col">Container</th><th className={TABLE_CELL} scope="col">SHA-256</th><th className={TABLE_CELL} scope="col">Integrity</th></tr></thead>
+                                    <tbody>
+                                        {acquisitions.map((item) => (
+                                            <tr key={item.id}>
+                                                <th className={`${TABLE_CELL} text-left font-semibold`} scope="row">{formatValue(item.recordingId)}<p className="mt-1 font-mono text-[11px] font-normal text-(--muted-text-color)">{formatTimestamp(item.acquiredAt)}</p></th>
+                                                <td className={TABLE_CELL}>{formatValue(item.channelId)}</td>
+                                                <td className={TABLE_CELL}>{formatBytes(item.sizeBytes)}</td>
+                                                <td className={TABLE_CELL}>{formatValue(item.container)}</td>
+                                                <td className={`${TABLE_CELL} font-mono text-[11px] break-all`}>{item.sha256 ? `${item.sha256.slice(0, 24)}…` : EMPTY_VALUE}</td>
+                                                <td className={TABLE_CELL}>{item.verified === true ? <span className="font-semibold text-(--success-color)">Verified</span> : item.verified === false ? <span className="font-semibold text-(--danger-color)">FAILED</span> : <span className="text-(--muted-text-color)">Not yet verified</span>}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </Panel>
+                </div>
+
+                <Panel description="Every action taken against this recorder, in the order it was recorded." eyebrow="Section 10" title="Chain of custody">
                     <CustodyTimeline events={device.custody} />
                 </Panel>
 
