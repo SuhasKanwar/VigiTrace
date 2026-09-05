@@ -217,6 +217,7 @@ export type ServiceEnvelope = {
     detection?: ServiceDetection | null;
     index?: ServiceRecordingIndex | null;
     acquisition?: ServiceAcquisition | null;
+    evidence?: ServiceVolumeEvidence | null;
     error?: ServiceErrorPayload | null;
 };
 
@@ -244,4 +245,88 @@ export type ServiceVerifyData = {
     results: ServiceVerifyResult[];
     verified: number;
     failed: number;
+};
+
+/**
+ * On-disk forensics: an already-acquired volume image analysed in place,
+ * mirrored one-for-one from ../../../service/models/disk.py.
+ */
+
+export type ServiceDiskIdentifyData = {
+    vendor: string;
+    family: string;
+};
+
+export type ServiceVolumeIdentity = {
+    vendor: string;
+    family: string;
+    format_version: string | null;
+    total_capacity_bytes: number | null;
+    data_block_size: number | null;
+    data_block_count: number | null;
+    initialised_at: string | null;
+};
+
+export type ServiceIndexedRecording = {
+    channel: number;
+    start: string | null;
+    end: string | null;
+    duration_seconds: number | null;
+    data_offset: number;
+    unfinalised: boolean;
+};
+
+export type ServiceRecoveredBlock = {
+    block_index: number;
+    data_offset: number;
+    pack_headers: number;
+    keyframe_boundaries: number;
+    channel: number | null;
+    timestamp: string | null;
+    confidence: string;
+};
+
+export type ServiceRecordedGap = {
+    channel: number;
+    start: string;
+    end: string;
+    duration_seconds: number;
+};
+
+export type ServiceCarvedArtifact = {
+    channel: number;
+    data_offset: number;
+    stored_path: string;
+    size_bytes: number;
+    sha256: string;
+    keyframe_aligned: boolean;
+    /** INDEXED or RECOVERED. */
+    source: string;
+    decoded: boolean;
+    codec: string | null;
+    width: number | null;
+    height: number | null;
+    frames: number | null;
+    decode_reason: string | null;
+};
+
+export type ServiceVolumeEvidence = {
+    image_path: string;
+    image_size_bytes: number;
+    image_sha256: string | null;
+    identity: ServiceVolumeIdentity;
+    recordings: ServiceIndexedRecording[];
+    recovered_blocks: ServiceRecoveredBlock[];
+    gaps: ServiceRecordedGap[];
+    artifacts: ServiceCarvedArtifact[];
+    warnings: string[];
+    examined_at: string;
+};
+
+export type ServiceDiskAnalyseRequest = {
+    path: string;
+    carve: boolean;
+    carve_limit: number;
+    compute_hash: boolean;
+    verify_decode: boolean;
 };

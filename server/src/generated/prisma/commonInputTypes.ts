@@ -483,6 +483,40 @@ export type EnumDeviceStateNullableWithAggregatesFilter<$PrismaModel = never> = 
   _max?: Prisma.NestedEnumDeviceStateNullableFilter<$PrismaModel>
 }
 
+export type EnumDiskImageStateFilter<$PrismaModel = never> = {
+  equals?: $Enums.DiskImageState | Prisma.EnumDiskImageStateFieldRefInput<$PrismaModel>
+  in?: $Enums.DiskImageState[] | Prisma.ListEnumDiskImageStateFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DiskImageState[] | Prisma.ListEnumDiskImageStateFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDiskImageStateFilter<$PrismaModel> | $Enums.DiskImageState
+}
+
+export type EnumDiskImageStateWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DiskImageState | Prisma.EnumDiskImageStateFieldRefInput<$PrismaModel>
+  in?: $Enums.DiskImageState[] | Prisma.ListEnumDiskImageStateFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DiskImageState[] | Prisma.ListEnumDiskImageStateFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDiskImageStateWithAggregatesFilter<$PrismaModel> | $Enums.DiskImageState
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDiskImageStateFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDiskImageStateFilter<$PrismaModel>
+}
+
+export type EnumDiskImageStateNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.DiskImageState | Prisma.EnumDiskImageStateFieldRefInput<$PrismaModel> | null
+  in?: $Enums.DiskImageState[] | Prisma.ListEnumDiskImageStateFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.DiskImageState[] | Prisma.ListEnumDiskImageStateFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumDiskImageStateNullableFilter<$PrismaModel> | $Enums.DiskImageState | null
+}
+
+export type EnumDiskImageStateNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DiskImageState | Prisma.EnumDiskImageStateFieldRefInput<$PrismaModel> | null
+  in?: $Enums.DiskImageState[] | Prisma.ListEnumDiskImageStateFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.DiskImageState[] | Prisma.ListEnumDiskImageStateFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumDiskImageStateNullableWithAggregatesFilter<$PrismaModel> | $Enums.DiskImageState | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDiskImageStateNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDiskImageStateNullableFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -925,6 +959,40 @@ export type NestedEnumDeviceStateNullableWithAggregatesFilter<$PrismaModel = nev
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedEnumDeviceStateNullableFilter<$PrismaModel>
   _max?: Prisma.NestedEnumDeviceStateNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumDiskImageStateFilter<$PrismaModel = never> = {
+  equals?: $Enums.DiskImageState | Prisma.EnumDiskImageStateFieldRefInput<$PrismaModel>
+  in?: $Enums.DiskImageState[] | Prisma.ListEnumDiskImageStateFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DiskImageState[] | Prisma.ListEnumDiskImageStateFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDiskImageStateFilter<$PrismaModel> | $Enums.DiskImageState
+}
+
+export type NestedEnumDiskImageStateWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DiskImageState | Prisma.EnumDiskImageStateFieldRefInput<$PrismaModel>
+  in?: $Enums.DiskImageState[] | Prisma.ListEnumDiskImageStateFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DiskImageState[] | Prisma.ListEnumDiskImageStateFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDiskImageStateWithAggregatesFilter<$PrismaModel> | $Enums.DiskImageState
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDiskImageStateFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDiskImageStateFilter<$PrismaModel>
+}
+
+export type NestedEnumDiskImageStateNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.DiskImageState | Prisma.EnumDiskImageStateFieldRefInput<$PrismaModel> | null
+  in?: $Enums.DiskImageState[] | Prisma.ListEnumDiskImageStateFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.DiskImageState[] | Prisma.ListEnumDiskImageStateFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumDiskImageStateNullableFilter<$PrismaModel> | $Enums.DiskImageState | null
+}
+
+export type NestedEnumDiskImageStateNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DiskImageState | Prisma.EnumDiskImageStateFieldRefInput<$PrismaModel> | null
+  in?: $Enums.DiskImageState[] | Prisma.ListEnumDiskImageStateFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.DiskImageState[] | Prisma.ListEnumDiskImageStateFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumDiskImageStateNullableWithAggregatesFilter<$PrismaModel> | $Enums.DiskImageState | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDiskImageStateNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDiskImageStateNullableFilter<$PrismaModel>
 }
 
 

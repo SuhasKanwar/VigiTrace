@@ -5,6 +5,7 @@ import cors from 'cors';
 import logger from './middlewares/logger.js';
 import authRouter from './routes/authRouter.js';
 import deviceRouter from './routes/deviceRouter.js';
+import diskRouter from './routes/diskRouter.js';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 
@@ -37,6 +38,7 @@ app.get("/health", (_req: Request, res: Response<ApiResponse>) => {
 
 app.use("/api/auth", authRouter);
 app.use("/api/devices", deviceRouter);
+app.use("/api/disk-images", diskRouter);
 
 app.use((req: Request, res: Response<ApiResponse>) => {
     res.status(404).json({

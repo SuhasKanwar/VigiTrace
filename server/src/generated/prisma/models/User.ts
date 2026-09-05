@@ -207,6 +207,7 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   devices?: Prisma.DeviceListRelationFilter
+  diskImages?: Prisma.DiskImageListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -219,6 +220,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   devices?: Prisma.DeviceOrderByRelationAggregateInput
+  diskImages?: Prisma.DiskImageOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -234,6 +236,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   devices?: Prisma.DeviceListRelationFilter
+  diskImages?: Prisma.DiskImageListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -274,6 +277,7 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
+  diskImages?: Prisma.DiskImageCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -286,6 +290,7 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
+  diskImages?: Prisma.DiskImageUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -298,6 +303,7 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
+  diskImages?: Prisma.DiskImageUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -310,6 +316,7 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
+  diskImages?: Prisma.DiskImageUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -413,6 +420,20 @@ export type UserUpdateOneRequiredWithoutDevicesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDevicesInput, Prisma.UserUpdateWithoutDevicesInput>, Prisma.UserUncheckedUpdateWithoutDevicesInput>
 }
 
+export type UserCreateNestedOneWithoutDiskImagesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDiskImagesInput, Prisma.UserUncheckedCreateWithoutDiskImagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDiskImagesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutDiskImagesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDiskImagesInput, Prisma.UserUncheckedCreateWithoutDiskImagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDiskImagesInput
+  upsert?: Prisma.UserUpsertWithoutDiskImagesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDiskImagesInput, Prisma.UserUpdateWithoutDiskImagesInput>, Prisma.UserUncheckedUpdateWithoutDiskImagesInput>
+}
+
 export type UserCreateWithoutDevicesInput = {
   id?: string
   email: string
@@ -422,6 +443,7 @@ export type UserCreateWithoutDevicesInput = {
   provider: $Enums.AuthProvider
   createdAt?: Date | string
   updatedAt?: Date | string
+  diskImages?: Prisma.DiskImageCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDevicesInput = {
@@ -433,6 +455,7 @@ export type UserUncheckedCreateWithoutDevicesInput = {
   provider: $Enums.AuthProvider
   createdAt?: Date | string
   updatedAt?: Date | string
+  diskImages?: Prisma.DiskImageUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDevicesInput = {
@@ -460,6 +483,7 @@ export type UserUpdateWithoutDevicesInput = {
   provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  diskImages?: Prisma.DiskImageUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDevicesInput = {
@@ -471,6 +495,71 @@ export type UserUncheckedUpdateWithoutDevicesInput = {
   provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  diskImages?: Prisma.DiskImageUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutDiskImagesInput = {
+  id?: string
+  email: string
+  name?: string | null
+  imageUrl?: string | null
+  password?: string | null
+  provider: $Enums.AuthProvider
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  devices?: Prisma.DeviceCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutDiskImagesInput = {
+  id?: string
+  email: string
+  name?: string | null
+  imageUrl?: string | null
+  password?: string | null
+  provider: $Enums.AuthProvider
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutDiskImagesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutDiskImagesInput, Prisma.UserUncheckedCreateWithoutDiskImagesInput>
+}
+
+export type UserUpsertWithoutDiskImagesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutDiskImagesInput, Prisma.UserUncheckedUpdateWithoutDiskImagesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutDiskImagesInput, Prisma.UserUncheckedCreateWithoutDiskImagesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutDiskImagesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutDiskImagesInput, Prisma.UserUncheckedUpdateWithoutDiskImagesInput>
+}
+
+export type UserUpdateWithoutDiskImagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  devices?: Prisma.DeviceUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutDiskImagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -480,10 +569,12 @@ export type UserUncheckedUpdateWithoutDevicesInput = {
 
 export type UserCountOutputType = {
   devices: number
+  diskImages: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   devices?: boolean | UserCountOutputTypeCountDevicesArgs
+  diskImages?: boolean | UserCountOutputTypeCountDiskImagesArgs
 }
 
 /**
@@ -503,6 +594,13 @@ export type UserCountOutputTypeCountDevicesArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.DeviceWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountDiskImagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DiskImageWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -514,6 +612,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   devices?: boolean | Prisma.User$devicesArgs<ExtArgs>
+  diskImages?: boolean | Prisma.User$diskImagesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -553,6 +652,7 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "imageUrl" | "password" | "provider" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   devices?: boolean | Prisma.User$devicesArgs<ExtArgs>
+  diskImages?: boolean | Prisma.User$diskImagesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -562,6 +662,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     devices: Prisma.$DevicePayload<ExtArgs>[]
+    diskImages: Prisma.$DiskImagePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -967,6 +1068,7 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   devices<T extends Prisma.User$devicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$devicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  diskImages<T extends Prisma.User$diskImagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$diskImagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DiskImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1418,6 +1520,30 @@ export type User$devicesArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.DeviceScalarFieldEnum | Prisma.DeviceScalarFieldEnum[]
+}
+
+/**
+ * User.diskImages
+ */
+export type User$diskImagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DiskImage
+   */
+  select?: Prisma.DiskImageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DiskImage
+   */
+  omit?: Prisma.DiskImageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DiskImageInclude<ExtArgs> | null
+  where?: Prisma.DiskImageWhereInput
+  orderBy?: Prisma.DiskImageOrderByWithRelationInput | Prisma.DiskImageOrderByWithRelationInput[]
+  cursor?: Prisma.DiskImageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DiskImageScalarFieldEnum | Prisma.DiskImageScalarFieldEnum[]
 }
 
 /**

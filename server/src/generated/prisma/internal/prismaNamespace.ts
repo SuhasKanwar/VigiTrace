@@ -404,7 +404,12 @@ export const ModelName = {
   DeviceStorage: 'DeviceStorage',
   Recording: 'Recording',
   Acquisition: 'Acquisition',
-  CustodyEvent: 'CustodyEvent'
+  CustodyEvent: 'CustodyEvent',
+  DiskImage: 'DiskImage',
+  DiskRecording: 'DiskRecording',
+  RecoveredBlock: 'RecoveredBlock',
+  CarvedArtifact: 'CarvedArtifact',
+  DiskImageEvent: 'DiskImageEvent'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -420,7 +425,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "device" | "deviceProbe" | "deviceChannel" | "deviceStorage" | "recording" | "acquisition" | "custodyEvent"
+    modelProps: "user" | "device" | "deviceProbe" | "deviceChannel" | "deviceStorage" | "recording" | "acquisition" | "custodyEvent" | "diskImage" | "diskRecording" | "recoveredBlock" | "carvedArtifact" | "diskImageEvent"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1016,6 +1021,376 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    DiskImage: {
+      payload: Prisma.$DiskImagePayload<ExtArgs>
+      fields: Prisma.DiskImageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DiskImageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DiskImageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImagePayload>
+        }
+        findFirst: {
+          args: Prisma.DiskImageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DiskImageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImagePayload>
+        }
+        findMany: {
+          args: Prisma.DiskImageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImagePayload>[]
+        }
+        create: {
+          args: Prisma.DiskImageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImagePayload>
+        }
+        createMany: {
+          args: Prisma.DiskImageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DiskImageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImagePayload>[]
+        }
+        delete: {
+          args: Prisma.DiskImageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImagePayload>
+        }
+        update: {
+          args: Prisma.DiskImageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImagePayload>
+        }
+        deleteMany: {
+          args: Prisma.DiskImageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DiskImageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DiskImageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImagePayload>[]
+        }
+        upsert: {
+          args: Prisma.DiskImageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImagePayload>
+        }
+        aggregate: {
+          args: Prisma.DiskImageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDiskImage>
+        }
+        groupBy: {
+          args: Prisma.DiskImageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DiskImageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DiskImageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DiskImageCountAggregateOutputType> | number
+        }
+      }
+    }
+    DiskRecording: {
+      payload: Prisma.$DiskRecordingPayload<ExtArgs>
+      fields: Prisma.DiskRecordingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DiskRecordingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskRecordingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DiskRecordingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskRecordingPayload>
+        }
+        findFirst: {
+          args: Prisma.DiskRecordingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskRecordingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DiskRecordingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskRecordingPayload>
+        }
+        findMany: {
+          args: Prisma.DiskRecordingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskRecordingPayload>[]
+        }
+        create: {
+          args: Prisma.DiskRecordingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskRecordingPayload>
+        }
+        createMany: {
+          args: Prisma.DiskRecordingCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DiskRecordingCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskRecordingPayload>[]
+        }
+        delete: {
+          args: Prisma.DiskRecordingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskRecordingPayload>
+        }
+        update: {
+          args: Prisma.DiskRecordingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskRecordingPayload>
+        }
+        deleteMany: {
+          args: Prisma.DiskRecordingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DiskRecordingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DiskRecordingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskRecordingPayload>[]
+        }
+        upsert: {
+          args: Prisma.DiskRecordingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskRecordingPayload>
+        }
+        aggregate: {
+          args: Prisma.DiskRecordingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDiskRecording>
+        }
+        groupBy: {
+          args: Prisma.DiskRecordingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DiskRecordingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DiskRecordingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DiskRecordingCountAggregateOutputType> | number
+        }
+      }
+    }
+    RecoveredBlock: {
+      payload: Prisma.$RecoveredBlockPayload<ExtArgs>
+      fields: Prisma.RecoveredBlockFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RecoveredBlockFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveredBlockPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RecoveredBlockFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveredBlockPayload>
+        }
+        findFirst: {
+          args: Prisma.RecoveredBlockFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveredBlockPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RecoveredBlockFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveredBlockPayload>
+        }
+        findMany: {
+          args: Prisma.RecoveredBlockFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveredBlockPayload>[]
+        }
+        create: {
+          args: Prisma.RecoveredBlockCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveredBlockPayload>
+        }
+        createMany: {
+          args: Prisma.RecoveredBlockCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RecoveredBlockCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveredBlockPayload>[]
+        }
+        delete: {
+          args: Prisma.RecoveredBlockDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveredBlockPayload>
+        }
+        update: {
+          args: Prisma.RecoveredBlockUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveredBlockPayload>
+        }
+        deleteMany: {
+          args: Prisma.RecoveredBlockDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RecoveredBlockUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RecoveredBlockUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveredBlockPayload>[]
+        }
+        upsert: {
+          args: Prisma.RecoveredBlockUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecoveredBlockPayload>
+        }
+        aggregate: {
+          args: Prisma.RecoveredBlockAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRecoveredBlock>
+        }
+        groupBy: {
+          args: Prisma.RecoveredBlockGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RecoveredBlockGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RecoveredBlockCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RecoveredBlockCountAggregateOutputType> | number
+        }
+      }
+    }
+    CarvedArtifact: {
+      payload: Prisma.$CarvedArtifactPayload<ExtArgs>
+      fields: Prisma.CarvedArtifactFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CarvedArtifactFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CarvedArtifactPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CarvedArtifactFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CarvedArtifactPayload>
+        }
+        findFirst: {
+          args: Prisma.CarvedArtifactFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CarvedArtifactPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CarvedArtifactFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CarvedArtifactPayload>
+        }
+        findMany: {
+          args: Prisma.CarvedArtifactFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CarvedArtifactPayload>[]
+        }
+        create: {
+          args: Prisma.CarvedArtifactCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CarvedArtifactPayload>
+        }
+        createMany: {
+          args: Prisma.CarvedArtifactCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CarvedArtifactCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CarvedArtifactPayload>[]
+        }
+        delete: {
+          args: Prisma.CarvedArtifactDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CarvedArtifactPayload>
+        }
+        update: {
+          args: Prisma.CarvedArtifactUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CarvedArtifactPayload>
+        }
+        deleteMany: {
+          args: Prisma.CarvedArtifactDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CarvedArtifactUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CarvedArtifactUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CarvedArtifactPayload>[]
+        }
+        upsert: {
+          args: Prisma.CarvedArtifactUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CarvedArtifactPayload>
+        }
+        aggregate: {
+          args: Prisma.CarvedArtifactAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCarvedArtifact>
+        }
+        groupBy: {
+          args: Prisma.CarvedArtifactGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CarvedArtifactGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CarvedArtifactCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CarvedArtifactCountAggregateOutputType> | number
+        }
+      }
+    }
+    DiskImageEvent: {
+      payload: Prisma.$DiskImageEventPayload<ExtArgs>
+      fields: Prisma.DiskImageEventFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DiskImageEventFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImageEventPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DiskImageEventFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImageEventPayload>
+        }
+        findFirst: {
+          args: Prisma.DiskImageEventFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImageEventPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DiskImageEventFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImageEventPayload>
+        }
+        findMany: {
+          args: Prisma.DiskImageEventFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImageEventPayload>[]
+        }
+        create: {
+          args: Prisma.DiskImageEventCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImageEventPayload>
+        }
+        createMany: {
+          args: Prisma.DiskImageEventCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DiskImageEventCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImageEventPayload>[]
+        }
+        delete: {
+          args: Prisma.DiskImageEventDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImageEventPayload>
+        }
+        update: {
+          args: Prisma.DiskImageEventUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImageEventPayload>
+        }
+        deleteMany: {
+          args: Prisma.DiskImageEventDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DiskImageEventUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DiskImageEventUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImageEventPayload>[]
+        }
+        upsert: {
+          args: Prisma.DiskImageEventUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiskImageEventPayload>
+        }
+        aggregate: {
+          args: Prisma.DiskImageEventAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDiskImageEvent>
+        }
+        groupBy: {
+          args: Prisma.DiskImageEventGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DiskImageEventGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DiskImageEventCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DiskImageEventCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1210,6 +1585,93 @@ export const CustodyEventScalarFieldEnum = {
 } as const
 
 export type CustodyEventScalarFieldEnum = (typeof CustodyEventScalarFieldEnum)[keyof typeof CustodyEventScalarFieldEnum]
+
+
+export const DiskImageScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  path: 'path',
+  sizeBytes: 'sizeBytes',
+  sha256: 'sha256',
+  vendor: 'vendor',
+  family: 'family',
+  formatVersion: 'formatVersion',
+  state: 'state',
+  examinedAt: 'examinedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DiskImageScalarFieldEnum = (typeof DiskImageScalarFieldEnum)[keyof typeof DiskImageScalarFieldEnum]
+
+
+export const DiskRecordingScalarFieldEnum = {
+  id: 'id',
+  diskImageId: 'diskImageId',
+  channel: 'channel',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  durationSeconds: 'durationSeconds',
+  dataOffset: 'dataOffset',
+  unfinalised: 'unfinalised',
+  createdAt: 'createdAt'
+} as const
+
+export type DiskRecordingScalarFieldEnum = (typeof DiskRecordingScalarFieldEnum)[keyof typeof DiskRecordingScalarFieldEnum]
+
+
+export const RecoveredBlockScalarFieldEnum = {
+  id: 'id',
+  diskImageId: 'diskImageId',
+  blockIndex: 'blockIndex',
+  dataOffset: 'dataOffset',
+  packHeaders: 'packHeaders',
+  keyframeBoundaries: 'keyframeBoundaries',
+  channel: 'channel',
+  timestamp: 'timestamp',
+  confidence: 'confidence',
+  createdAt: 'createdAt'
+} as const
+
+export type RecoveredBlockScalarFieldEnum = (typeof RecoveredBlockScalarFieldEnum)[keyof typeof RecoveredBlockScalarFieldEnum]
+
+
+export const CarvedArtifactScalarFieldEnum = {
+  id: 'id',
+  diskImageId: 'diskImageId',
+  channel: 'channel',
+  dataOffset: 'dataOffset',
+  storedPath: 'storedPath',
+  sizeBytes: 'sizeBytes',
+  sha256: 'sha256',
+  keyframeAligned: 'keyframeAligned',
+  source: 'source',
+  decoded: 'decoded',
+  codec: 'codec',
+  width: 'width',
+  height: 'height',
+  frames: 'frames',
+  decodeReason: 'decodeReason',
+  createdAt: 'createdAt'
+} as const
+
+export type CarvedArtifactScalarFieldEnum = (typeof CarvedArtifactScalarFieldEnum)[keyof typeof CarvedArtifactScalarFieldEnum]
+
+
+export const DiskImageEventScalarFieldEnum = {
+  id: 'id',
+  diskImageId: 'diskImageId',
+  userId: 'userId',
+  action: 'action',
+  fromState: 'fromState',
+  toState: 'toState',
+  detail: 'detail',
+  digest: 'digest',
+  createdAt: 'createdAt'
+} as const
+
+export type DiskImageEventScalarFieldEnum = (typeof DiskImageEventScalarFieldEnum)[keyof typeof DiskImageEventScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1433,6 +1895,20 @@ export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
 export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
     
 
+
+/**
+ * Reference to a field of type 'DiskImageState'
+ */
+export type EnumDiskImageStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DiskImageState'>
+    
+
+
+/**
+ * Reference to a field of type 'DiskImageState[]'
+ */
+export type ListEnumDiskImageStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DiskImageState[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -1592,6 +2068,11 @@ export type GlobalOmitConfig = {
   recording?: Prisma.RecordingOmit
   acquisition?: Prisma.AcquisitionOmit
   custodyEvent?: Prisma.CustodyEventOmit
+  diskImage?: Prisma.DiskImageOmit
+  diskRecording?: Prisma.DiskRecordingOmit
+  recoveredBlock?: Prisma.RecoveredBlockOmit
+  carvedArtifact?: Prisma.CarvedArtifactOmit
+  diskImageEvent?: Prisma.DiskImageEventOmit
 }
 
 /* Types for Logging */

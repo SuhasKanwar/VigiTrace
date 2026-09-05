@@ -23,7 +23,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  devices Device[]
+  devices    Device[]
+  diskImages DiskImage[]
 
   @@index([email])
   @@index([createdAt])
@@ -256,4 +257,140 @@ model CustodyEvent {
   createdAt DateTime @default(now())
 
   @@index([deviceId, createdAt])
+}
+
+// ---------------------------------------------------------------------------
+// On-disk forensics: an already-acquired recorder volume (a .dd/.img file)
+// analysed in place by the Python service, as opposed to a live Device probed
+// over the network. Vendor and family are stored using the same enums as
+// Device so a HIKVISION recorder and a HIKVISION disk image read the same way.
+// ---------------------------------------------------------------------------
+
+enum DiskImageState {
+  REGISTERED
+  ANALYSING
+  ANALYSED
+  UNSUPPORTED
+  FAILED
+}
+
+model DiskImage {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name String
+  // Absolute path this server's analysis service reads the image from. The
+  // client never sends the bytes themselves - only ever this path.
+  path String
+
+  sizeBytes BigInt?
+  sha256    String?
+
+  vendor        DeviceVendor   @default(UNKNOWN)
+  family        DeviceFamily   @default(UNKNOWN)
+  formatVersion String?
+
+  state      DiskImageState @default(REGISTERED)
+  examinedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  recordings      DiskRecording[]
+  recoveredBlocks RecoveredBlock[]
+  artifacts       CarvedArtifact[]
+  events          DiskImageEvent[]
+
+  @@unique([userId, path])
+  @@index([userId])
+  @@index([state])
+}
+
+model DiskRecording {
+  id          String    @id @default(cuid())
+  diskImageId String
+  diskImage   DiskImage @relation(fields: [diskImageId], references: [id], onDelete: Cascade)
+
+  channel         Int
+  startTime       DateTime?
+  endTime         DateTime?
+  durationSeconds Float?
+  dataOffset      BigInt
+  // The recorder was mid-write at imaging time; still readable, and the most
+  // recent footage on the volume.
+  unfinalised     Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  // A recording's data_offset is unique within one volume, so re-analysing
+  // the same image upserts the same rows instead of duplicating them.
+  @@unique([diskImageId, dataOffset])
+  @@index([diskImageId])
+}
+
+model RecoveredBlock {
+  id          String    @id @default(cuid())
+  diskImageId String
+  diskImage   DiskImage @relation(fields: [diskImageId], references: [id], onDelete: Cascade)
+
+  blockIndex         Int
+  dataOffset         BigInt
+  packHeaders        Int
+  keyframeBoundaries Int
+  channel            Int?
+  timestamp          DateTime?
+  // STRONG / PROBABLE / WEAK. Never asserted as "deleted": absence of an index
+  // entry is what was observed, not why it is absent.
+  confidence         String
+
+  createdAt DateTime @default(now())
+
+  @@unique([diskImageId, blockIndex])
+  @@index([diskImageId])
+}
+
+model CarvedArtifact {
+  id          String    @id @default(cuid())
+  diskImageId String
+  diskImage   DiskImage @relation(fields: [diskImageId], references: [id], onDelete: Cascade)
+
+  channel         Int
+  dataOffset      BigInt
+  storedPath      String
+  sizeBytes       BigInt
+  sha256          String
+  keyframeAligned Boolean
+  // INDEXED or RECOVERED.
+  source          String
+  decoded         Boolean @default(false)
+  codec           String?
+  width           Int?
+  height          Int?
+  frames          Int?
+  decodeReason    String?
+
+  createdAt DateTime @default(now())
+
+  // One carved file per data offset per volume; re-carving the same segment
+  // upserts the existing row rather than writing a duplicate.
+  @@unique([diskImageId, storedPath])
+  @@index([diskImageId])
+}
+
+model DiskImageEvent {
+  id          String    @id @default(cuid())
+  diskImageId String
+  diskImage   DiskImage @relation(fields: [diskImageId], references: [id], onDelete: Cascade)
+
+  userId    String
+  action    String
+  fromState DiskImageState?
+  toState   DiskImageState?
+  detail    String?
+  digest    String?
+
+  createdAt DateTime @default(now())
+
+  @@index([diskImageId, createdAt])
 }

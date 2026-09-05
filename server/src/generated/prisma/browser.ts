@@ -57,3 +57,28 @@ export type Acquisition = Prisma.AcquisitionModel
  * 
  */
 export type CustodyEvent = Prisma.CustodyEventModel
+/**
+ * Model DiskImage
+ * 
+ */
+export type DiskImage = Prisma.DiskImageModel
+/**
+ * Model DiskRecording
+ * 
+ */
+export type DiskRecording = Prisma.DiskRecordingModel
+/**
+ * Model RecoveredBlock
+ * 
+ */
+export type RecoveredBlock = Prisma.RecoveredBlockModel
+/**
+ * Model CarvedArtifact
+ * 
+ */
+export type CarvedArtifact = Prisma.CarvedArtifactModel
+/**
+ * Model DiskImageEvent
+ * 
+ */
+export type DiskImageEvent = Prisma.DiskImageEventModel

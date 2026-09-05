@@ -1,11 +1,17 @@
 import axios from "axios";
 import { microserviceApi } from "../lib/api.js";
-import { MICROSERVICE_ACQUIRE_TIMEOUT_MS, MICROSERVICE_ANALYSIS_TIMEOUT_MS, MICROSERVICE_TIMEOUT_MS } from "../lib/config.js";
-import { DeviceState } from "../generated/prisma/enums.js";
+import {
+    MICROSERVICE_ACQUIRE_TIMEOUT_MS,
+    MICROSERVICE_ANALYSIS_TIMEOUT_MS,
+    MICROSERVICE_DISK_ANALYSIS_TIMEOUT_MS,
+    MICROSERVICE_TIMEOUT_MS,
+} from "../lib/config.js";
+import { DeviceState, DiskImageState } from "../generated/prisma/enums.js";
 import type {
     ServiceAcquisitionRequest,
     ServiceAnalysisRequest,
     ServiceDeviceTarget,
+    ServiceDiskAnalyseRequest,
     ServiceEnvelope,
     ServiceErrorPayload,
     ServiceRecordingSearchRequest,
@@ -39,6 +45,10 @@ const STATUS_BY_CODE: Record<string, number> = {
     AUTH_LOCKOUT_RISK: 400,
     UNSUPPORTED_VENDOR: 422,
     CAPABILITY_UNAVAILABLE: 422,
+    // The caller named an image that cannot be read. Nothing upstream failed,
+    // so reporting a gateway error would send an operator looking for a broken
+    // service when the path is simply wrong.
+    IMAGE_UNREADABLE: 422,
     PROTOCOL_ERROR: 502,
     NOT_CONFIGURED: 502,
     INTERNAL: 502,
@@ -71,6 +81,18 @@ export function statusForServiceError(code: string): number {
 
 export function stateForServiceError(code: string): DeviceState {
     return STATE_BY_CODE[code] ?? DeviceState.FAILED;
+}
+
+/**
+ * Which terminal state an on-disk analysis run lands in when it fails. Disk
+ * analysis reads a local file rather than reaching across a network, so it
+ * has no notion of "unreachable" or "wrong password": only a recognized but
+ * unsupported volume format is distinguishable from every other failure.
+ */
+export function diskStateForServiceError(code: string): DiskImageState {
+    return code === "UNSUPPORTED_VENDOR" || code === "CAPABILITY_UNAVAILABLE"
+        ? DiskImageState.UNSUPPORTED
+        : DiskImageState.FAILED;
 }
 
 function failure(
@@ -256,5 +278,52 @@ export async function analyzeDevice(request: ServiceAnalysisRequest): Promise<Ve
 export async function verifyArtifacts(request: ServiceVerifyRequest): Promise<VendorCall> {
     return post("/api/integrity/verify", request, "verify the stored evidence", {
         successFalseIsResult: true,
+    });
+}
+
+/**
+ * Say which filesystem an on-disk image carries, without running a full
+ * analysis.
+ *
+ * `success: false` here is ambiguous by design in the service's own response:
+ * it means either a real failure (the path could not be opened at all, and
+ * carries an `error`) or a negative finding (the image is readable but holds
+ * no supported recorder filesystem, and carries `data` instead). Only the
+ * former is a call failure the generic `post()` helper should reject; the
+ * latter is a normal result the caller must still see, so this bypasses that
+ * helper and decides for itself.
+ */
+export async function identifyDiskImage(path: string): Promise<VendorCall> {
+    try {
+        const response = await microserviceApi.post<ServiceEnvelope>(
+            "/api/disk/identify",
+            { path },
+            { timeout: MICROSERVICE_TIMEOUT_MS }
+        );
+        const envelope = response.data ?? {};
+        if (envelope.success === false && envelope.error) {
+            return fromServiceError(envelope, "The analysis service could not identify this image.");
+        }
+        return {
+            ok: true,
+            message: envelope.message ?? "The analysis service identified this image.",
+            body: envelope,
+        };
+    } catch (error) {
+        return fromThrown(error, "identify the filesystem on this disk image");
+    }
+}
+
+/**
+ * Parse an on-disk volume in place, sweep for unreferenced footage, and
+ * optionally carve what is found.
+ *
+ * Given a much larger budget than the default: this can whole-image-hash and
+ * carve a multi-gigabyte volume, and cutting that off would discard evidence
+ * the service had already produced.
+ */
+export async function analyseDiskImage(request: ServiceDiskAnalyseRequest): Promise<VendorCall> {
+    return post("/api/disk/analyse", request, "analyse this disk image", {
+        timeout: MICROSERVICE_DISK_ANALYSIS_TIMEOUT_MS,
     });
 }

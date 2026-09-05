@@ -20,6 +20,10 @@ export const MICROSERVICE_ACQUIRE_TIMEOUT_MS: number = Number(process.env.MICROS
 // turned a degraded narration into a 504 that discarded findings the service
 // had already computed, so this stage gets its own, larger allowance.
 export const MICROSERVICE_ANALYSIS_TIMEOUT_MS: number = Number(process.env.MICROSERVICE_ANALYSIS_TIMEOUT_MS) || 60_000;
+// On-disk analysis whole-image-hashes and carves a volume that can be many
+// gigabytes; the default budget would abort a legitimately slow run and
+// discard evidence the service was still in the middle of producing.
+export const MICROSERVICE_DISK_ANALYSIS_TIMEOUT_MS: number = Number(process.env.MICROSERVICE_DISK_ANALYSIS_TIMEOUT_MS) || 600_000;
 export const VENDOR_REGISTRY_CACHE_TTL_SECONDS: number = Number(process.env.VENDOR_REGISTRY_CACHE_TTL_SECONDS) || 3600;
 
 /**

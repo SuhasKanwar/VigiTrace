@@ -58,7 +58,12 @@ export const ModelName = {
   DeviceStorage: 'DeviceStorage',
   Recording: 'Recording',
   Acquisition: 'Acquisition',
-  CustodyEvent: 'CustodyEvent'
+  CustodyEvent: 'CustodyEvent',
+  DiskImage: 'DiskImage',
+  DiskRecording: 'DiskRecording',
+  RecoveredBlock: 'RecoveredBlock',
+  CarvedArtifact: 'CarvedArtifact',
+  DiskImageEvent: 'DiskImageEvent'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -232,6 +237,93 @@ export const CustodyEventScalarFieldEnum = {
 } as const
 
 export type CustodyEventScalarFieldEnum = (typeof CustodyEventScalarFieldEnum)[keyof typeof CustodyEventScalarFieldEnum]
+
+
+export const DiskImageScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  path: 'path',
+  sizeBytes: 'sizeBytes',
+  sha256: 'sha256',
+  vendor: 'vendor',
+  family: 'family',
+  formatVersion: 'formatVersion',
+  state: 'state',
+  examinedAt: 'examinedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DiskImageScalarFieldEnum = (typeof DiskImageScalarFieldEnum)[keyof typeof DiskImageScalarFieldEnum]
+
+
+export const DiskRecordingScalarFieldEnum = {
+  id: 'id',
+  diskImageId: 'diskImageId',
+  channel: 'channel',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  durationSeconds: 'durationSeconds',
+  dataOffset: 'dataOffset',
+  unfinalised: 'unfinalised',
+  createdAt: 'createdAt'
+} as const
+
+export type DiskRecordingScalarFieldEnum = (typeof DiskRecordingScalarFieldEnum)[keyof typeof DiskRecordingScalarFieldEnum]
+
+
+export const RecoveredBlockScalarFieldEnum = {
+  id: 'id',
+  diskImageId: 'diskImageId',
+  blockIndex: 'blockIndex',
+  dataOffset: 'dataOffset',
+  packHeaders: 'packHeaders',
+  keyframeBoundaries: 'keyframeBoundaries',
+  channel: 'channel',
+  timestamp: 'timestamp',
+  confidence: 'confidence',
+  createdAt: 'createdAt'
+} as const
+
+export type RecoveredBlockScalarFieldEnum = (typeof RecoveredBlockScalarFieldEnum)[keyof typeof RecoveredBlockScalarFieldEnum]
+
+
+export const CarvedArtifactScalarFieldEnum = {
+  id: 'id',
+  diskImageId: 'diskImageId',
+  channel: 'channel',
+  dataOffset: 'dataOffset',
+  storedPath: 'storedPath',
+  sizeBytes: 'sizeBytes',
+  sha256: 'sha256',
+  keyframeAligned: 'keyframeAligned',
+  source: 'source',
+  decoded: 'decoded',
+  codec: 'codec',
+  width: 'width',
+  height: 'height',
+  frames: 'frames',
+  decodeReason: 'decodeReason',
+  createdAt: 'createdAt'
+} as const
+
+export type CarvedArtifactScalarFieldEnum = (typeof CarvedArtifactScalarFieldEnum)[keyof typeof CarvedArtifactScalarFieldEnum]
+
+
+export const DiskImageEventScalarFieldEnum = {
+  id: 'id',
+  diskImageId: 'diskImageId',
+  userId: 'userId',
+  action: 'action',
+  fromState: 'fromState',
+  toState: 'toState',
+  detail: 'detail',
+  digest: 'digest',
+  createdAt: 'createdAt'
+} as const
+
+export type DiskImageEventScalarFieldEnum = (typeof DiskImageEventScalarFieldEnum)[keyof typeof DiskImageEventScalarFieldEnum]
 
 
 export const SortOrder = {

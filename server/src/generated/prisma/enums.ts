@@ -78,3 +78,14 @@ export const DeviceKind = {
 } as const
 
 export type DeviceKind = (typeof DeviceKind)[keyof typeof DeviceKind]
+
+
+export const DiskImageState = {
+  REGISTERED: 'REGISTERED',
+  ANALYSING: 'ANALYSING',
+  ANALYSED: 'ANALYSED',
+  UNSUPPORTED: 'UNSUPPORTED',
+  FAILED: 'FAILED'
+} as const
+
+export type DiskImageState = (typeof DiskImageState)[keyof typeof DiskImageState]
