@@ -133,7 +133,9 @@ class TestAnalyseImageErrors:
         with pytest.raises(DiskAnalysisError) as excinfo:
             analyse_image(missing_path)
 
-        assert excinfo.value.code == ErrorCode.NOT_CONFIGURED
+        # IMAGE_UNREADABLE, not NOT_CONFIGURED: nothing is misconfigured and
+        # nothing upstream failed - the caller named a path that is not there.
+        assert excinfo.value.code == ErrorCode.IMAGE_UNREADABLE
         assert "readable image" in excinfo.value.message.lower()
 
     def test_non_recorder_file_raises_with_a_useful_message(self, tmp_path):
@@ -221,4 +223,4 @@ class TestAnalyseEndpoint:
         body = response.json()
         assert body["success"] is False
         assert body["evidence"] is None
-        assert body["error"]["code"] == "NOT_CONFIGURED"
+        assert body["error"]["code"] == "IMAGE_UNREADABLE"

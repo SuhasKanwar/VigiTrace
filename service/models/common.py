@@ -120,6 +120,10 @@ class ErrorCode(str, Enum):
     PROTOCOL_ERROR = "PROTOCOL_ERROR"
     CAPABILITY_UNAVAILABLE = "CAPABILITY_UNAVAILABLE"
     NOT_CONFIGURED = "NOT_CONFIGURED"
+    #: The caller named an image this service cannot read. Distinct from
+    #: NOT_CONFIGURED because nothing is misconfigured and nothing upstream
+    #: failed: the path is simply wrong, which is the caller's to fix.
+    IMAGE_UNREADABLE = "IMAGE_UNREADABLE"
     INTERNAL = "INTERNAL"
 
 

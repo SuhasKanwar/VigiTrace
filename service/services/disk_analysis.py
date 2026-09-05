@@ -53,7 +53,7 @@ def identify_image(path: str) -> dict:
     """Say which parser owns an image, without committing to a full analysis."""
     if not os.path.isfile(path):
         raise DiskAnalysisError(
-            ErrorCode.NOT_CONFIGURED,
+            ErrorCode.IMAGE_UNREADABLE,
             "No readable image at that path.",
             f"{path} is not a file this service can open.",
         )
@@ -73,7 +73,7 @@ def analyse_image(
     """Parse a volume, sweep for unreferenced footage, and optionally carve it."""
     if not os.path.isfile(path):
         raise DiskAnalysisError(
-            ErrorCode.NOT_CONFIGURED,
+            ErrorCode.IMAGE_UNREADABLE,
             "No readable image at that path.",
             f"{path} is not a file this service can open.",
         )
