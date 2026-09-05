@@ -8,7 +8,9 @@ Surveillance evidence is difficult to handle consistently because each recorder 
 
 > Current status: the repository contains a working web prototype, an authentication foundation, and a functional multi-vendor **network** acquisition pipeline (device identification, channel/storage enumeration, recording-index search, controlled export with integrity hashing, and rule-based analysis) for Hikvision, Dahua, CP Plus, and Godrej recorders.
 >
-> Forensic disk imaging, proprietary on-disk filesystem parsing (HIKBTREE, DHFS 4.1), and deleted-footage recovery are **not** implemented. Nothing here has been validated against physical recorder hardware, and no capability is production-certified.
+> On-disk analysis of an acquired **Hikvision** volume is implemented: HIKBTREE index parsing, recovery of footage the index does not reference, and carving of playable segments verified by an external decoder. Dahua's DHFS 4.1 is researched but not yet implemented, and forensic *imaging* itself (write-blockers, acquisition hardware) is out of scope — the platform analyses an image someone else acquired.
+>
+> Nothing here has been validated against physical recorder hardware, and no capability is production-certified.
 
 ## Why this project exists
 
@@ -77,6 +79,48 @@ The adapter therefore declares only four capabilities and never claims better th
 confidence. A Godrej unit from a different hardware generation may not answer DVRIP at all; that is
 reported as `UNSUPPORTED` with the observed fingerprint attached, not silently mis-parsed.
 
+### On-disk analysis
+
+The network path reaches a live recorder. The disk path analyses a volume that has already been
+acquired — the two produce the same kind of standardized evidence from opposite ends of the problem.
+
+The image is opened read-only and hashed before anything is derived from it. Carved segments are
+written to a separate directory, so derived material never mixes with the source.
+
+Two behaviours are worth stating because they are refusals rather than features:
+
+- **An undocumented format generation is rejected, not guessed at.** Only `HIK.2011.03.08` is
+  described in the literature; other generations exist. Parsing one on a guess would produce
+  confident, wrong attributions of footage to cameras and times, which is worse than declining.
+- **A carve that parses but will not decode is reported as a failure**, not counted as recovered
+  evidence. Every carved segment is handed to an external decoder and its verdict recorded.
+
+Footage the index does not account for is reported as **unreferenced**, never as "deleted". That
+absence is what the parser can observe; why the entry is missing is not something the bytes say.
+Each finding is graded by whether its own keyframe table survived to name a channel.
+
+### Validating a format parser without the hardware
+
+The on-disk parser is exercised against synthetic volumes built from the published format
+description. That is not the same as testing against a seized disk, and the difference matters.
+
+The obvious trap is circularity: if the image builder and the parser share one idea of where a field
+lives, a wrong offset cancels itself out and the suite passes over a broken parser. Two things guard
+against it.
+
+First, the builder in `tests/disk/` writes its structures from **its own literal offsets** and
+deliberately does not import the parser's `layout.py`. A drift between the two sides shows up as a
+failure rather than agreement.
+
+Second, and more usefully, the fixtures carry **real H.264 in a real program stream**, and every
+carved segment is decoded by ffmpeg. ffmpeg has its own implementation of the container and no
+knowledge of this codebase, so a successful decode is independent corroboration rather than
+self-confirmation. A parser that misreads the layout produces bytes ffmpeg cannot play.
+
+What this still cannot establish is whether real Hikvision firmware writes what the literature says
+it writes. That requires a disk from a real recorder, and remains the most important outstanding
+validation for this module.
+
 ### Optional AI narration
 
 Analysis findings are produced deterministically and are complete without any AI
@@ -127,14 +171,18 @@ Implemented in the current prototype:
 - a device workspace covering registration, detection, identification,
   enumeration, recording search, acquisition, integrity verification, analysis
   and the chain-of-custody timeline;
-- a headless-Chrome end-to-end suite driving the real stack, and 364 service
-  unit tests run against protocol-accurate mock recorders.
+- on-disk analysis of acquired Hikvision volumes: HIKBTREE parsing, recovery of unreferenced
+  footage, and decoder-verified carving;
+- a headless-Chrome end-to-end suite driving the real stack, and service unit tests run against
+  protocol-accurate mock recorders and synthetic disk images.
 
 Not yet implemented or validated against physical recorder hardware:
 
-- **forensic disk imaging, write-blocker integration, and on-disk filesystem parsing** — the pipeline
-  currently acquires over the network from a live recorder, not from a disk image;
-- proprietary codec decoding and deleted-file recovery from unallocated blocks;
+- **forensic disk imaging and write-blocker integration** — the platform analyses an image that has
+  already been acquired; it does not perform the acquisition;
+- **Dahua DHFS 4.1 on-disk parsing** — researched, with the byte layout in hand, but not yet built;
+- carving from unallocated space beyond whole-block recovery (fragment reassembly across
+  non-contiguous clusters);
 - production ML inference, benchmark results, and admissibility certification;
 - deployment, backup/restore, scale, and hardware soak testing.
 
