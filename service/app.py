@@ -4,7 +4,7 @@ import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 
 from config import ALLOWED_ORIGINS, HOST, PORT
-from routers import agent, devices, integrity, recordings, reports
+from routers import agent, devices, disk, integrity, recordings, reports
 from utils.exception import VigiTraceException
 from utils.logger import logger
 
@@ -20,6 +20,7 @@ app.add_middleware(
 app.include_router(agent.router)
 app.include_router(devices.router)
 app.include_router(recordings.router)
+app.include_router(disk.router)
 app.include_router(integrity.router)
 app.include_router(reports.router)
 
